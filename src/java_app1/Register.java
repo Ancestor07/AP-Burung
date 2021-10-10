@@ -1,21 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package java_app1;
-
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  *
  * @author royan
  */
 public class Register extends javax.swing.JFrame {
+    Connection con;
+    Statement stm;
+    ResultSet rs;
 
     /**
      * Creates new form Register
      */
     public Register() {
         initComponents();
+        koneksi DB = new koneksi();
+        DB.config();
+        con = DB.con;
+        stm = DB.stm;
+    }
+    private void clearregister(){
+        tfuname.setText("");
+        tfpw.setText("");
+        tfstore.setText("");
     }
 
     /**
@@ -27,22 +38,129 @@ public class Register extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        gambar = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        lbcreateacc = new javax.swing.JLabel();
+        logoburung = new javax.swing.JLabel();
+        lbstore = new javax.swing.JLabel();
+        tfstore = new javax.swing.JTextField();
+        lbuname = new javax.swing.JLabel();
+        tfuname = new javax.swing.JTextField();
+        lbpw = new javax.swing.JLabel();
+        btcreate = new javax.swing.JButton();
+        tfpw = new javax.swing.JPasswordField();
+        btpindahmenulogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
+        gambar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/toko.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 929, Short.MAX_VALUE)
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        lbcreateacc.setFont(new java.awt.Font("Montserrat SemiBold", 0, 30)); // NOI18N
+        lbcreateacc.setForeground(new java.awt.Color(0, 140, 255));
+        lbcreateacc.setText("Create Account");
+
+        logoburung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icon burung.png"))); // NOI18N
+
+        lbstore.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        lbstore.setText("Store's Name");
+
+        tfstore.setBackground(new java.awt.Color(206, 229, 242));
+        tfstore.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        tfstore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfstoreActionPerformed(evt);
+            }
+        });
+
+        lbuname.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        lbuname.setText("Username");
+
+        tfuname.setBackground(new java.awt.Color(206, 229, 242));
+        tfuname.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        tfuname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfunameActionPerformed(evt);
+            }
+        });
+
+        lbpw.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        lbpw.setText("Password");
+
+        btcreate.setBackground(new java.awt.Color(0, 140, 255));
+        btcreate.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
+        btcreate.setForeground(new java.awt.Color(255, 255, 255));
+        btcreate.setText("Sign Up");
+        btcreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btcreateActionPerformed(evt);
+            }
+        });
+
+        tfpw.setBackground(new java.awt.Color(206, 229, 242));
+        tfpw.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+
+        btpindahmenulogin.setBackground(new java.awt.Color(0, 140, 255));
+        btpindahmenulogin.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
+        btpindahmenulogin.setForeground(new java.awt.Color(255, 255, 255));
+        btpindahmenulogin.setText("Already Have Account?");
+        btpindahmenulogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btpindahmenuloginActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btcreate, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                            .addComponent(lbuname)
+                            .addComponent(lbpw)
+                            .addComponent(tfuname)
+                            .addComponent(tfstore)
+                            .addComponent(lbstore)
+                            .addComponent(tfpw)
+                            .addComponent(btpindahmenulogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(logoburung)
+                                .addGap(82, 82, 82))
+                            .addComponent(lbcreateacc, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(0, 45, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(logoburung, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lbcreateacc)
+                .addGap(18, 18, 18)
+                .addComponent(lbstore)
+                .addGap(18, 18, 18)
+                .addComponent(tfstore, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(lbuname)
+                .addGap(18, 18, 18)
+                .addComponent(tfuname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(lbpw)
+                .addGap(18, 18, 18)
+                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(btcreate, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btpindahmenulogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -50,16 +168,56 @@ public class Register extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 55, Short.MAX_VALUE))
+                .addComponent(gambar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(gambar, javax.swing.GroupLayout.DEFAULT_SIZE, 1042, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfunameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfunameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfunameActionPerformed
+
+    private void tfstoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfstoreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfstoreActionPerformed
+
+    private void btcreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btcreateActionPerformed
+        // TODO add your handling code here:
+        String username = tfuname.getText();
+        String password = tfpw.getText();
+        String namatoko = tfstore.getText();
+        if(!"".equals(username) & !"".equals(password) & !"".equals(namatoko)){
+        try {
+            stm.executeUpdate("INSERT INTO user VALUES('"+username+"', '"+password+"', '"+namatoko+"')");
+            JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
+            clearregister();
+            
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Semua data harus diisi terlebih dahulu!");
+        }
+        
+    }//GEN-LAST:event_btcreateActionPerformed
+
+    private void btpindahmenuloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btpindahmenuloginActionPerformed
+        // TODO add your handling code here:
+        Login menu = new Login();
+        menu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btpindahmenuloginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,6 +255,17 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton btcreate;
+    private javax.swing.JButton btpindahmenulogin;
+    private javax.swing.JLabel gambar;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lbcreateacc;
+    private javax.swing.JLabel lbpw;
+    private javax.swing.JLabel lbstore;
+    private javax.swing.JLabel lbuname;
+    private javax.swing.JLabel logoburung;
+    private javax.swing.JPasswordField tfpw;
+    private javax.swing.JTextField tfstore;
+    private javax.swing.JTextField tfuname;
     // End of variables declaration//GEN-END:variables
 }

@@ -92,6 +92,8 @@ public class Main extends javax.swing.JFrame {
         btnstok = new javax.swing.JLabel();
         btnhutang = new javax.swing.JLabel();
         Change = new javax.swing.JPanel();
+        Transaksi = new javax.swing.JPanel();
+        Hutang = new javax.swing.JPanel();
         stok = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lapbarang = new javax.swing.JPanel();
@@ -133,16 +135,31 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icons8_transaction_30px_2.png"))); // NOI18N
         jLabel2.setText("Tansaksi");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         btnstok.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         btnstok.setForeground(new java.awt.Color(255, 255, 255));
         btnstok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icons8_product_26px.png"))); // NOI18N
         btnstok.setText("  Stok");
+        btnstok.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnstokMouseClicked(evt);
+            }
+        });
 
         btnhutang.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         btnhutang.setForeground(new java.awt.Color(255, 255, 255));
         btnhutang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icons8_transaction_32px_1.png"))); // NOI18N
         btnhutang.setText("Hutang");
+        btnhutang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnhutangMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout NavigatorLayout = new javax.swing.GroupLayout(Navigator);
         Navigator.setLayout(NavigatorLayout);
@@ -176,6 +193,34 @@ public class Main extends javax.swing.JFrame {
         );
 
         jPanel1.add(Navigator, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, -1));
+
+        Change.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout TransaksiLayout = new javax.swing.GroupLayout(Transaksi);
+        Transaksi.setLayout(TransaksiLayout);
+        TransaksiLayout.setHorizontalGroup(
+            TransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1250, Short.MAX_VALUE)
+        );
+        TransaksiLayout.setVerticalGroup(
+            TransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 990, Short.MAX_VALUE)
+        );
+
+        Change.add(Transaksi, "transaksi");
+
+        javax.swing.GroupLayout HutangLayout = new javax.swing.GroupLayout(Hutang);
+        Hutang.setLayout(HutangLayout);
+        HutangLayout.setHorizontalGroup(
+            HutangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1250, Short.MAX_VALUE)
+        );
+        HutangLayout.setVerticalGroup(
+            HutangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 990, Short.MAX_VALUE)
+        );
+
+        Change.add(Hutang, "hutang");
 
         jPanel3.setLayout(new java.awt.CardLayout());
 
@@ -214,7 +259,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(4465, Short.MAX_VALUE))
+                .addContainerGap(1153, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,10 +304,10 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tmbhstok, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(446, Short.MAX_VALUE))
+                .addContainerGap(426, Short.MAX_VALUE))
         );
 
-        jPanel3.add(lapbarang, "card2");
+        jPanel3.add(lapbarang, "lapbarang");
 
         nmbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 11)); // NOI18N
         nmbarang.setText("Nama Barang");
@@ -349,7 +394,7 @@ public class Main extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
                     .addComponent(spstok, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(3506, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
         tmbhbarangLayout.setVerticalGroup(
             tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,7 +416,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addGap(77, 77, 77)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(456, Short.MAX_VALUE))
+                .addContainerGap(436, Short.MAX_VALUE))
         );
 
         jPanel3.add(tmbhbarang, "tmbhbarang");
@@ -380,32 +425,14 @@ public class Main extends javax.swing.JFrame {
         stok.setLayout(stokLayout);
         stokLayout.setHorizontalGroup(
             stokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stokLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1594, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         stokLayout.setVerticalGroup(
             stokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(stokLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        javax.swing.GroupLayout ChangeLayout = new javax.swing.GroupLayout(Change);
-        Change.setLayout(ChangeLayout);
-        ChangeLayout.setHorizontalGroup(
-            ChangeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ChangeLayout.createSequentialGroup()
-                .addComponent(stok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        ChangeLayout.setVerticalGroup(
-            ChangeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ChangeLayout.createSequentialGroup()
-                .addComponent(stok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        Change.add(stok, "stokpnl");
 
         jPanel1.add(Change, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 1250, 990));
 
@@ -476,11 +503,32 @@ public class Main extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Data gagal disimpan"+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        CardLayout clayout = (CardLayout) jPanel3.getLayout();
+        clayout.show(jPanel3, "lapbarang");        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void btnstokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnstokMouseClicked
+        // TODO add your handling code here:
+        CardLayout clayout = (CardLayout) Change.getLayout();
+        clayout.show(Change, "stokpnl");
+        cbboxjenis();
+    }//GEN-LAST:event_btnstokMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        CardLayout clayout = (CardLayout) Change.getLayout();
+        clayout.show(Change, "transaksi");
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void btnhutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnhutangMouseClicked
+        // TODO add your handling code here:
+        CardLayout clayout = (CardLayout) Change.getLayout();
+        clayout.show(Change, "hutang");
+    }//GEN-LAST:event_btnhutangMouseClicked
 
     /**
      * @param args the command line arguments
@@ -519,7 +567,9 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Change;
+    private javax.swing.JPanel Hutang;
     private javax.swing.JPanel Navigator;
+    private javax.swing.JPanel Transaksi;
     private javax.swing.JButton btncetakstok;
     private javax.swing.JLabel btnhutang;
     private javax.swing.JLabel btnstok;

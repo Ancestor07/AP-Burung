@@ -30,6 +30,7 @@ public class Main extends javax.swing.JFrame {
         conn = DB.con;
         stm = DB.stm;
         update_tabelbarang();
+        cbboxjenis();
     }
         private void  cbboxjenis(){
             sql = "select jenis_barang from jenis";
@@ -114,6 +115,7 @@ public class Main extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         spstok = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -311,9 +313,25 @@ public class Main extends javax.swing.JFrame {
 
         nmbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 11)); // NOI18N
         nmbarang.setText("Nama Barang");
+        nmbarang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                nmbarangFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                nmbarangFocusLost(evt);
+            }
+        });
 
         hrgjual.setFont(new java.awt.Font("Montserrat Medium", 0, 11)); // NOI18N
         hrgjual.setText("Harga Jual");
+        hrgjual.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                hrgjualFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                hrgjualFocusLost(evt);
+            }
+        });
         hrgjual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hrgjualActionPerformed(evt);
@@ -372,6 +390,8 @@ public class Main extends javax.swing.JFrame {
 
         spstok.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
 
+        jLabel6.setText("jLabel6");
+
         javax.swing.GroupLayout tmbhbarangLayout = new javax.swing.GroupLayout(tmbhbarang);
         tmbhbarang.setLayout(tmbhbarangLayout);
         tmbhbarangLayout.setHorizontalGroup(
@@ -383,6 +403,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(tmbhbarangLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel5)
                         .addComponent(nmbarang)
@@ -400,7 +421,9 @@ public class Main extends javax.swing.JFrame {
             tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tmbhbarangLayout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addGap(13, 13, 13)
                 .addComponent(nmbarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(hrgjual, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -464,7 +487,6 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) jPanel3.getLayout();
         clayout.show(jPanel3, "tmbhbarang");
-        cbboxjenis();
     }//GEN-LAST:event_tmbhstokActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -515,7 +537,9 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) Change.getLayout();
         clayout.show(Change, "stokpnl");
-        cbboxjenis();
+        
+        CardLayout cl = (CardLayout) jPanel3.getLayout();
+        cl.show(jPanel3, "lapbarang");
     }//GEN-LAST:event_btnstokMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -529,6 +553,34 @@ public class Main extends javax.swing.JFrame {
         CardLayout clayout = (CardLayout) Change.getLayout();
         clayout.show(Change, "hutang");
     }//GEN-LAST:event_btnhutangMouseClicked
+
+    private void nmbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusGained
+        // TODO add your handling code here:
+        if (nmbarang.getText().equals("Nama Barang")) {
+            nmbarang.setText("");
+        }
+    }//GEN-LAST:event_nmbarangFocusGained
+
+    private void nmbarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusLost
+        // TODO add your handling code here:
+        if (nmbarang.getText().isBlank()) {
+            nmbarang.setText("Nama Barang");
+        }
+    }//GEN-LAST:event_nmbarangFocusLost
+
+    private void hrgjualFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hrgjualFocusGained
+        // TODO add your handling code here:
+        if (hrgjual.getText().equals("Harga Jual")) {
+            hrgjual.setText("");
+        }
+    }//GEN-LAST:event_hrgjualFocusGained
+
+    private void hrgjualFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hrgjualFocusLost
+        // TODO add your handling code here:
+        if (hrgjual.getText().isBlank()) {
+            hrgjual.setText("Harga Jual");
+        }
+    }//GEN-LAST:event_hrgjualFocusLost
 
     /**
      * @param args the command line arguments
@@ -582,6 +634,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

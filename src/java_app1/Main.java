@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import java.awt.HeadlessException;
 /**
  *
  * @author A.T.T.A
@@ -19,7 +19,7 @@ public class Main extends javax.swing.JFrame {
     public ResultSet rs;
     public Statement stm;
     public PreparedStatement pst;
-    String sql,nmbr,hrgjl,satuan,jenisbr,jenisst,save,tfstok;
+    String sql,nmbr,hrgjl,satuan,jenisbr,jenisst,save;
     /**
      * Creates new form Main
      */
@@ -32,6 +32,14 @@ public class Main extends javax.swing.JFrame {
         update_tabelbarang();
         cbboxjenis();
     }
+    
+    private void BersihkanLayarStok() {
+        nmbarang.setText("Masukkan nama barang");
+        hrgjual.setText("Masukkan harga jual");
+        cbjenisbarang.setSelectedIndex(0);
+        tfKelolaJenis.setText("Masukkan jenis barang baru");
+    }
+    
         private void  cbboxjenis(){
             sql = "select jenis_barang from jenis";
             try {
@@ -112,10 +120,12 @@ public class Main extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfKelolaJenis = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        spstok = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -311,8 +321,8 @@ public class Main extends javax.swing.JFrame {
 
         jPanel3.add(lapbarang, "lapbarang");
 
-        nmbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 11)); // NOI18N
-        nmbarang.setText("Nama Barang");
+        nmbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        nmbarang.setText("Masukkan nama barang");
         nmbarang.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 nmbarangFocusGained(evt);
@@ -322,8 +332,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        hrgjual.setFont(new java.awt.Font("Montserrat Medium", 0, 11)); // NOI18N
-        hrgjual.setText("Harga Jual");
+        hrgjual.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        hrgjual.setText("Masukkan harga jual");
         hrgjual.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 hrgjualFocusGained(evt);
@@ -338,7 +348,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cbjenisbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 11)); // NOI18N
+        cbjenisbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
 
         jButton3.setBackground(new java.awt.Color(255, 188, 58));
         jButton3.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
@@ -373,24 +383,42 @@ public class Main extends javax.swing.JFrame {
         );
 
         jLabel5.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 0, 0));
         jLabel5.setText("Kelola Jenis");
 
-        jTextField1.setBackground(new java.awt.Color(255, 0, 0));
-        jTextField1.setForeground(new java.awt.Color(255, 0, 0));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        tfKelolaJenis.setText("Masukkan jenis barang baru");
+        tfKelolaJenis.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfKelolaJenisFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfKelolaJenisFocusLost(evt);
+            }
+        });
+        tfKelolaJenis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                tfKelolaJenisActionPerformed(evt);
             }
         });
 
         jButton1.setFont(new java.awt.Font("Montserrat Medium", 1, 11)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 0, 0));
+        jButton1.setForeground(new java.awt.Color(0, 140, 255));
         jButton1.setText("+ Tambah Jenis");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        spstok.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("Nama Barang");
 
-        jLabel6.setText("jLabel6");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setText("Harga Jual");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setText("Jenis Barang");
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/help icon 13x13.png"))); // NOI18N
 
         javax.swing.GroupLayout tmbhbarangLayout = new javax.swing.GroupLayout(tmbhbarang);
         tmbhbarang.setLayout(tmbhbarangLayout);
@@ -403,43 +431,51 @@ public class Main extends javax.swing.JFrame {
             .addGroup(tmbhbarangLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
                     .addComponent(jLabel6)
                     .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel5)
+                        .addGroup(tmbhbarangLayout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel9))
                         .addComponent(nmbarang)
                         .addComponent(hrgjual)
-                        .addComponent(cbjenisbarang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(tmbhbarangLayout.createSequentialGroup()
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfKelolaJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
-                    .addComponent(spstok, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
+                        .addComponent(jLabel8)
+                        .addComponent(cbjenisbarang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(194, Short.MAX_VALUE))
         );
         tmbhbarangLayout.setVerticalGroup(
             tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tmbhbarangLayout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nmbarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addGap(5, 5, 5)
                 .addComponent(hrgjual, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbjenisbarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(spstok, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addGap(77, 77, 77)
+                    .addComponent(tfKelolaJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(193, 193, 193)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addContainerGap(433, Short.MAX_VALUE))
         );
 
         jPanel3.add(tmbhbarang, "tmbhbarang");
@@ -487,6 +523,8 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) jPanel3.getLayout();
         clayout.show(jPanel3, "tmbhbarang");
+        
+        BersihkanLayarStok();
     }//GEN-LAST:event_tmbhstokActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -511,27 +549,26 @@ public class Main extends javax.swing.JFrame {
                     save = "5";
             }
         }
-        tfstok = spstok.getValue().toString();
         try {
-            sql = "insert into barang(nama_barang, harga_pokok, id_jenis, stok) values ("
+            sql = "insert into barang(nama_barang, harga_jual, id_jenis) values ("
                     + "'" + nmbr + "',"
                     + "'" + hrgjl + "',"
-                    + "'" + save + "',"
-                    + "'" + tfstok + "')";
+                    + "'" + save + "')";
             stm = conn.createStatement();
             stm.executeUpdate(sql);
             
             JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+            CardLayout clayout = (CardLayout) jPanel3.getLayout();
+            clayout.show(jPanel3, "lapbarang"); 
+            update_tabelbarang();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Data gagal disimpan"+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        CardLayout clayout = (CardLayout) jPanel3.getLayout();
-        clayout.show(jPanel3, "lapbarang");        
+        }       
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void tfKelolaJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfKelolaJenisActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_tfKelolaJenisActionPerformed
 
     private void btnstokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnstokMouseClicked
         // TODO add your handling code here:
@@ -556,7 +593,7 @@ public class Main extends javax.swing.JFrame {
 
     private void nmbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusGained
         // TODO add your handling code here:
-        if (nmbarang.getText().equals("Nama Barang")) {
+        if (nmbarang.getText().equals("Masukkan nama barang")) {
             nmbarang.setText("");
         }
     }//GEN-LAST:event_nmbarangFocusGained
@@ -564,13 +601,13 @@ public class Main extends javax.swing.JFrame {
     private void nmbarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusLost
         // TODO add your handling code here:
         if (nmbarang.getText().isBlank()) {
-            nmbarang.setText("Nama Barang");
+            nmbarang.setText("Masukkan nama barang");
         }
     }//GEN-LAST:event_nmbarangFocusLost
 
     private void hrgjualFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hrgjualFocusGained
         // TODO add your handling code here:
-        if (hrgjual.getText().equals("Harga Jual")) {
+        if (hrgjual.getText().equals("Masukkan harga jual")) {
             hrgjual.setText("");
         }
     }//GEN-LAST:event_hrgjualFocusGained
@@ -578,9 +615,44 @@ public class Main extends javax.swing.JFrame {
     private void hrgjualFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hrgjualFocusLost
         // TODO add your handling code here:
         if (hrgjual.getText().isBlank()) {
-            hrgjual.setText("Harga Jual");
+            hrgjual.setText("Masukkan harga jual");
         }
     }//GEN-LAST:event_hrgjualFocusLost
+
+    private void tfKelolaJenisFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfKelolaJenisFocusGained
+        // TODO add your handling code here:
+        if (tfKelolaJenis.getText().equals("Masukkan jenis barang baru")) {
+            tfKelolaJenis.setText("");
+        }
+    }//GEN-LAST:event_tfKelolaJenisFocusGained
+
+    private void tfKelolaJenisFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfKelolaJenisFocusLost
+        // TODO add your handling code here:
+        if (tfKelolaJenis.getText().isBlank()) {
+            tfKelolaJenis.setText("Masukkan jenis barang baru");
+        }
+    }//GEN-LAST:event_tfKelolaJenisFocusLost
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String alamatMhs = tfKelolaJenis.getText();
+            try {
+                sql = "INSERT INTO jenis VALUES("
+                        + "NULL,"
+                        + "'" + alamatMhs + "'"
+                        + ")";
+                stm = conn.createStatement();
+                stm.executeUpdate(sql);
+
+                JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+                tfKelolaJenis.setText("Masukkan jenis barang baru");
+                cbjenisbarang.removeAllItems(); // hapus seluruh isi combo box
+                cbboxjenis(); // refresh combo box
+            } catch (HeadlessException | SQLException e) {
+                JOptionPane.showMessageDialog(this, "Data gagal disimpan", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println(e.getMessage());
+            }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -635,17 +707,19 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel lapbarang;
     private javax.swing.JTextField nmbarang;
-    private javax.swing.JSpinner spstok;
     private javax.swing.JPanel stok;
     private javax.swing.JTable tblstok;
+    private javax.swing.JTextField tfKelolaJenis;
     private javax.swing.JPanel tmbhbarang;
     private javax.swing.JButton tmbhstok;
     // End of variables declaration//GEN-END:variables

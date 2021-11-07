@@ -53,6 +53,21 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception e) {
             }
         }
+        
+        private String getIdJenis(String namaJenis){
+            String id = "0";
+            sql = "select id_jenis from jenis where jenis_barang='" + namaJenis + "'";
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    id = rs.getString("id_jenis");
+                }
+            } catch (Exception e) {
+            }
+            return id;
+        }
+        
         private void update_tabelbarang() {
         // membuat tampilan model tabel
         DefaultTableModel model = new DefaultTableModel();
@@ -425,29 +440,31 @@ public class Main extends javax.swing.JFrame {
         tmbhbarangLayout.setHorizontalGroup(
             tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tmbhbarangLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(tmbhbarangLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
                 .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6)
-                    .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(tmbhbarangLayout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel9))
-                        .addComponent(nmbarang)
-                        .addComponent(hrgjual)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(tmbhbarangLayout.createSequentialGroup()
-                            .addComponent(tfKelolaJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
-                        .addComponent(jLabel8)
-                        .addComponent(cbjenisbarang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(194, Short.MAX_VALUE))
+                    .addGroup(tmbhbarangLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(tmbhbarangLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6)
+                            .addGroup(tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(tmbhbarangLayout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel9))
+                                .addComponent(nmbarang)
+                                .addComponent(hrgjual)
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(tmbhbarangLayout.createSequentialGroup()
+                                    .addComponent(tfKelolaJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
+                                .addComponent(jLabel8)
+                                .addComponent(cbjenisbarang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 184, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         tmbhbarangLayout.setVerticalGroup(
             tmbhbarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,23 +549,7 @@ public class Main extends javax.swing.JFrame {
         nmbr = nmbarang.getText();
         hrgjl = hrgjual.getText();
         jenisbr = cbjenisbarang.getSelectedItem().toString();
-        switch (jenisbr) {
-            case "Makanan" -> {
-                    save = "1";
-                }
-            case "Minuman" -> {
-                    save = "2";
-                }
-            case "Obat" -> {
-                    save = "3";
-                }
-            case "Peralatan" -> {
-                    save = "4";
-                }
-            default -> {
-                    save = "5";
-            }
-        }
+        save = getIdJenis(jenisbr);
         try {
             sql = "insert into barang(nama_barang, harga_jual, id_jenis) values ("
                     + "'" + nmbr + "',"

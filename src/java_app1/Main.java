@@ -150,17 +150,17 @@ public class Main extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         CardPanelHutang = new javax.swing.JPanel();
         panelberi = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jLabel27 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         paneltrima = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
         stok = new javax.swing.JPanel();
@@ -634,36 +634,26 @@ public class Main extends javax.swing.JFrame {
 
         panelberi.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel25.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        jLabel25.setText("Informasi Optional");
-        panelberi.add(jLabel25);
-
         jLabel26.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
         jLabel26.setText("Memberikan ke :");
-        panelberi.add(jLabel26);
 
         jTextField2.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        panelberi.add(jTextField2);
 
         jTextField3.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        panelberi.add(jTextField3);
-
-        jLabel27.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        jLabel27.setText("Memberikan sejumlah :");
-        panelberi.add(jLabel27);
 
         jTextField4.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        panelberi.add(jTextField4);
 
         jLabel28.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
         jLabel28.setText("Jatuh Tempo");
-        panelberi.add(jLabel28);
+
+        jLabel27.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
+        jLabel27.setText("Memberikan sejumlah :");
+
+        jLabel25.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
+        jLabel25.setText("Informasi Optional");
 
         jLabel29.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
         jLabel29.setText("Tanggal Hutang");
-        panelberi.add(jLabel29);
-        panelberi.add(jDateChooser1);
-        panelberi.add(jDateChooser2);
 
         jButton3.setBackground(new java.awt.Color(255, 188, 58));
         jButton3.setFont(new java.awt.Font("Montserrat SemiBold", 0, 28)); // NOI18N
@@ -673,7 +663,72 @@ public class Main extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        panelberi.add(jButton3);
+
+        javax.swing.GroupLayout panelberiLayout = new javax.swing.GroupLayout(panelberi);
+        panelberi.setLayout(panelberiLayout);
+        panelberiLayout.setHorizontalGroup(
+            panelberiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelberiLayout.createSequentialGroup()
+                .addGroup(panelberiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelberiLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelberiLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(panelberiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel26)
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel25))
+                        .addGap(0, 1173, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelberiLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jTextField4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelberiLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jTextField2))
+                    .addGroup(panelberiLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(panelberiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3)
+                            .addGroup(panelberiLayout.createSequentialGroup()
+                                .addGroup(panelberiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel29)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
+            .addGroup(panelberiLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelberiLayout.setVerticalGroup(
+            panelberiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelberiLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel26)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel25)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel29)
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel28)
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addContainerGap())
+        );
 
         CardPanelHutang.add(panelberi, "cardterima");
         panelberi.getAccessibleContext().setAccessibleName("");
@@ -687,7 +742,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(paneltrimaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1017, Short.MAX_VALUE))
+                .addContainerGap(1323, Short.MAX_VALUE))
         );
         paneltrimaLayout.setVerticalGroup(
             paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1143,7 +1198,7 @@ public class Main extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-<<<<<<< HEAD
+
     private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
         // TODO add your handling code here:
         CardLayout panel = (CardLayout) (CardPanelHutang.getLayout());
@@ -1157,14 +1212,12 @@ public class Main extends javax.swing.JFrame {
         panel.show(CardPanelHutang, "cardberikan");
     }//GEN-LAST:event_jPanel17MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-=======
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) Transaksi.getLayout();
         clayout.show(Transaksi, "panelPenjualan");
->>>>>>> c255c847837ad23698e8fc5b4549d2836f24d427
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -163,6 +163,14 @@ public class Main extends javax.swing.JFrame {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         paneltrima = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
         stok = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lapbarang = new javax.swing.JPanel();
@@ -733,23 +741,107 @@ public class Main extends javax.swing.JFrame {
         CardPanelHutang.add(panelberi, "cardterima");
         panelberi.getAccessibleContext().setAccessibleName("");
 
-        jLabel30.setText("Layout 2");
+        paneltrima.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel30.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
+        jLabel30.setText("Menerima dari :");
+
+        jTextField5.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
+
+        jTextField6.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+
+        jLabel34.setFont(new java.awt.Font("Montserrat Medium", 0, 24)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel34.setText("Rp");
+
+        jButton5.setBackground(new java.awt.Color(255, 188, 58));
+        jButton5.setFont(new java.awt.Font("Montserrat SemiBold", 0, 28)); // NOI18N
+        jButton5.setText("SIMPAN");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel35.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
+        jLabel35.setText("Menerima Sejumlah");
+
+        jLabel36.setFont(new java.awt.Font("Montserrat Medium", 0, 24)); // NOI18N
+        jLabel36.setText("Sisa Hutang");
+
+        jLabel37.setFont(new java.awt.Font("Montserrat Medium", 0, 24)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel37.setText("xxxx");
+
+        jCheckBox1.setFont(new java.awt.Font("Montserrat Medium", 0, 24)); // NOI18N
+        jCheckBox1.setText("Terima Pelunasan");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneltrimaLayout = new javax.swing.GroupLayout(paneltrima);
         paneltrima.setLayout(paneltrimaLayout);
         paneltrimaLayout.setHorizontalGroup(
             paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneltrimaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1323, Short.MAX_VALUE))
+                .addGroup(paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneltrimaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(paneltrimaLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel30)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(paneltrimaLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField5)
+                            .addGroup(paneltrimaLayout.createSequentialGroup()
+                                .addComponent(jLabel36)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1097, Short.MAX_VALUE)
+                                .addComponent(jLabel34)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel37)
+                                .addGap(158, 158, 158))))
+                    .addGroup(paneltrimaLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField6)
+                            .addGroup(paneltrimaLayout.createSequentialGroup()
+                                .addGroup(paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel35))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         paneltrimaLayout.setVerticalGroup(
             paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneltrimaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(jLabel30)
-                .addContainerGap(629, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(paneltrimaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel37))
+                .addGap(49, 49, 49)
+                .addComponent(jLabel35)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addContainerGap())
         );
 
         CardPanelHutang.add(paneltrima, "cardberikan");
@@ -1220,6 +1312,18 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5jButton2ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1270,6 +1374,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JCheckBox jCheckBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -1296,6 +1402,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1321,6 +1431,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel lapbarang;
     private javax.swing.JTextField nmbarang;
     private javax.swing.JPanel panelOverview;

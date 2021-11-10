@@ -111,11 +111,15 @@ public class Main extends javax.swing.JFrame {
 
         jPanel15 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        Navigator = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        sidebar = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        tabTransaksi = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        btnstok = new javax.swing.JLabel();
+        tabStok = new javax.swing.JPanel();
+        btnStok = new javax.swing.JLabel();
+        tabHutang = new javax.swing.JPanel();
         btnhutang = new javax.swing.JLabel();
+        logout = new javax.swing.JLabel();
         Change = new javax.swing.JPanel();
         Transaksi = new javax.swing.JPanel();
         panelOverview = new javax.swing.JPanel();
@@ -226,77 +230,82 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1440, 1024));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Navigator.setBackground(new java.awt.Color(0, 140, 255));
-        Navigator.setPreferredSize(new java.awt.Dimension(200, 1024));
+        sidebar.setBackground(new java.awt.Color(0, 140, 255));
+        sidebar.setPreferredSize(new java.awt.Dimension(200, 1024));
+        sidebar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setBackground(new java.awt.Color(0, 140, 255));
-        jLabel1.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("BURUNG");
+        jLabel14.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/logo burung.png"))); // NOI18N
+        jLabel14.setText("Burung");
+        jLabel14.setIconTextGap(10);
+        sidebar.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        tabTransaksi.setBackground(new java.awt.Color(204, 204, 255));
+        tabTransaksi.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icons8_transaction_30px_2.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/transaction logo.png"))); // NOI18N
         jLabel2.setText("Tansaksi");
+        jLabel2.setIconTextGap(10);
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
             }
         });
+        tabTransaksi.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 7, 160, 30));
 
-        btnstok.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
-        btnstok.setForeground(new java.awt.Color(255, 255, 255));
-        btnstok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icons8_product_26px.png"))); // NOI18N
-        btnstok.setText("  Stok");
-        btnstok.addMouseListener(new java.awt.event.MouseAdapter() {
+        sidebar.add(tabTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 190, 45));
+
+        tabStok.setBackground(new java.awt.Color(0, 140, 255));
+        tabStok.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnStok.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
+        btnStok.setForeground(new java.awt.Color(255, 255, 255));
+        btnStok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/logo stok.png"))); // NOI18N
+        btnStok.setText("  Stok");
+        btnStok.setIconTextGap(10);
+        btnStok.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnstokMouseClicked(evt);
+                btnStokMouseClicked(evt);
             }
         });
+        tabStok.add(btnStok, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 7, 160, 30));
+
+        sidebar.add(tabStok, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 190, 45));
+
+        tabHutang.setBackground(new java.awt.Color(0, 140, 255));
+        tabHutang.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnhutang.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         btnhutang.setForeground(new java.awt.Color(255, 255, 255));
-        btnhutang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icons8_transaction_32px_1.png"))); // NOI18N
+        btnhutang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/hutang logo.png"))); // NOI18N
         btnhutang.setText("Hutang");
+        btnhutang.setIconTextGap(10);
         btnhutang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnhutangMouseClicked(evt);
             }
         });
+        tabHutang.add(btnhutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 7, 160, 30));
 
-        javax.swing.GroupLayout NavigatorLayout = new javax.swing.GroupLayout(Navigator);
-        Navigator.setLayout(NavigatorLayout);
-        NavigatorLayout.setHorizontalGroup(
-            NavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(NavigatorLayout.createSequentialGroup()
-                .addGroup(NavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NavigatorLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(NavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnhutang, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                            .addComponent(btnstok, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(NavigatorLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        NavigatorLayout.setVerticalGroup(
-            NavigatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigatorLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnhutang, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnstok, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(756, Short.MAX_VALUE))
-        );
+        sidebar.add(tabHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 190, 45));
 
-        jPanel1.add(Navigator, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, -1));
+        logout.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
+        logout.setForeground(new java.awt.Color(255, 255, 255));
+        logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/sign-out-alt.png"))); // NOI18N
+        logout.setText("Logout");
+        logout.setIconTextGap(10);
+        logout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutMouseClicked(evt);
+            }
+        });
+        sidebar.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 680, 160, 30));
+
+        jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, -1));
 
         Change.setLayout(new java.awt.CardLayout());
 
@@ -389,12 +398,12 @@ public class Main extends javax.swing.JFrame {
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(332, Short.MAX_VALUE)
+                .addContainerGap(351, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
 
-        panelOverview.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 920, -1));
+        panelOverview.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 920, 410));
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1127,14 +1136,10 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfKelolaJenisActionPerformed
 
-    private void btnstokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnstokMouseClicked
-        // TODO add your handling code here:
-        CardLayout clayout = (CardLayout) Change.getLayout();
-        clayout.show(Change, "stokpnl");
-        
-        CardLayout cl = (CardLayout) jPanel3.getLayout();
-        cl.show(jPanel3, "lapbarang");
-    }//GEN-LAST:event_btnstokMouseClicked
+    private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
+        dispose();
+        new Login().setVisible(true); 
+    }//GEN-LAST:event_logoutMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
@@ -1143,12 +1148,23 @@ public class Main extends javax.swing.JFrame {
         
         CardLayout cl = (CardLayout) Transaksi.getLayout();
         cl.show(Transaksi, "panelOverview");
+        
+        tabTransaksi.setBackground(new java.awt.Color(204, 204, 255));
+        tabHutang.setBackground(new java.awt.Color(0, 140, 255));
+        tabStok.setBackground(new java.awt.Color(0, 140, 255));
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void btnhutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnhutangMouseClicked
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) Change.getLayout();
         clayout.show(Change, "hutang");
+        
+        tabTransaksi.setBackground(new java.awt.Color(0, 140, 255));
+        tabHutang.setBackground(new java.awt.Color(204, 204, 255));
+        tabStok.setBackground(new java.awt.Color(0, 140, 255));
+        
+        CardLayout panel = (CardLayout) (CardPanelHutang.getLayout());
+        panel.show(CardPanelHutang, "cardterima");
     }//GEN-LAST:event_btnhutangMouseClicked
 
     private void nmbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusGained
@@ -1272,6 +1288,19 @@ public class Main extends javax.swing.JFrame {
         clayout.show(jPanel2, "penjualanOnClick");
     }//GEN-LAST:event_jPanel18MouseClicked
 
+    private void btnStokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokMouseClicked
+        // TODO add your handling code here:
+        CardLayout clayout = (CardLayout) Change.getLayout();
+        clayout.show(Change, "stokpnl");
+        
+        CardLayout cl = (CardLayout) jPanel3.getLayout();
+        cl.show(jPanel3, "lapbarang");
+        
+        tabTransaksi.setBackground(new java.awt.Color(0, 140, 255));
+        tabHutang.setBackground(new java.awt.Color(0, 140, 255));
+        tabStok.setBackground(new java.awt.Color(204, 204, 255));
+    }//GEN-LAST:event_btnStokMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1311,11 +1340,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel CardPanelHutang;
     private javax.swing.JPanel Change;
     private javax.swing.JPanel Hutang;
-    private javax.swing.JPanel Navigator;
     private javax.swing.JPanel Transaksi;
+    private javax.swing.JLabel btnStok;
     private javax.swing.JButton btncetakstok;
     private javax.swing.JLabel btnhutang;
-    private javax.swing.JLabel btnstok;
     private javax.swing.JComboBox<String> cbjenisbarang;
     private javax.swing.JTextField hrgjual;
     private javax.swing.JButton jButton1;
@@ -1326,11 +1354,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1388,6 +1416,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel lapbarang;
+    private javax.swing.JLabel logout;
     private javax.swing.JTextField nmbarang;
     private javax.swing.JPanel panelOverview;
     private javax.swing.JPanel panelPenjualan;
@@ -1396,7 +1425,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel paneltrima;
     private javax.swing.JPanel pengeluaranOnClick;
     private javax.swing.JPanel penjualanOnClick;
+    private javax.swing.JPanel sidebar;
     private javax.swing.JPanel stok;
+    private javax.swing.JPanel tabHutang;
+    private javax.swing.JPanel tabStok;
+    private javax.swing.JPanel tabTransaksi;
     private javax.swing.JTable tblstok;
     private javax.swing.JTextField tfKelolaJenis;
     private javax.swing.JPanel tmbhbarang;

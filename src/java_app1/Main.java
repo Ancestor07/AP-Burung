@@ -104,6 +104,7 @@ public class Main extends javax.swing.JFrame {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID Barang");
         model.addColumn("Jenis");
+        model.addColumn("Satuan");
         model.addColumn("Nama Barang");
         model.addColumn("Stok");
         model.addColumn("Harga Pokok");
@@ -111,15 +112,19 @@ public class Main extends javax.swing.JFrame {
         tblstok.setModel(model);
           // menampilkan data database ke dalam tabel
         try {
-            rs = stm.executeQuery("SELECT b.id_barang,j.jenis_barang,b.nama_barang,b.stok,b.harga_pokok,b.harga_jual FROM barang b join jenis j on j.id_jenis=b.id_jenis");
+            rs = stm.executeQuery("SELECT b.id_barang,j.jenis_barang, s.jenis_satuan,"
+                    + " b.nama_barang,b.stok,b.harga_pokok,b.harga_jual "
+                    + "FROM barang b join jenis j on j.id_jenis=b.id_jenis "
+                    + "join satuan s on s.id_satuan = b.id_satuan");
             while (rs.next()){
-            Object[] data = new Object[6];
+            Object[] data = new Object[7];
                 data[0] = rs.getString("id_barang");
                 data[1] = rs.getString("jenis_barang");
-                data[2] = rs.getString("nama_barang");
-                data[3] = rs.getString("stok");
-                data[4] = rs.getString("harga_pokok");
-                data[5] = rs.getString("harga_jual");
+                data[2] = rs.getString("jenis_satuan");
+                data[3] = rs.getString("nama_barang");
+                data[4] = rs.getString("stok");
+                data[5] = rs.getString("harga_pokok");
+                data[6] = rs.getString("harga_jual");
                 model.addRow(data);
                 tblstok.setModel(model);
         }
@@ -1037,7 +1042,7 @@ public class Main extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        tmbhbarang.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 518, 1019, 40));
+        tmbhbarang.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 1019, 40));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel6.setText("Nama Barang");
@@ -1145,7 +1150,9 @@ public class Main extends javax.swing.JFrame {
         );
         stokLayout.setVerticalGroup(
             stokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(stokLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 179, Short.MAX_VALUE))
         );
 
         Change.add(stok, "stokpnl");

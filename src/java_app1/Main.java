@@ -32,6 +32,18 @@ public class Main extends javax.swing.JFrame {
         update_tabelbarang();
         cbboxjenis();
         cbboxJenisSatuan();
+        hilangkanPesanError();
+    }
+    
+    private void hilangkanPesanError() {
+        lblErrorNamaBarang.setVisible(false);
+        lblErrorHargaJual.setVisible(false);
+        lblErrorJenisBarang.setVisible(false);
+        lblErrorJenisSatuan.setVisible(false);
+        nmbarang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        hrgjual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        cbjenisbarang.setBorder(new javax.swing.border.EmptyBorder(1, 1, 1, 1));
+        cbjenissatuan.setBorder(new javax.swing.border.EmptyBorder(1, 1, 1, 1));
     }
     
     private void BersihkanLayarStok() {
@@ -115,7 +127,7 @@ public class Main extends javax.swing.JFrame {
             rs = stm.executeQuery("SELECT b.id_barang,j.jenis_barang, s.jenis_satuan,"
                     + " b.nama_barang,b.stok,b.harga_pokok,b.harga_jual "
                     + "FROM barang b join jenis j on j.id_jenis=b.id_jenis "
-                    + "join satuan s on s.id_satuan = b.id_satuan");
+                    + "join satuan s on s.id_satuan = b.id_satuan order by id_barang");
             while (rs.next()){
             Object[] data = new Object[7];
                 data[0] = rs.getString("id_barang");
@@ -250,6 +262,10 @@ public class Main extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         cbjenissatuan = new javax.swing.JComboBox<>();
+        lblErrorJenisSatuan = new javax.swing.JLabel();
+        lblErrorNamaBarang = new javax.swing.JLabel();
+        lblErrorHargaJual = new javax.swing.JLabel();
+        lblErrorJenisBarang = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -1004,6 +1020,7 @@ public class Main extends javax.swing.JFrame {
 
         nmbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         nmbarang.setText("Masukkan nama barang");
+        nmbarang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
         nmbarang.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 nmbarangFocusGained(evt);
@@ -1016,6 +1033,7 @@ public class Main extends javax.swing.JFrame {
 
         hrgjual.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         hrgjual.setText("Masukkan harga jual");
+        hrgjual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
         hrgjual.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 hrgjualFocusGained(evt);
@@ -1029,10 +1047,16 @@ public class Main extends javax.swing.JFrame {
                 hrgjualActionPerformed(evt);
             }
         });
-        tmbhbarang.add(hrgjual, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 1019, 40));
+        tmbhbarang.add(hrgjual, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 1019, 40));
 
         cbjenisbarang.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        tmbhbarang.add(cbjenisbarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 217, 1019, 40));
+        cbjenisbarang.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        cbjenisbarang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbjenisbarangFocusGained(evt);
+            }
+        });
+        tmbhbarang.add(cbjenisbarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 253, 1019, 40));
 
         jButton4.setBackground(new java.awt.Color(255, 188, 58));
         jButton4.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
@@ -1042,7 +1066,7 @@ public class Main extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        tmbhbarang.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 1019, 40));
+        tmbhbarang.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 1019, 40));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel6.setText("Nama Barang");
@@ -1050,11 +1074,11 @@ public class Main extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("Harga Jual");
-        tmbhbarang.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        tmbhbarang.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
 
         lblJenisSatuan.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblJenisSatuan.setText("Jenis Satuan");
-        tmbhbarang.add(lblJenisSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 265, -1, -1));
+        tmbhbarang.add(lblJenisSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
 
         topPanel4.setBackground(new java.awt.Color(255, 255, 255));
         topPanel4.setPreferredSize(new java.awt.Dimension(1250, 45));
@@ -1131,14 +1155,35 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tmbhbarang.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 335, 1019, 80));
+        tmbhbarang.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 1019, 80));
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel16.setText("Jenis Barang");
-        tmbhbarang.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 196, -1, -1));
+        tmbhbarang.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 235, -1, -1));
 
         cbjenissatuan.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        tmbhbarang.add(cbjenissatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 285, 1019, 40));
+        cbjenissatuan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbjenissatuanFocusGained(evt);
+            }
+        });
+        tmbhbarang.add(cbjenissatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 1019, 40));
+
+        lblErrorJenisSatuan.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorJenisSatuan.setText("Please fill out this field.");
+        tmbhbarang.add(lblErrorJenisSatuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 381, -1, -1));
+
+        lblErrorNamaBarang.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorNamaBarang.setText("Please fill out this field.");
+        tmbhbarang.add(lblErrorNamaBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 125, -1, -1));
+
+        lblErrorHargaJual.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorHargaJual.setText("Please fill out this field.");
+        tmbhbarang.add(lblErrorHargaJual, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
+
+        lblErrorJenisBarang.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorJenisBarang.setText("Please fill out this field.");
+        tmbhbarang.add(lblErrorJenisBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 294, -1, -1));
 
         jPanel3.add(tmbhbarang, "tmbhbarang");
 
@@ -1192,7 +1237,38 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_tmbhstokActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // cek apakah seluruh field sudah diisi
+        if (nmbarang.getText().isBlank() || nmbarang.getText().equals("Masukkan nama barang") ||
+                hrgjual.getText().isBlank() || hrgjual.getText().equals("Masukkan harga jual") ||
+                cbjenisbarang.getSelectedIndex() == 0 || cbjenissatuan.getSelectedIndex() == 0) {
+            
+            // apakah nama barang blm diisi
+            if (nmbarang.getText().isBlank() || nmbarang.getText().equals("Masukkan nama barang")) {
+                lblErrorNamaBarang.setVisible(true);
+                nmbarang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            // apakah harga jual blm diisi
+            if (hrgjual.getText().isBlank() || hrgjual.getText().equals("Masukkan harga jual")) {
+                lblErrorHargaJual.setVisible(true);
+                hrgjual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            // apakah combobox jenis barang blm dipilih
+            if (cbjenisbarang.getSelectedIndex() == 0) {
+                cbjenisbarang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+                lblErrorJenisBarang.setVisible(true);
+            }
+            
+            // apakah combobox jenis satuan blm dipilih
+            if (cbjenissatuan.getSelectedIndex() == 0) {
+                cbjenissatuan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+                lblErrorJenisSatuan.setVisible(true);
+            }
+            
+            return;
+        }
+        
         nmbr = nmbarang.getText();
         hrgjl = hrgjual.getText();
         jenisbr = cbjenisbarang.getSelectedItem().toString();
@@ -1237,6 +1313,8 @@ public class Main extends javax.swing.JFrame {
         tabTransaksi.setBackground(new java.awt.Color(204, 204, 255));
         tabHutang.setBackground(new java.awt.Color(0, 140, 255));
         tabStok.setBackground(new java.awt.Color(0, 140, 255));
+        
+        hilangkanPesanError();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void btnhutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnhutangMouseClicked
@@ -1250,6 +1328,8 @@ public class Main extends javax.swing.JFrame {
         
         CardLayout panel = (CardLayout) (CardPanelHutang.getLayout());
         panel.show(CardPanelHutang, "cardterima");
+        
+        hilangkanPesanError();
     }//GEN-LAST:event_btnhutangMouseClicked
 
     private void nmbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusGained
@@ -1257,6 +1337,7 @@ public class Main extends javax.swing.JFrame {
         if (nmbarang.getText().equals("Masukkan nama barang")) {
             nmbarang.setText("");
         }
+        hilangkanPesanError();
     }//GEN-LAST:event_nmbarangFocusGained
 
     private void nmbarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusLost
@@ -1271,6 +1352,7 @@ public class Main extends javax.swing.JFrame {
         if (hrgjual.getText().equals("Masukkan harga jual")) {
             hrgjual.setText("");
         }
+        hilangkanPesanError();
     }//GEN-LAST:event_hrgjualFocusGained
 
     private void hrgjualFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hrgjualFocusLost
@@ -1390,7 +1472,19 @@ public class Main extends javax.swing.JFrame {
         tabTransaksi.setBackground(new java.awt.Color(0, 140, 255));
         tabHutang.setBackground(new java.awt.Color(0, 140, 255));
         tabStok.setBackground(new java.awt.Color(204, 204, 255));
+        
+        hilangkanPesanError();
     }//GEN-LAST:event_btnStokMouseClicked
+
+    private void cbjenisbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbjenisbarangFocusGained
+        // TODO add your handling code here:
+        hilangkanPesanError();
+    }//GEN-LAST:event_cbjenisbarangFocusGained
+
+    private void cbjenissatuanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbjenissatuanFocusGained
+        // TODO add your handling code here:
+        hilangkanPesanError();
+    }//GEN-LAST:event_cbjenissatuanFocusGained
 
     /**
      * @param args the command line arguments
@@ -1509,6 +1603,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel lapbarang;
+    private javax.swing.JLabel lblErrorHargaJual;
+    private javax.swing.JLabel lblErrorJenisBarang;
+    private javax.swing.JLabel lblErrorJenisSatuan;
+    private javax.swing.JLabel lblErrorNamaBarang;
     private javax.swing.JLabel lblJenisSatuan;
     private javax.swing.JLabel logout;
     private javax.swing.JTextField nmbarang;

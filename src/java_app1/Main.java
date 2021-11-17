@@ -20,7 +20,9 @@ public class Main extends javax.swing.JFrame {
     public ResultSet rs;
     public Statement stm;
     public PreparedStatement pst;
-    String sql,nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan;
+    String sql, sql2, nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan, id_barang;
+    int row;
+    boolean update = false;
     /**
      * Creates new form Main
      */
@@ -40,6 +42,7 @@ public class Main extends javax.swing.JFrame {
         lblErrorNamaBarang.setVisible(false);
         lblErrorHargaJual.setVisible(false);
         lblErrorJenisBarang.setVisible(false);
+        lblErrorJenisSatuan.setVisible(false);
         nmbarang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
         hrgjual.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
         cbjenisbarang.setBorder(new javax.swing.border.EmptyBorder(1, 1, 1, 1));
@@ -52,6 +55,7 @@ public class Main extends javax.swing.JFrame {
         hrgjual.setText("  Masukkan harga jual");
         hrgjual.setForeground(new java.awt.Color(138, 138, 138));
         cbjenisbarang.setSelectedIndex(0);
+        cbjenissatuan.setSelectedIndex(0);
         tfKelolaJenis.setText("Masukkan jenis barang baru");
     }
     
@@ -250,6 +254,7 @@ public class Main extends javax.swing.JFrame {
         tmbhstok = new javax.swing.JButton();
         topPanel3 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
+        btnUbah = new javax.swing.JButton();
         tmbhbarang = new javax.swing.JPanel();
         nmbarang = new javax.swing.JTextField();
         hrgjual = new javax.swing.JTextField();
@@ -259,7 +264,7 @@ public class Main extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         lblJenisSatuan = new javax.swing.JLabel();
         topPanel4 = new javax.swing.JPanel();
-        jLabel33 = new javax.swing.JLabel();
+        lblJudul = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         tfKelolaJenis = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -1059,6 +1064,11 @@ public class Main extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblstok.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblstokMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblstok);
 
         lapbarang.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 120, 1099, 391));
@@ -1083,6 +1093,15 @@ public class Main extends javax.swing.JFrame {
         topPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, -1, -1));
 
         lapbarang.add(topPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 56));
+
+        btnUbah.setText("Ubah");
+        btnUbah.setEnabled(false);
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
+        lapbarang.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 530, -1, -1));
 
         jPanel3.add(lapbarang, "lapbarang");
 
@@ -1162,9 +1181,9 @@ public class Main extends javax.swing.JFrame {
         topPanel4.setPreferredSize(new java.awt.Dimension(1250, 45));
         topPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel33.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
-        jLabel33.setText("Tambah Barang");
-        topPanel4.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, -1, -1));
+        lblJudul.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
+        lblJudul.setText("Tambah Barang");
+        topPanel4.add(lblJudul, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, -1, -1));
 
         tmbhbarang.add(topPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 56));
 
@@ -1311,11 +1330,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btncetakstokActionPerformed
 
     private void tmbhstokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tmbhstokActionPerformed
-        // TODO add your handling code here:
+        lblJudul.setText("Tambah Barang");
         CardLayout clayout = (CardLayout) jPanel3.getLayout();
         clayout.show(jPanel3, "tmbhbarang");
         
         BersihkanLayarStok();
+        update = false;
     }//GEN-LAST:event_tmbhstokActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1345,6 +1365,7 @@ public class Main extends javax.swing.JFrame {
             // apakah combobox jenis satuan blm dipilih
             if (cbjenissatuan.getSelectedIndex() == 0) {
                 cbjenissatuan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+                lblErrorJenisSatuan.setVisible(true);
             }
             
             return;
@@ -1356,14 +1377,36 @@ public class Main extends javax.swing.JFrame {
         jenissatuan = cbjenissatuan.getSelectedItem().toString();
         save = getIdJenis(jenisbr);
         id_satuan = getIdSatuan(jenissatuan);
+        
+        // update barang
+        if (update == true) {
+            try {
+            sql = "UPDATE barang SET nama_barang='" + nmbr + "', "
+                    + "harga_jual='" + hrgjl + "',"
+                    + "id_jenis='" + save + "',"
+                    + "id_satuan='" + id_satuan + "'"
+                    + "WHERE id_barang='" + id_barang + "'";
+            stm = conn.createStatement();
+            stm.executeUpdate(sql);
+            CardLayout clayout = (CardLayout) jPanel3.getLayout();
+            clayout.show(jPanel3, "lapbarang"); 
+            update_tabelbarang();
+            update = false;
+
+            JOptionPane.showMessageDialog(this, "Data berhasil diperbarui", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Data gagal diperbarui" + "\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        } else {
+            // tambah barang
         try {
-            sql = "insert into barang(nama_barang, harga_jual, id_jenis, id_satuan) values ("
+            sql2 = "insert into barang(nama_barang, harga_jual, id_jenis, id_satuan) values ("
                     + "'" + nmbr + "',"
                     + "'" + hrgjl + "',"
                     + "'" + save + "',"
                     + "'" + id_satuan + "')";
             stm = conn.createStatement();
-            stm.executeUpdate(sql);
+            stm.executeUpdate(sql2);
             
             JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
             CardLayout clayout = (CardLayout) jPanel3.getLayout();
@@ -1371,7 +1414,8 @@ public class Main extends javax.swing.JFrame {
             update_tabelbarang();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Data gagal disimpan"+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }       
+        }    
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void tfKelolaJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfKelolaJenisActionPerformed
@@ -1385,6 +1429,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
+        lblJudul.setText("Transaksi");
         pnlAktifTransaksi.setVisible(true);
         pnlAktifHutang.setVisible(false);
         pnlAktifStok.setVisible(false);
@@ -1400,10 +1445,12 @@ public class Main extends javax.swing.JFrame {
         tabStok.setBackground(new java.awt.Color(0, 140, 255));
         
         hilangkanPesanError();
+        update = false;
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void btnhutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnhutangMouseClicked
         // TODO add your handling code here:
+        lblJudul.setText("Catat Hutang");
         pnlAktifTransaksi.setVisible(false);
         pnlAktifHutang.setVisible(true);
         pnlAktifStok.setVisible(false);
@@ -1419,6 +1466,7 @@ public class Main extends javax.swing.JFrame {
         panel.show(CardPanelHutang, "cardterima");
         
         hilangkanPesanError();
+        update = false;
     }//GEN-LAST:event_btnhutangMouseClicked
 
     private void nmbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusGained
@@ -1558,6 +1606,7 @@ public class Main extends javax.swing.JFrame {
 
     private void btnStokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokMouseClicked
         // TODO add your handling code here:
+        lblJudul.setText("Stok");
         pnlAktifTransaksi.setVisible(false);
         pnlAktifHutang.setVisible(false);
         pnlAktifStok.setVisible(true);
@@ -1573,6 +1622,7 @@ public class Main extends javax.swing.JFrame {
         tabStok.setBackground(new java.awt.Color(204, 204, 255));
         
         hilangkanPesanError();
+        update = false;
     }//GEN-LAST:event_btnStokMouseClicked
 
     private void cbjenisbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbjenisbarangFocusGained
@@ -1584,6 +1634,25 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         hilangkanPesanError();
     }//GEN-LAST:event_cbjenissatuanFocusGained
+
+    private void tblstokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblstokMouseClicked
+        btnUbah.setEnabled(true);
+        int row = tblstok.getSelectedRow();
+        id_barang = ((String) tblstok.getValueAt(row, 0));
+        nmbarang.setText((String) tblstok.getValueAt(row, 3));
+        nmbarang.setForeground(new java.awt.Color(0, 0, 0));
+        hrgjual.setText("  "+(String) tblstok.getValueAt(row, 6));
+        hrgjual.setForeground(new java.awt.Color(0, 0, 0));
+        cbjenisbarang.setSelectedItem(tblstok.getValueAt(tblstok.getSelectedRow(), 1) + "");
+        cbjenissatuan.setSelectedItem(tblstok.getValueAt(tblstok.getSelectedRow(), 2) + "");
+    }//GEN-LAST:event_tblstokMouseClicked
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        CardLayout clayout = (CardLayout) jPanel3.getLayout();
+        clayout.show(jPanel3, "tmbhbarang");
+        lblJudul.setText("Ubah Barang");
+        update = true;
+    }//GEN-LAST:event_btnUbahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1626,6 +1695,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel Hutang;
     private javax.swing.JPanel Transaksi;
     private javax.swing.JLabel btnStok;
+    private javax.swing.JButton btnUbah;
     private javax.swing.JButton btncetakstok;
     private javax.swing.JLabel btnhutang;
     private javax.swing.JComboBox<String> cbjenisbarang;
@@ -1662,7 +1732,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
@@ -1707,6 +1776,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrorJenisSatuan;
     private javax.swing.JLabel lblErrorNamaBarang;
     private javax.swing.JLabel lblJenisSatuan;
+    private javax.swing.JLabel lblJudul;
     private javax.swing.JLabel logout;
     private javax.swing.JTextField nmbarang;
     private javax.swing.JPanel panelOverview;

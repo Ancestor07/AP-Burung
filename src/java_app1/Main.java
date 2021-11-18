@@ -59,6 +59,13 @@ public class Main extends javax.swing.JFrame {
         tfKelolaJenis.setText("Masukkan jenis barang baru");
     }
     
+    private void bersihkanTabelStok () {
+        btnUbah.setEnabled(false);
+        btnHapus.setEnabled(false);
+        // unselect row pada tabel stok
+        tblstok.clearSelection();
+    }
+    
     private void  cbboxjenis(){
         sql = "select jenis_barang from jenis";
         try {
@@ -255,6 +262,7 @@ public class Main extends javax.swing.JFrame {
         topPanel3 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         btnUbah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
         tmbhbarang = new javax.swing.JPanel();
         nmbarang = new javax.swing.JTextField();
         hrgjual = new javax.swing.JTextField();
@@ -1094,6 +1102,7 @@ public class Main extends javax.swing.JFrame {
 
         lapbarang.add(topPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 56));
 
+        btnUbah.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         btnUbah.setText("Ubah");
         btnUbah.setEnabled(false);
         btnUbah.addActionListener(new java.awt.event.ActionListener() {
@@ -1101,7 +1110,22 @@ public class Main extends javax.swing.JFrame {
                 btnUbahActionPerformed(evt);
             }
         });
-        lapbarang.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 530, -1, -1));
+        lapbarang.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 80, 70, 30));
+
+        btnHapus.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        btnHapus.setText("Hapus");
+        btnHapus.setEnabled(false);
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+        lapbarang.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 80, 80, 30));
 
         jPanel3.add(lapbarang, "lapbarang");
 
@@ -1335,6 +1359,7 @@ public class Main extends javax.swing.JFrame {
         clayout.show(jPanel3, "tmbhbarang");
         
         BersihkanLayarStok();
+        bersihkanTabelStok();
         update = false;
     }//GEN-LAST:event_tmbhstokActionPerformed
 
@@ -1445,6 +1470,7 @@ public class Main extends javax.swing.JFrame {
         tabStok.setBackground(new java.awt.Color(0, 140, 255));
         
         hilangkanPesanError();
+        bersihkanTabelStok();
         update = false;
     }//GEN-LAST:event_jLabel2MouseClicked
 
@@ -1466,6 +1492,7 @@ public class Main extends javax.swing.JFrame {
         panel.show(CardPanelHutang, "cardterima");
         
         hilangkanPesanError();
+        bersihkanTabelStok();
         update = false;
     }//GEN-LAST:event_btnhutangMouseClicked
 
@@ -1622,6 +1649,7 @@ public class Main extends javax.swing.JFrame {
         tabStok.setBackground(new java.awt.Color(204, 204, 255));
         
         hilangkanPesanError();
+        bersihkanTabelStok();
         update = false;
     }//GEN-LAST:event_btnStokMouseClicked
 
@@ -1637,6 +1665,7 @@ public class Main extends javax.swing.JFrame {
 
     private void tblstokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblstokMouseClicked
         btnUbah.setEnabled(true);
+        btnHapus.setEnabled(true);
         int row = tblstok.getSelectedRow();
         id_barang = ((String) tblstok.getValueAt(row, 0));
         nmbarang.setText((String) tblstok.getValueAt(row, 3));
@@ -1652,7 +1681,36 @@ public class Main extends javax.swing.JFrame {
         clayout.show(jPanel3, "tmbhbarang");
         lblJudul.setText("Ubah Barang");
         update = true;
+        bersihkanTabelStok();
     }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        try {
+            int opsi = JOptionPane.showConfirmDialog(null, "Semua data penjualan dan pembelian akan ikut terhapus. \nHapus data?",
+                    "Hapus Data", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            
+            if (opsi == JOptionPane.YES_OPTION) {
+                sql = "DELETE FROM barang WHERE id_barang='" + id_barang + "'";
+                stm = conn.createStatement();
+                stm.executeUpdate(sql);
+                CardLayout clayout = (CardLayout) jPanel3.getLayout();
+                clayout.show(jPanel3, "lapbarang"); 
+                update_tabelbarang();
+
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus", "Success", JOptionPane.INFORMATION_MESSAGE);
+                
+                btnUbah.setEnabled(false);
+                btnHapus.setEnabled(false);
+            }
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(this, "Data gagal dihapus", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        bersihkanTabelStok();
+    }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1694,6 +1752,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel Change;
     private javax.swing.JPanel Hutang;
     private javax.swing.JPanel Transaksi;
+    private javax.swing.JButton btnHapus;
     private javax.swing.JLabel btnStok;
     private javax.swing.JButton btnUbah;
     private javax.swing.JButton btncetakstok;

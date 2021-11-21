@@ -36,12 +36,12 @@ public class Login extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         lbcreateacc = new javax.swing.JLabel();
         lbuname = new javax.swing.JLabel();
-        tfpw = new javax.swing.JTextField();
         lbpw = new javax.swing.JLabel();
         btnlogin = new javax.swing.JButton();
         btcreate1 = new javax.swing.JButton();
         logoburung1 = new javax.swing.JLabel();
         tfuname = new javax.swing.JTextField();
+        tfpw = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1380, 730));
@@ -59,14 +59,6 @@ public class Login extends javax.swing.JFrame {
 
         lbuname.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
         lbuname.setText("Username");
-
-        tfpw.setBackground(new java.awt.Color(206, 229, 242));
-        tfpw.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
-        tfpw.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfpwActionPerformed(evt);
-            }
-        });
 
         lbpw.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
         lbpw.setText("Password");
@@ -100,6 +92,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        tfpw.setBackground(new java.awt.Color(206, 229, 242));
+        tfpw.setPreferredSize(new java.awt.Dimension(7, 31));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -113,13 +108,12 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tfuname, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                     .addComponent(lbpw)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                            .addComponent(btcreate1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(tfpw, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(lbuname))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(btcreate1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbuname)
+                    .addComponent(tfpw, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 55, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -139,12 +133,12 @@ public class Login extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(lbpw)
                 .addGap(18, 18, 18)
-                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btcreate1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(135, 135, 135)
@@ -187,10 +181,6 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfpwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfpwActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfpwActionPerformed
-
     private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
         // TODO add your handling code here:
         String url = "jdbc:mysql://localhost:3306/ap1_bukuwarung?useSSL=false";
@@ -210,7 +200,7 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                if (rs.getString("username").equals("admin")) {
+                if (tfuname.getText().equals(rs.getString("username")) && tfpw.getText().equals(rs.getString("password"))) {
                     dispose();
                     new Main().setVisible(true);
                 } else {
@@ -284,7 +274,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel lbpw;
     private javax.swing.JLabel lbuname;
     private javax.swing.JLabel logoburung1;
-    private javax.swing.JTextField tfpw;
+    private javax.swing.JPasswordField tfpw;
     private javax.swing.JTextField tfuname;
     // End of variables declaration//GEN-END:variables
 }

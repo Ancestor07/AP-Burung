@@ -218,6 +218,25 @@ public class Main extends javax.swing.JFrame {
         jLabel42 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel43 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButton3 = new javax.swing.JButton();
+        PanelLaporan = new javax.swing.JPanel();
+        topPanel2 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        lppenjualan = new javax.swing.JLabel();
+        lppengeluaran = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jPanel27 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         Hutang = new javax.swing.JPanel();
         panelLihatHutang = new javax.swing.JPanel();
         topPanel5 = new javax.swing.JPanel();
@@ -252,10 +271,8 @@ public class Main extends javax.swing.JFrame {
         jLabel59 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
         jTextField12 = new javax.swing.JTextField();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
         jLabel60 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
-        jDateChooser4 = new com.toedter.calendar.JDateChooser();
         jButton8 = new javax.swing.JButton();
         terimaOnClick = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
@@ -486,7 +503,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,7 +515,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelOverview.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 300, 130));
+        panelOverview.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 310, 130));
 
         jLabel11.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 140, 255));
@@ -507,6 +524,11 @@ public class Main extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel18.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
@@ -515,14 +537,14 @@ public class Main extends javax.swing.JFrame {
         jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 13, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icon panah kiri.png"))); // NOI18N
-        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 15, -1, -1));
+        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 20, -1, 30));
 
-        panelOverview.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 920, 60));
+        panelOverview.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 1040, 60));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton2.setBackground(new java.awt.Color(255, 188, 58));
-        jButton2.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
         jButton2.setText("+ Catat Transaksi");
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -535,8 +557,8 @@ public class Main extends javax.swing.JFrame {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap(850, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -548,7 +570,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(24, 24, 24))
         );
 
-        panelOverview.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 920, 410));
+        panelOverview.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 1040, 410));
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -600,7 +622,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,11 +634,12 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelOverview.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, -1, 130));
+        panelOverview.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 100, -1, 130));
 
         Transaksi.add(panelOverview, "panelOverview");
 
         panelPenjualan.setBackground(new java.awt.Color(234, 234, 234));
+        panelPenjualan.setMinimumSize(new java.awt.Dimension(1140, 690));
         panelPenjualan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         topPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -633,6 +656,7 @@ public class Main extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.CardLayout());
 
         penjualanOnClick.setBackground(new java.awt.Color(255, 255, 255));
+        penjualanOnClick.setMinimumSize(new java.awt.Dimension(1140, 65));
         penjualanOnClick.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(46, 231, 120));
@@ -676,6 +700,8 @@ public class Main extends javax.swing.JFrame {
         jPanel2.add(penjualanOnClick, "penjualanOnClick");
 
         pengeluaranOnClick.setBackground(new java.awt.Color(255, 255, 255));
+        pengeluaranOnClick.setMinimumSize(new java.awt.Dimension(1140, 65));
+        pengeluaranOnClick.setPreferredSize(new java.awt.Dimension(1140, 65));
         pengeluaranOnClick.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel18.setBackground(new java.awt.Color(234, 234, 234));
@@ -720,7 +746,218 @@ public class Main extends javax.swing.JFrame {
 
         panelPenjualan.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 936, 340));
 
+        jPanel16.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel16.setMinimumSize(new java.awt.Dimension(1140, 65));
+        jPanel16.setPreferredSize(new java.awt.Dimension(1140, 68));
+
+        jLabel1.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        jLabel1.setText("Informasi Optional");
+
+        jTextField1.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        jTextField1.setText("Catatan");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Pelanggan" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jComboBox1, 0, 881, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addComponent(jTextField1))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(232, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        panelPenjualan.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 940, 220));
+
+        jButton3.setBackground(new java.awt.Color(255, 188, 58));
+        jButton3.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
+        jButton3.setText("Simpan Transaksi");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed1(evt);
+            }
+        });
+        panelPenjualan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 650, 940, 40));
+
         Transaksi.add(panelPenjualan, "panelPenjualan");
+
+        topPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        topPanel2.setPreferredSize(new java.awt.Dimension(1250, 45));
+        topPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel21.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
+        jLabel21.setText("Laporan Hutang");
+        topPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+
+        lppenjualan.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
+        lppenjualan.setForeground(new java.awt.Color(46, 231, 120));
+
+        lppengeluaran.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
+        lppengeluaran.setForeground(new java.awt.Color(255, 0, 0));
+
+        jLabel24.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(46, 231, 120));
+        jLabel24.setText("Penjualan");
+
+        jLabel25.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel25.setText("Pengeluaran");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addComponent(lppenjualan, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jLabel24)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 442, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lppengeluaran, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(68, 68, 68)))
+                .addGap(125, 125, 125))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lppengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lppenjualan, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel25))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jButton5.setBackground(new java.awt.Color(255, 188, 58));
+        jButton5.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/downloading.png"))); // NOI18N
+        jButton5.setText("Unduh Laporan");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
+        jPanel27.setLayout(jPanel27Layout);
+        jPanel27Layout.setHorizontalGroup(
+            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel27Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton5)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1036, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel27Layout.setVerticalGroup(
+            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addContainerGap(104, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout PanelLaporanLayout = new javax.swing.GroupLayout(PanelLaporan);
+        PanelLaporan.setLayout(PanelLaporanLayout);
+        PanelLaporanLayout.setHorizontalGroup(
+            PanelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLaporanLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(topPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(PanelLaporanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(PanelLaporanLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelLaporanLayout.setVerticalGroup(
+            PanelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLaporanLayout.createSequentialGroup()
+                .addComponent(topPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelLaporanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelLaporanLayout.createSequentialGroup()
+                        .addGap(599, 599, 599)
+                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelLaporanLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 98, Short.MAX_VALUE))
+        );
+
+        Transaksi.add(PanelLaporan, "cetaklap");
 
         Change.add(Transaksi, "transaksi");
 
@@ -742,16 +979,16 @@ public class Main extends javax.swing.JFrame {
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton6.setBackground(new java.awt.Color(255, 188, 58));
-        jButton6.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jButton6.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
         jButton6.setText("+ Catat Hutang");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel8.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(995, 380, -1, 35));
+        jPanel8.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 340, -1, 35));
 
-        panelLihatHutang.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 294, 1134, 430));
+        panelLihatHutang.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 294, 1134, 400));
 
         jPanel20.setBackground(new java.awt.Color(255, 255, 255));
         jPanel20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -918,7 +1155,6 @@ public class Main extends javax.swing.JFrame {
 
         jTextField12.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
         berikanOnClick.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 220, 1100, -1));
-        berikanOnClick.add(jDateChooser3, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 470, 240, 40));
 
         jLabel60.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel60.setText("Catatan:");
@@ -927,7 +1163,6 @@ public class Main extends javax.swing.JFrame {
         jLabel61.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel61.setText("Jatuh Tempo");
         berikanOnClick.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 527, -1, -1));
-        berikanOnClick.add(jDateChooser4, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 557, 240, 40));
 
         jButton8.setBackground(new java.awt.Color(255, 188, 58));
         jButton8.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
@@ -1094,6 +1329,7 @@ public class Main extends javax.swing.JFrame {
 
         lapbarang.add(topPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 56));
 
+        btnUbah.setBackground(new java.awt.Color(255, 188, 58));
         btnUbah.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         btnUbah.setText("Ubah");
         btnUbah.setEnabled(false);
@@ -1104,6 +1340,7 @@ public class Main extends javax.swing.JFrame {
         });
         lapbarang.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 80, 70, 30));
 
+        btnHapus.setBackground(new java.awt.Color(255, 188, 58));
         btnHapus.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         btnHapus.setText("Hapus");
         btnHapus.setEnabled(false);
@@ -1719,6 +1956,28 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8jButton3ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed1
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed1
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        // TODO add your handling code here:
+        CardLayout clayout = (CardLayout) Transaksi.getLayout();
+        clayout.show(Transaksi, "cetaklap");
+    }//GEN-LAST:event_jPanel7MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1757,6 +2016,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Change;
     private javax.swing.JPanel Hutang;
+    private javax.swing.JPanel PanelLaporan;
     private javax.swing.JPanel Transaksi;
     private javax.swing.JPanel berikanOnClick;
     private javax.swing.JButton btnHapus;
@@ -1769,13 +2029,16 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField hrgjual;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JCheckBox jCheckBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
-    private com.toedter.calendar.JDateChooser jDateChooser4;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1788,6 +2051,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel33;
@@ -1824,9 +2090,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
@@ -1837,6 +2106,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1845,9 +2115,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -1862,6 +2135,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblJenisSatuan;
     private javax.swing.JLabel lblJudul;
     private javax.swing.JLabel logout;
+    private javax.swing.JLabel lppengeluaran;
+    private javax.swing.JLabel lppenjualan;
     private javax.swing.JTextField nmbarang;
     private javax.swing.JPanel panelHutang;
     private javax.swing.JPanel panelLihatHutang;
@@ -1884,6 +2159,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton tmbhstok;
     private javax.swing.JPanel topPanel;
     private javax.swing.JPanel topPanel1;
+    private javax.swing.JPanel topPanel2;
     private javax.swing.JPanel topPanel3;
     private javax.swing.JPanel topPanel4;
     private javax.swing.JPanel topPanel5;

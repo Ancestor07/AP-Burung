@@ -105,6 +105,7 @@
                               <EmptySpace pref="20" max="32767" attributes="0"/>
                               <Component id="btcreate1" min="-2" pref="220" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="tfpw" alignment="0" max="32767" attributes="0"/>
                           <Component id="lbuname" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="tfpw" max="32767" attributes="0"/>
                       </Group>

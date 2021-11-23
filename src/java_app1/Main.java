@@ -10,6 +10,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.HeadlessException;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author A.T.T.A
@@ -263,16 +264,17 @@ public class Main extends javax.swing.JFrame {
         jLabel51 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel56 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        txtberikan = new javax.swing.JTextField();
         jLabel57 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        txtnominal = new javax.swing.JTextField();
+        txtcatatanhutang = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel58 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
         jLabel60 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
+        tglhutang = new com.toedter.calendar.JDateChooser();
+        tgljatuhtempo = new com.toedter.calendar.JDateChooser();
         jButton8 = new javax.swing.JButton();
         terimaOnClick = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
@@ -1131,30 +1133,27 @@ public class Main extends javax.swing.JFrame {
         jLabel56.setText("Memberikan ke:");
         berikanOnClick.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 100, -1, -1));
 
-        jTextField9.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        berikanOnClick.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 130, 1100, -1));
+        txtberikan.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        berikanOnClick.add(txtberikan, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 130, 1100, -1));
 
         jLabel57.setFont(new java.awt.Font("Montserrat Medium", 1, 16)); // NOI18N
         jLabel57.setText("Informasi Opsional");
         berikanOnClick.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 310, -1, -1));
 
-        jTextField10.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        berikanOnClick.add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 380, 1100, -1));
+        txtnominal.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        berikanOnClick.add(txtnominal, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 220, 1100, -1));
+
+        txtcatatanhutang.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        berikanOnClick.add(txtcatatanhutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 380, 1100, -1));
         berikanOnClick.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 1140, -1));
 
         jLabel58.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel58.setText("Tanggal Hutang");
-        berikanOnClick.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 440, -1, -1));
+        berikanOnClick.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, -1));
 
         jLabel59.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel59.setText("Memberikan sejumlah:");
         berikanOnClick.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 190, -1, -1));
-
-        jTextField11.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        berikanOnClick.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 220, 1100, -1));
-
-        jTextField12.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        berikanOnClick.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 220, 1100, -1));
 
         jLabel60.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel60.setText("Catatan:");
@@ -1162,7 +1161,9 @@ public class Main extends javax.swing.JFrame {
 
         jLabel61.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel61.setText("Jatuh Tempo");
-        berikanOnClick.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 527, -1, -1));
+        berikanOnClick.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, -1, -1));
+        berikanOnClick.add(tglhutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 590, 30));
+        berikanOnClick.add(tgljatuhtempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 590, 30));
 
         jButton8.setBackground(new java.awt.Color(255, 188, 58));
         jButton8.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
@@ -1954,6 +1955,26 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton8jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8jButton3ActionPerformed
         // TODO add your handling code here:
+        String tampilan = "yyyy-MM-dd";
+        SimpleDateFormat fm = new SimpleDateFormat(tampilan);
+        String oranghutang = txtberikan.getText();
+        String nominal = txtnominal.getText();
+        String catatan = txtcatatanhutang.getText();
+        String tanggalhutang = String.valueOf(fm.format(tglhutang.getDate()));
+        String tempo = String.valueOf(fm.format(tgljatuhtempo.getDate()));
+        if(!"".equals(oranghutang) & !"".equals(nominal) & !"".equals(catatan)){
+           try {
+                stm.executeUpdate("INSERT INTO peminjaman_hutang (nama_pelanggan, nominal_peminjaman, tanggal_hutang, jatuh_tempo, catatan) VALUES('"+oranghutang+"', '"+nominal+"', '"+tanggalhutang+"', "
+                    + "'"+tempo+"', '"+catatan+"')");
+                JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
+                           }
+           catch (SQLException err) {
+                JOptionPane.showMessageDialog(null, err);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Semua data harus diisi terlebih dahulu!");
+        }
     }//GEN-LAST:event_jButton8jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -2121,12 +2142,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JPanel lapbarang;
     private javax.swing.JLabel lblErrorHargaJual;
     private javax.swing.JLabel lblErrorJenisBarang;
@@ -2155,6 +2172,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable tblstok;
     private javax.swing.JPanel terimaOnClick;
     private javax.swing.JTextField tfKelolaJenis;
+    private com.toedter.calendar.JDateChooser tglhutang;
+    private com.toedter.calendar.JDateChooser tgljatuhtempo;
     private javax.swing.JPanel tmbhbarang;
     private javax.swing.JButton tmbhstok;
     private javax.swing.JPanel topPanel;
@@ -2164,5 +2183,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel topPanel4;
     private javax.swing.JPanel topPanel5;
     private javax.swing.JPanel topPanel6;
+    private javax.swing.JTextField txtberikan;
+    private javax.swing.JTextField txtcatatanhutang;
+    private javax.swing.JTextField txtnominal;
     // End of variables declaration//GEN-END:variables
 }

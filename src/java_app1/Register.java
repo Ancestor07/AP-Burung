@@ -52,7 +52,6 @@ public class Register extends javax.swing.JFrame {
         btpindahmenulogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1380, 730));
 
         gambar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/toko.png"))); // NOI18N
 
@@ -69,7 +68,7 @@ public class Register extends javax.swing.JFrame {
         lbstore.setText("Store's Name");
 
         tfstore.setBackground(new java.awt.Color(206, 229, 242));
-        tfstore.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        tfstore.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
         tfstore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfstoreActionPerformed(evt);
@@ -80,7 +79,7 @@ public class Register extends javax.swing.JFrame {
         lbuname.setText("Username");
 
         tfuname.setBackground(new java.awt.Color(206, 229, 242));
-        tfuname.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        tfuname.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
         tfuname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfunameActionPerformed(evt);
@@ -101,11 +100,11 @@ public class Register extends javax.swing.JFrame {
         });
 
         tfpw.setBackground(new java.awt.Color(206, 229, 242));
-        tfpw.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        tfpw.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
 
-        btpindahmenulogin.setBackground(new java.awt.Color(0, 140, 255));
+        btpindahmenulogin.setBackground(new java.awt.Color(255, 255, 255));
         btpindahmenulogin.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
-        btpindahmenulogin.setForeground(new java.awt.Color(255, 255, 255));
+        btpindahmenulogin.setForeground(new java.awt.Color(0, 140, 255));
         btpindahmenulogin.setText("Already Have Account?");
         btpindahmenulogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,19 +117,6 @@ public class Register extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbuname)
-                    .addComponent(lbpw)
-                    .addComponent(lbstore)
-                    .addComponent(btpindahmenulogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
-                    .addComponent(btcreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(tfpw, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
-                        .addComponent(tfuname, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tfstore, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(235, 235, 235)
@@ -138,7 +124,21 @@ public class Register extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addComponent(lbcreateacc)))
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(192, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btpindahmenulogin, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbuname)
+                        .addComponent(lbpw)
+                        .addComponent(lbstore)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(tfstore, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfuname, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfpw, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btcreate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE))))
+                .addGap(0, 55, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,19 +150,19 @@ public class Register extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lbstore)
                 .addGap(18, 18, 18)
-                .addComponent(tfstore, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfstore, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbuname)
                 .addGap(18, 18, 18)
-                .addComponent(tfuname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfuname, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbpw)
                 .addGap(18, 18, 18)
-                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(btcreate, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btcreate, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btpindahmenulogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btpindahmenulogin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

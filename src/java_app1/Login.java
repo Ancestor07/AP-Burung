@@ -44,7 +44,6 @@ public class Login extends javax.swing.JFrame {
         tfpw = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1380, 730));
 
         jPanel1.setBackground(new java.awt.Color(255, 246, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1380, 730));
@@ -75,6 +74,7 @@ public class Login extends javax.swing.JFrame {
 
         btcreate1.setBackground(new java.awt.Color(204, 204, 204));
         btcreate1.setFont(new java.awt.Font("Montserrat SemiBold", 0, 24)); // NOI18N
+        btcreate1.setForeground(new java.awt.Color(0, 140, 255));
         btcreate1.setText("Create Account");
         btcreate1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +85,7 @@ public class Login extends javax.swing.JFrame {
         logoburung1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icon burung.png"))); // NOI18N
 
         tfuname.setBackground(new java.awt.Color(206, 229, 242));
-        tfuname.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
+        tfuname.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
         tfuname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfunameActionPerformed(evt);
@@ -93,6 +93,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         tfpw.setBackground(new java.awt.Color(206, 229, 242));
+        tfpw.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
         tfpw.setPreferredSize(new java.awt.Dimension(7, 31));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -129,16 +130,16 @@ public class Login extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addComponent(lbuname)
                 .addGap(18, 18, 18)
-                .addComponent(tfuname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfuname, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
                 .addComponent(lbpw)
                 .addGap(18, 18, 18)
-                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfpw, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btcreate1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(135, 135, 135)

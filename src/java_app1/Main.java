@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.HeadlessException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  *
  * @author A.T.T.A
@@ -39,6 +40,7 @@ public class Main extends javax.swing.JFrame {
         hilangkanPesanError();
         tabeljual();
         tabelbeli();
+        updateTabelHutang();
     }
     
     private void hilangkanPesanError() {
@@ -234,6 +236,34 @@ public class Main extends javax.swing.JFrame {
         } 
     
  }
+        private void updateTabelHutang(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nama Pelanggan");
+        model.addColumn("Jumlah Hutang");
+        tblhutang.setModel(model);
+        
+        try{
+            rs = stm.executeQuery("SELECT * FROM peminjaman_hutang");
+            while(rs.next()){
+                Object[] data = new Object[2];
+                data[0] = rs.getString("nama_pelanggan");
+                data[1] = rs.getString("nominal_peminjaman");
+                model.addRow(data);
+                tblhutang.setModel(model);
+            }
+            rs.close();
+       
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+        private void ClearTabelHutang(){
+        txtberikan.setText("");
+        txtnominal.setText("");
+        txtcatatanhutang.setText("");
+        tglhutang.setCalendar(null);
+        tgljatuhtempo.setCalendar(null);
+        }
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -358,7 +388,7 @@ public class Main extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblstok2 = new javax.swing.JTable();
+        tblhutang = new javax.swing.JTable();
         jPanel20 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -1401,7 +1431,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel8.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 340, -1, 35));
 
-        tblstok2.setModel(new javax.swing.table.DefaultTableModel(
+        tblhutang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -1412,12 +1442,12 @@ public class Main extends javax.swing.JFrame {
                 "Nama Pelanggan", "Jumlah Hutang"
             }
         ));
-        tblstok2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblhutang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblstok2MouseClicked(evt);
+                tblhutangMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(tblstok2);
+        jScrollPane4.setViewportView(tblhutang);
 
         jPanel8.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1110, 310));
 
@@ -2398,6 +2428,8 @@ public class Main extends javax.swing.JFrame {
                 stm.executeUpdate("INSERT INTO peminjaman_hutang (nama_pelanggan, nominal_peminjaman, tanggal_hutang, jatuh_tempo, catatan) VALUES('"+oranghutang+"', '"+nominal+"', '"+tanggalhutang+"', "
                     + "'"+tempo+"', '"+catatan+"')");
                 JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
+                updateTabelHutang();
+                ClearTabelHutang();
                            }
            catch (SQLException err) {
                 JOptionPane.showMessageDialog(null, err);
@@ -2434,9 +2466,9 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblstok1MouseClicked
 
-    private void tblstok2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblstok2MouseClicked
+    private void tblhutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhutangMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblstok2MouseClicked
+    }//GEN-LAST:event_tblhutangMouseClicked
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
@@ -2705,10 +2737,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel tblTransaksiPenjualan;
     private javax.swing.JTable tblbarangbeli;
     private javax.swing.JTable tblbarangjual;
+    private javax.swing.JTable tblhutang;
     private javax.swing.JTable tblpengeluaran;
     private javax.swing.JTable tblstok;
     private javax.swing.JTable tblstok1;
-    private javax.swing.JTable tblstok2;
     private javax.swing.JPanel terimaOnClick;
     private javax.swing.JTextField tfKelolaJenis;
     private com.toedter.calendar.JDateChooser tglhutang;

@@ -21,7 +21,7 @@ public class Main extends javax.swing.JFrame {
     public ResultSet rs;
     public Statement stm;
     public PreparedStatement pst;
-    String sql, sql2, nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan, id_barang;
+    String sql, sql2, nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan, id_barang, nama_barang, harga_satuan;
     int row;
     boolean update = false;
     /**
@@ -37,6 +37,8 @@ public class Main extends javax.swing.JFrame {
         cbboxjenis();
         cbboxJenisSatuan();
         hilangkanPesanError();
+        tabeljual();
+        tabelbeli();
     }
     
     private void hilangkanPesanError() {
@@ -124,7 +126,22 @@ public class Main extends javax.swing.JFrame {
         }
         return id;
     }
-        
+    
+    private void penjualan(){
+            String total = "0";
+            sql = "SELECT sum(total_harga) FROM transaksi_penjualan";
+            
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        total = rs.getString("total_harga");
+                        System.out.println("Rp. "+total);
+                    }
+                } catch (Exception e) {
+            }
+        }
+    
         private void update_tabelbarang() {
         // membuat tampilan model tabel
         DefaultTableModel model = new DefaultTableModel();
@@ -153,6 +170,62 @@ public class Main extends javax.swing.JFrame {
                 data[6] = rs.getString("harga_jual");
                 model.addRow(data);
                 tblstok.setModel(model);
+        }
+            rs.close();
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        } 
+    
+ }
+
+        private void tabeljual() {
+        // membuat tampilan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nama Barang");
+        model.addColumn("Stok");
+        model.addColumn("Satuan");
+        model.addColumn("Harga Jual");
+        tblbarangjual.setModel(model);
+          // menampilkan data database ke dalam tabel
+        try {
+            rs = stm.executeQuery("SELECT b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
+            while (rs.next()){
+            Object[] data = new Object[4];
+                data[0] = rs.getString("nama_barang");
+                data[1] = rs.getString("stok");
+                data[2] = rs.getString("jenis_satuan");
+                data[3] = rs.getString("harga_jual");
+                model.addRow(data);
+                tblbarangjual.setModel(model);
+        }
+            rs.close();
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        } 
+    
+ }
+        
+        private void tabelbeli() {
+        // membuat tampilan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nama Barang");
+        model.addColumn("Stok");
+        model.addColumn("Satuan");
+        model.addColumn("Harga Jual");
+        tblbarangbeli.setModel(model);
+          // menampilkan data database ke dalam tabel
+        try {
+            rs = stm.executeQuery("SELECT b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
+            while (rs.next()){
+            Object[] data = new Object[4];
+                data[0] = rs.getString("nama_barang");
+                data[1] = rs.getString("stok");
+                data[2] = rs.getString("jenis_satuan");
+                data[3] = rs.getString("harga_jual");
+                model.addRow(data);
+                tblbarangbeli.setModel(model);
         }
             rs.close();
         }
@@ -201,15 +274,15 @@ public class Main extends javax.swing.JFrame {
         jPanel13 = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
-        jLabel64 = new javax.swing.JLabel();
+        trPenjualan = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
-        jLabel68 = new javax.swing.JLabel();
+        trKeuntungan = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
         jLabel65 = new javax.swing.JLabel();
         jLabel66 = new javax.swing.JLabel();
-        jLabel67 = new javax.swing.JLabel();
+        trpengeluaran = new javax.swing.JLabel();
         panelPenjualan = new javax.swing.JPanel();
         topPanel1 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
@@ -220,7 +293,7 @@ public class Main extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblJual = new javax.swing.JTable();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -234,23 +307,23 @@ public class Main extends javax.swing.JFrame {
         jLabel43 = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblpengeluaran = new javax.swing.JTable();
         jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
+        ttlpengeluaran = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         jLabel69 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         tblTransaksiPengeluaran = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        tblbarangbeli = new javax.swing.JTable();
         jLabel28 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
-        jLabel71 = new javax.swing.JLabel();
+        subpembelian = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
         tblTransaksiPenjualan = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblbarangjual = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
@@ -551,7 +624,7 @@ public class Main extends javax.swing.JFrame {
         jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 13, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_app1/images/icon panah kiri.png"))); // NOI18N
-        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 20, -1, 30));
+        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 15, -1, 30));
 
         panelOverview.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 1040, 60));
 
@@ -569,13 +642,13 @@ public class Main extends javax.swing.JFrame {
 
         tblstok1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Tanggal", "Pemasukan", "Pengeluaran", "Keuntungan"
+                "Tanggal", "Pemasukan", "Pengeluaran"
             }
         ));
         tblstok1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -623,9 +696,9 @@ public class Main extends javax.swing.JFrame {
         jLabel39.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         jLabel39.setForeground(new java.awt.Color(0, 204, 51));
 
-        jLabel64.setFont(new java.awt.Font("Montserrat Medium", 0, 20)); // NOI18N
-        jLabel64.setForeground(new java.awt.Color(46, 231, 120));
-        jLabel64.setText("Rp0");
+        trPenjualan.setFont(new java.awt.Font("Montserrat Medium", 0, 20)); // NOI18N
+        trPenjualan.setForeground(new java.awt.Color(46, 231, 120));
+        trPenjualan.setText("Rp0");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -640,7 +713,7 @@ public class Main extends javax.swing.JFrame {
                         .addGap(132, 132, 132)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel38)
-                            .addComponent(jLabel64))))
+                            .addComponent(trPenjualan))))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
@@ -649,7 +722,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel38)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel64)
+                .addComponent(trPenjualan)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -666,9 +739,9 @@ public class Main extends javax.swing.JFrame {
         jLabel41.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(0, 204, 51));
 
-        jLabel68.setFont(new java.awt.Font("Montserrat Medium", 0, 20)); // NOI18N
-        jLabel68.setForeground(new java.awt.Color(46, 231, 120));
-        jLabel68.setText("Rp0");
+        trKeuntungan.setFont(new java.awt.Font("Montserrat Medium", 0, 20)); // NOI18N
+        trKeuntungan.setForeground(new java.awt.Color(46, 231, 120));
+        trKeuntungan.setText("Rp0");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -679,7 +752,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(jLabel68)
+                        .addComponent(trKeuntungan)
                         .addComponent(jLabel40)))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
@@ -689,7 +762,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel40)
                 .addGap(13, 13, 13)
-                .addComponent(jLabel68)
+                .addComponent(trKeuntungan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -706,9 +779,9 @@ public class Main extends javax.swing.JFrame {
         jLabel66.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         jLabel66.setForeground(new java.awt.Color(0, 204, 51));
 
-        jLabel67.setFont(new java.awt.Font("Montserrat Medium", 0, 20)); // NOI18N
-        jLabel67.setForeground(new java.awt.Color(255, 91, 91));
-        jLabel67.setText("Rp0");
+        trpengeluaran.setFont(new java.awt.Font("Montserrat Medium", 0, 20)); // NOI18N
+        trpengeluaran.setForeground(new java.awt.Color(255, 91, 91));
+        trpengeluaran.setText("Rp0");
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -723,7 +796,7 @@ public class Main extends javax.swing.JFrame {
                         .addGap(132, 132, 132)
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel65)
-                            .addComponent(jLabel67))))
+                            .addComponent(trpengeluaran))))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
         jPanel22Layout.setVerticalGroup(
@@ -732,7 +805,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel65)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel67)
+                .addComponent(trpengeluaran)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -801,7 +874,7 @@ public class Main extends javax.swing.JFrame {
 
         penjualanOnClick.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 15, 440, 50));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblJual.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -812,7 +885,7 @@ public class Main extends javax.swing.JFrame {
                 "Nama Barang", "Harga satuan", "Jumlah", "Subtotal"
             }
         ));
-        jScrollPane6.setViewportView(jTable3);
+        jScrollPane6.setViewportView(tblJual);
 
         penjualanOnClick.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 120));
 
@@ -898,7 +971,7 @@ public class Main extends javax.swing.JFrame {
         });
         pengeluaranOnClick.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 80, -1, 30));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblpengeluaran.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -909,7 +982,7 @@ public class Main extends javax.swing.JFrame {
                 "Nama Barang", "Harga satuan", "Jumlah", "Subtotal"
             }
         ));
-        jScrollPane7.setViewportView(jTable4);
+        jScrollPane7.setViewportView(tblpengeluaran);
 
         pengeluaranOnClick.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 120));
 
@@ -917,9 +990,9 @@ public class Main extends javax.swing.JFrame {
         jLabel35.setText("Total");
         pengeluaranOnClick.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, -1, -1));
 
-        jLabel36.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel36.setText("Rp0");
-        pengeluaranOnClick.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, -1, -1));
+        ttlpengeluaran.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        ttlpengeluaran.setText("Rp0");
+        pengeluaranOnClick.add(ttlpengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, -1, -1));
 
         jLabel37.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel37.setText("Bayar");
@@ -934,7 +1007,7 @@ public class Main extends javax.swing.JFrame {
 
         tblTransaksiPengeluaran.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblbarangbeli.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -945,7 +1018,12 @@ public class Main extends javax.swing.JFrame {
                 "Nama Barang", "Stok", "Satuan", "Harga Jual"
             }
         ));
-        jScrollPane8.setViewportView(jTable5);
+        tblbarangbeli.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblbarangbeliMouseClicked(evt);
+            }
+        });
+        jScrollPane8.setViewportView(tblbarangbeli);
 
         jLabel28.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel28.setText("Jumlah Beli");
@@ -953,8 +1031,19 @@ public class Main extends javax.swing.JFrame {
         jLabel70.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel70.setText("Subtotal");
 
-        jLabel71.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel71.setText("Rp 0");
+        subpembelian.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        subpembelian.setText("Rp 0");
+
+        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField5FocusLost(evt);
+            }
+        });
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
 
         jButton12.setForeground(new java.awt.Color(0, 140, 255));
         jButton12.setText("Tambah");
@@ -982,7 +1071,7 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(jLabel28))
                                 .addGap(25, 25, 25)
                                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel71)
+                                    .addComponent(subpembelian)
                                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
@@ -998,7 +1087,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel70)
-                    .addComponent(jLabel71))
+                    .addComponent(subpembelian))
                 .addGap(18, 18, 18)
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(126, 126, 126))
@@ -1008,7 +1097,7 @@ public class Main extends javax.swing.JFrame {
 
         tblTransaksiPenjualan.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblbarangjual.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1019,7 +1108,7 @@ public class Main extends javax.swing.JFrame {
                 "Nama Barang", "Stok", "Satuan", "Harga Jual"
             }
         ));
-        jScrollPane5.setViewportView(jTable2);
+        jScrollPane5.setViewportView(tblbarangjual);
 
         jLabel17.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel17.setText("Jumlah Beli");
@@ -2360,6 +2449,24 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        int jmlbeli = Integer.parseInt(jTextField5.getText());
+        int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nama Barang");
+        model.addColumn("Stok");
+        model.addColumn("Jumlah Beli");
+        model.addColumn("Subtotal");
+        tblpengeluaran.setModel(model);
+        
+        Object[] data = new Object[4];
+                data[0] = nama_barang;
+                data[1] = harga_satuan;
+                data[2] = jmlbeli;
+                data[3] = subtotal;
+                model.addRow(data);
+                tblpengeluaran.setModel(model);
+        
         CardLayout cla = (CardLayout) jPanel2.getLayout();
         cla.show(jPanel2, "pengeluaranOnClick");
     }//GEN-LAST:event_jButton12ActionPerformed
@@ -2368,6 +2475,28 @@ public class Main extends javax.swing.JFrame {
         CardLayout cla = (CardLayout) jPanel2.getLayout();
         cla.show(jPanel2, "penjualanOnClick");
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void tblbarangbeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblbarangbeliMouseClicked
+        int row = tblbarangbeli.getSelectedRow();
+        nama_barang = ((String) tblbarangbeli.getValueAt(row, 0));
+        harga_satuan = ((String) tblbarangbeli.getValueAt(row, 3));
+    }//GEN-LAST:event_tblbarangbeliMouseClicked
+
+    private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
+//        int jmlbeli = Integer.parseInt(jTextField5.getText());
+//        int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
+//        String subtotalstring = Integer.toString(subtotal);
+//        
+//        subpembelian.setText(subtotalstring);
+    }//GEN-LAST:event_jTextField5FocusLost
+
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
+        int jmlbeli = Integer.parseInt(jTextField5.getText());
+        int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
+        String subtotalstring = Integer.toString(subtotal);
+        
+        subpembelian.setText(subtotalstring);
+    }//GEN-LAST:event_jTextField5KeyReleased
 
     /**
      * @param args the command line arguments
@@ -2462,7 +2591,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -2493,15 +2621,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2543,10 +2667,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -2576,11 +2696,16 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel pnlAktifTransaksi;
     private javax.swing.JPanel sidebar;
     private javax.swing.JPanel stok;
+    private javax.swing.JLabel subpembelian;
     private javax.swing.JPanel tabHutang;
     private javax.swing.JPanel tabStok;
     private javax.swing.JPanel tabTransaksi;
+    private javax.swing.JTable tblJual;
     private javax.swing.JPanel tblTransaksiPengeluaran;
     private javax.swing.JPanel tblTransaksiPenjualan;
+    private javax.swing.JTable tblbarangbeli;
+    private javax.swing.JTable tblbarangjual;
+    private javax.swing.JTable tblpengeluaran;
     private javax.swing.JTable tblstok;
     private javax.swing.JTable tblstok1;
     private javax.swing.JTable tblstok2;
@@ -2597,6 +2722,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel topPanel4;
     private javax.swing.JPanel topPanel5;
     private javax.swing.JPanel topPanel6;
+    private javax.swing.JLabel trKeuntungan;
+    private javax.swing.JLabel trPenjualan;
+    private javax.swing.JLabel trpengeluaran;
+    private javax.swing.JLabel ttlpengeluaran;
     private javax.swing.JTextField txtberikan;
     private javax.swing.JTextField txtcatatanhutang;
     private javax.swing.JTextField txtnominal;

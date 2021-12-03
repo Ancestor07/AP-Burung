@@ -193,7 +193,7 @@ public class Login extends javax.swing.JFrame {
             Class.forName("com.mysql.cj.jdbc.Driver"); // untuk connector versi 8
             Connection conn = DriverManager.getConnection(url, user, pass);
 
-            String username = tfpw.getText();
+            String username = tfuname.getText();
             String password = tfpw.getText();
 
             Statement st = conn.createStatement();

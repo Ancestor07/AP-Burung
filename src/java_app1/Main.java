@@ -41,6 +41,7 @@ public class Main extends javax.swing.JFrame {
         tabeljual();
         tabelbeli();
         updateTabelHutang();
+        selectKeranjang();
     }
     
     private void hilangkanPesanError() {
@@ -265,6 +266,31 @@ public class Main extends javax.swing.JFrame {
         tgljatuhtempo.setCalendar(null);
         }
         
+        private void selectKeranjang(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nama Barang");
+        model.addColumn("Harga Satuan");
+        model.addColumn("Jumlah Beli");
+        model.addColumn("Subtotal");
+        tblpengeluaran.setModel(model);
+        
+        try{
+            rs = stm.executeQuery("SELECT * FROM temp_barang");
+            while(rs.next()){
+                Object[] data = new Object[4];
+                data[0] = rs.getString("nama_barang");
+                data[1] = rs.getString("harga_pokok");
+                data[2] = rs.getString("jumlah");
+                data[3] = rs.getString("subtotal");
+                model.addRow(data);
+                tblpengeluaran.setModel(model);
+            }
+            rs.close();
+       
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -614,7 +640,7 @@ public class Main extends javax.swing.JFrame {
         });
         sidebar.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 680, 160, 30));
 
-        jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, -1));
+        jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 190, -1));
 
         Change.setLayout(new java.awt.CardLayout());
 
@@ -2473,6 +2499,7 @@ public class Main extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "tblTransaksiPenjualan");
+        
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -2481,12 +2508,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+
         int jmlbeli = Integer.parseInt(jTextField5.getText());
         int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
         
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Nama Barang");
-        model.addColumn("Stok");
+        model.addColumn("Harga Satuan");
         model.addColumn("Jumlah Beli");
         model.addColumn("Subtotal");
         tblpengeluaran.setModel(model);
@@ -2498,6 +2526,19 @@ public class Main extends javax.swing.JFrame {
                 data[3] = subtotal;
                 model.addRow(data);
                 tblpengeluaran.setModel(model);
+        if(!"".equals(nama_barang) & !"".equals(harga_satuan) & !"".equals(jmlbeli)){
+           try {
+                stm.executeUpdate("INSERT INTO temp_barang (nama_barang, harga_pokok, jumlah, subtotal) VALUES('"+nama_barang+"', '"+harga_satuan+"', '"+jmlbeli+"', "
+                    + "'"+subtotal+"')");
+                JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
+                selectKeranjang();
+                }
+           catch (SQLException err) {
+                JOptionPane.showMessageDialog(null, err);
+            }
+        }
+        
+        
         
         CardLayout cla = (CardLayout) jPanel2.getLayout();
         cla.show(jPanel2, "pengeluaranOnClick");

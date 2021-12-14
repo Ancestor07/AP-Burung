@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.HeadlessException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author A.T.T.A
@@ -22,7 +23,7 @@ public class Main extends javax.swing.JFrame {
     public ResultSet rs;
     public Statement stm;
     public PreparedStatement pst;
-    String sql, sql2, nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan, id_barang, nama_barang, harga_satuan;
+    String sql, sql2, nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan, id_barang, nama_barang, harga_beli, kd_barang, harga_barang, jumlah, subtotal;
     int row;
     boolean update = false;
     /**
@@ -42,6 +43,8 @@ public class Main extends javax.swing.JFrame {
         tabelbeli();
         updateTabelHutang();
         selectKeranjang();
+        totalkeluar();
+        tampilbeli();
     }
     
     private void hilangkanPesanError() {
@@ -213,20 +216,18 @@ public class Main extends javax.swing.JFrame {
         private void tabelbeli() {
         // membuat tampilan model tabel
         DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Barang");
         model.addColumn("Nama Barang");
-        model.addColumn("Stok");
         model.addColumn("Satuan");
-        model.addColumn("Harga Jual");
         tblbarangbeli.setModel(model);
           // menampilkan data database ke dalam tabel
         try {
-            rs = stm.executeQuery("SELECT b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
+            rs = stm.executeQuery("SELECT b.id_barang, b.nama_barang, s.jenis_satuan FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
             while (rs.next()){
             Object[] data = new Object[4];
-                data[0] = rs.getString("nama_barang");
-                data[1] = rs.getString("stok");
+                data[0] = rs.getString("id_barang");
+                data[1] = rs.getString("nama_barang");
                 data[2] = rs.getString("jenis_satuan");
-                data[3] = rs.getString("harga_jual");
                 model.addRow(data);
                 tblbarangbeli.setModel(model);
         }
@@ -291,6 +292,114 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+        
+        private void totalkeluar(){
+            sql = "SELECT SUM(tb.subtotal) AS jumlah FROM temp_barang tb";
+            
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        int total = rs.getInt("jumlah");
+                        String krtotal = Integer.toString(total);
+                        
+                        ttlpengeluaran.setText("Rp.   " + krtotal);
+                    }
+                } catch (Exception e) {
+            }
+    }
+        
+        private void balik(){
+            CardLayout clayout = (CardLayout) Change.getLayout();
+            clayout.show(Change, "transaksi");
+
+            CardLayout cl = (CardLayout) Transaksi.getLayout();
+            cl.show(Transaksi, "panelOverview");
+
+            CardLayout cla = (CardLayout) jPanel2.getLayout();
+            cla.show(jPanel2, "penjualanOnClick");
+        }
+        
+        private void tranBeli(){
+            sql = "SELECT * FROM temp_barang";
+            String tglbeli = null;
+            
+            if(dateBeli.getDate() != null){
+                SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
+                tglbeli = dcn.format(dateBeli.getDate());
+                try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        int id_barang = rs.getInt("id_barang");
+                        String nm_barang = rs.getString("nama_barang");
+                        int hrg_pokok = rs.getInt("harga_pokok");
+                        int jml = rs.getInt("jumlah");
+                        int stotal = rs.getInt("subtotal");
+                        
+                        stm.executeUpdate("INSERT INTO transaksi_pembelian (id_barang, jumlah_pembelian, harga_beli_satuan, tanggal, total_harga ) VALUES ("+id_barang+", '"+jml+"', '"+hrg_pokok+"', '"+tglbeli+"','"+stotal+"')");
+                    }
+                     JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+                     balik();
+                     stm.executeUpdate("TRUNCATE temp_barang");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+            }
+            }else{
+                try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        int id_barang = rs.getInt("id_barang");
+                        String nm_barang = rs.getString("nama_barang");
+                        int hrg_pokok = rs.getInt("harga_pokok");
+                        int jml = rs.getInt("jumlah");
+                        int stotal = rs.getInt("subtotal");
+                        
+                        stm.executeUpdate("INSERT INTO transaksi_pembelian (id_barang, jumlah_pembelian, harga_beli_satuan, tanggal, total_harga ) VALUES ("+id_barang+", '"+jml+"', '"+hrg_pokok+"', "+tglbeli+",'"+stotal+"')");
+                    }
+                     JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+                     balik();
+                     stm.executeUpdate("TRUNCATE temp_barang");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+            }
+            }
+            
+            
+    }
+        
+        private void tampilbeli(){
+            sql = "SELECT * FROM temp_barang";
+            
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                } catch (Exception e) {
+            }
+    } 
+        
+        private void refreshtabel(){
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Nama Barang");
+            model.addColumn("Harga Pokok");
+            model.addColumn("Jumlah Beli");
+            model.addColumn("Subtotal");
+            tblpengeluaran.setModel(model);
+            ttlpengeluaran.setText("Rp.   0");
+
+           DefaultTableModel models = new DefaultTableModel();
+            models.addColumn("Nama Barang");
+            models.addColumn("Harga Satuan");
+            models.addColumn("Jumlah Beli");
+            models.addColumn("Subtotal");
+            tblJual.setModel(models);
+            ttlpenjualan.setText("Rp.   0");
+            
+            dateBeli.setCalendar(null);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -351,7 +460,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tblJual = new javax.swing.JTable();
         jLabel29 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
+        ttlpenjualan = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
@@ -368,15 +477,17 @@ public class Main extends javax.swing.JFrame {
         ttlpengeluaran = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         jLabel69 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtBayar = new javax.swing.JTextField();
         tblTransaksiPengeluaran = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tblbarangbeli = new javax.swing.JTable();
         jLabel28 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
         subpembelian = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtJmlBeli = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
+        jLabel64 = new javax.swing.JLabel();
+        txtHrgBeli = new javax.swing.JTextField();
         tblTransaksiPenjualan = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblbarangjual = new javax.swing.JTable();
@@ -388,12 +499,12 @@ public class Main extends javax.swing.JFrame {
         jPanel16 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        cbxPelanggan = new javax.swing.JComboBox<>();
+        dateBeli = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        lblPelanggan = new javax.swing.JLabel();
+        simpanBeli = new javax.swing.JButton();
         PanelLaporan = new javax.swing.JPanel();
         topPanel2 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -949,9 +1060,9 @@ public class Main extends javax.swing.JFrame {
         jLabel29.setText("Total");
         penjualanOnClick.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, -1, -1));
 
-        jLabel30.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel30.setText("Rp0");
-        penjualanOnClick.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, -1, -1));
+        ttlpenjualan.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        ttlpenjualan.setText("Rp0");
+        penjualanOnClick.add(ttlpenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, -1, -1));
 
         jLabel32.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel32.setText("Bayar");
@@ -1005,6 +1116,11 @@ public class Main extends javax.swing.JFrame {
 
         jPanel19.setBackground(new java.awt.Color(255, 91, 91));
         jPanel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel43.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1037,7 +1153,15 @@ public class Main extends javax.swing.JFrame {
             new String [] {
                 "Nama Barang", "Harga satuan", "Jumlah", "Subtotal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane7.setViewportView(tblpengeluaran);
 
         pengeluaranOnClick.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 120));
@@ -1047,7 +1171,7 @@ public class Main extends javax.swing.JFrame {
         pengeluaranOnClick.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, -1, -1));
 
         ttlpengeluaran.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        ttlpengeluaran.setText("Rp0");
+        ttlpengeluaran.setText("Rp. 0");
         pengeluaranOnClick.add(ttlpengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, -1, -1));
 
         jLabel37.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
@@ -1057,7 +1181,7 @@ public class Main extends javax.swing.JFrame {
         jLabel69.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel69.setText("Rp");
         pengeluaranOnClick.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 290, -1, -1));
-        pengeluaranOnClick.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 290, 180, 28));
+        pengeluaranOnClick.add(txtBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 290, 180, 28));
 
         jPanel2.add(pengeluaranOnClick, "pengeluaranOnClick");
 
@@ -1065,13 +1189,13 @@ public class Main extends javax.swing.JFrame {
 
         tblbarangbeli.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Nama Barang", "Stok", "Satuan", "Harga Jual"
+                "Nama Barang", "Satuan"
             }
         ));
         tblbarangbeli.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1090,14 +1214,14 @@ public class Main extends javax.swing.JFrame {
         subpembelian.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         subpembelian.setText("Rp 0");
 
-        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtJmlBeli.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField5FocusLost(evt);
+                txtJmlBeliFocusLost(evt);
             }
         });
-        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtJmlBeli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField5KeyReleased(evt);
+                txtJmlBeliKeyReleased(evt);
             }
         });
 
@@ -1106,6 +1230,25 @@ public class Main extends javax.swing.JFrame {
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
+            }
+        });
+
+        jLabel64.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel64.setText("Harga Beli");
+
+        txtHrgBeli.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtHrgBeliFocusLost(evt);
+            }
+        });
+        txtHrgBeli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHrgBeliActionPerformed(evt);
+            }
+        });
+        txtHrgBeli.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtHrgBeliKeyReleased(evt);
             }
         });
 
@@ -1124,29 +1267,39 @@ public class Main extends javax.swing.JFrame {
                             .addGroup(tblTransaksiPengeluaranLayout.createSequentialGroup()
                                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel70)
-                                    .addComponent(jLabel28))
-                                .addGap(25, 25, 25)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jLabel64))
                                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(subpembelian)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(tblTransaksiPengeluaranLayout.createSequentialGroup()
+                                        .addGap(25, 25, 25)
+                                        .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(subpembelian)
+                                            .addComponent(txtJmlBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPengeluaranLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtHrgBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap())
         );
         tblTransaksiPengeluaranLayout.setVerticalGroup(
             tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPengeluaranLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtJmlBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel64)
+                    .addComponent(txtHrgBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel70)
                     .addComponent(subpembelian))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(126, 126, 126))
+                .addGap(138, 138, 138))
         );
 
         jPanel2.add(tblTransaksiPengeluaran, "tblTransaksiPengeluaran");
@@ -1244,15 +1397,17 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel16.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 65, 881, 40));
 
-        jComboBox1.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Pelanggan" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbxPelanggan.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        cbxPelanggan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Pelanggan" }));
+        cbxPelanggan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbxPelangganActionPerformed(evt);
             }
         });
-        jPanel16.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 135, 881, 40));
-        jPanel16.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 206, 213, 35));
+        jPanel16.add(cbxPelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 135, 881, 40));
+
+        dateBeli.setMaxSelectableDate(new java.util.Date(253370743306000L));
+        jPanel16.add(dateBeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 206, 213, 35));
 
         jLabel12.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel12.setText("Tanggal");
@@ -1262,21 +1417,21 @@ public class Main extends javax.swing.JFrame {
         jLabel13.setText("Catatan");
         jPanel16.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 45, -1, -1));
 
-        jLabel15.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel15.setText("Nama Pelanggan");
-        jPanel16.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 115, -1, -1));
+        lblPelanggan.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        lblPelanggan.setText("Nama Pelanggan");
+        jPanel16.add(lblPelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 115, -1, -1));
 
         panelPenjualan.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 936, 260));
 
-        jButton3.setBackground(new java.awt.Color(255, 188, 58));
-        jButton3.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
-        jButton3.setText("Simpan Transaksi");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        simpanBeli.setBackground(new java.awt.Color(255, 188, 58));
+        simpanBeli.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
+        simpanBeli.setText("Simpan Transaksi");
+        simpanBeli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed1(evt);
+                simpanBeliActionPerformed1(evt);
             }
         });
-        panelPenjualan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 690, 940, 40));
+        panelPenjualan.add(simpanBeli, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 690, 940, 40));
 
         Transaksi.add(panelPenjualan, "panelPenjualan");
 
@@ -2296,31 +2451,44 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) Transaksi.getLayout();
         clayout.show(Transaksi, "panelPenjualan");
-
+        
+        refreshtabel();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "pengeluaranOnClick");
+        
+        lblPelanggan.setEnabled(false);
+        cbxPelanggan.setEnabled(false);
     }//GEN-LAST:event_jLabel19MouseClicked
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "pengeluaranOnClick");
+        
+        lblPelanggan.setEnabled(false);
+        cbxPelanggan.setEnabled(false);
     }//GEN-LAST:event_jPanel5MouseClicked
 
     private void jLabel42MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel42MouseClicked
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "penjualanOnClick");
+        
+        lblPelanggan.setEnabled(true);
+        cbxPelanggan.setEnabled(true);
     }//GEN-LAST:event_jLabel42MouseClicked
 
     private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
         // TODO add your handling code here:
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "penjualanOnClick");
+        
+        lblPelanggan.setEnabled(true);
+        cbxPelanggan.setEnabled(true);
     }//GEN-LAST:event_jPanel18MouseClicked
 
     private void btnStokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokMouseClicked
@@ -2470,13 +2638,13 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbxPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPelangganActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cbxPelangganActionPerformed
 
-    private void jButton3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed1
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed1
+    private void simpanBeliActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanBeliActionPerformed1
+        tranBeli();
+    }//GEN-LAST:event_simpanBeliActionPerformed1
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -2505,33 +2673,40 @@ public class Main extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "tblTransaksiPengeluaran");
+        txtHrgBeli.setText("");
+        txtJmlBeli.setText("");
+        subpembelian.setText("");
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-
-        int jmlbeli = Integer.parseInt(jTextField5.getText());
-        int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
-        
+        int harga_beli = Integer.parseInt(txtHrgBeli.getText());
+        int jmlbeli = Integer.parseInt(txtJmlBeli.getText());
+        int subtotal = jmlbeli * harga_beli;
+        int row = tblbarangbeli.getSelectedRow();
+        kd_barang = ((String) tblbarangbeli.getValueAt(row, 0));
+        nama_barang = ((String) tblbarangbeli.getValueAt(row, 1));
+         
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Nama Barang");
-        model.addColumn("Harga Satuan");
+        model.addColumn("Harga Pokok");
         model.addColumn("Jumlah Beli");
         model.addColumn("Subtotal");
         tblpengeluaran.setModel(model);
         
         Object[] data = new Object[4];
                 data[0] = nama_barang;
-                data[1] = harga_satuan;
+                data[1] = harga_beli;
                 data[2] = jmlbeli;
                 data[3] = subtotal;
                 model.addRow(data);
                 tblpengeluaran.setModel(model);
-        if(!"".equals(nama_barang) & !"".equals(harga_satuan) & !"".equals(jmlbeli)){
+        if(!"".equals(nama_barang) & !"".equals(harga_beli) & !"".equals(jmlbeli)){
            try {
-                stm.executeUpdate("INSERT INTO temp_barang (nama_barang, harga_pokok, jumlah, subtotal) VALUES('"+nama_barang+"', '"+harga_satuan+"', '"+jmlbeli+"', "
+                stm.executeUpdate("INSERT INTO temp_barang (id_barang, nama_barang, harga_pokok, jumlah, subtotal) VALUES('"+kd_barang+"', '"+nama_barang+"', '"+harga_beli+"', '"+jmlbeli+"', "
                     + "'"+subtotal+"')");
                 JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
                 selectKeranjang();
+                totalkeluar();
                 }
            catch (SQLException err) {
                 JOptionPane.showMessageDialog(null, err);
@@ -2551,25 +2726,52 @@ public class Main extends javax.swing.JFrame {
 
     private void tblbarangbeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblbarangbeliMouseClicked
         int row = tblbarangbeli.getSelectedRow();
-        nama_barang = ((String) tblbarangbeli.getValueAt(row, 0));
-        harga_satuan = ((String) tblbarangbeli.getValueAt(row, 3));
+        kd_barang = ((String) tblbarangbeli.getValueAt(row, 0));
+        nama_barang = ((String) tblbarangbeli.getValueAt(row, 1));
     }//GEN-LAST:event_tblbarangbeliMouseClicked
 
-    private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
+    private void txtJmlBeliFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtJmlBeliFocusLost
 //        int jmlbeli = Integer.parseInt(jTextField5.getText());
 //        int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
 //        String subtotalstring = Integer.toString(subtotal);
 //        
 //        subpembelian.setText(subtotalstring);
-    }//GEN-LAST:event_jTextField5FocusLost
+    }//GEN-LAST:event_txtJmlBeliFocusLost
 
-    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
-        int jmlbeli = Integer.parseInt(jTextField5.getText());
-        int subtotal = jmlbeli * Integer.parseInt(harga_satuan);
+    private void txtJmlBeliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJmlBeliKeyReleased
+        int harga_beli = Integer.parseInt(txtHrgBeli.getText());
+        int jmlbeli = Integer.parseInt(txtJmlBeli.getText());
+        int subtotal = jmlbeli * harga_beli;
         String subtotalstring = Integer.toString(subtotal);
         
-        subpembelian.setText(subtotalstring);
-    }//GEN-LAST:event_jTextField5KeyReleased
+        subpembelian.setText("Rp. " + subtotalstring);
+    }//GEN-LAST:event_txtJmlBeliKeyReleased
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+//    txtTotal
+    }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void txtHrgBeliFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHrgBeliFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHrgBeliFocusLost
+
+    private void txtHrgBeliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHrgBeliKeyReleased
+        if(!txtHrgBeli.getText().isBlank()){
+            int harga_beli = Integer.parseInt(txtHrgBeli.getText());
+            int jmlbeli = Integer.parseInt(txtJmlBeli.getText());
+            int subtotal = jmlbeli * harga_beli;
+            String subtotalstring = Integer.toString(subtotal);
+
+            subpembelian.setText("Rp. " + subtotalstring);
+        }
+            
+        
+        
+    }//GEN-LAST:event_txtHrgBeliKeyReleased
+
+    private void txtHrgBeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHrgBeliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHrgBeliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2619,13 +2821,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel btnhutang;
     private javax.swing.JComboBox<String> cbjenisbarang;
     private javax.swing.JComboBox<String> cbjenissatuan;
+    private javax.swing.JComboBox<String> cbxPelanggan;
+    private com.toedter.calendar.JDateChooser dateBeli;
     private javax.swing.JTextField hrgjual;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -2633,15 +2836,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -2658,7 +2858,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
@@ -2694,6 +2893,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel69;
@@ -2743,8 +2943,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JPanel lapbarang;
@@ -2754,6 +2952,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrorNamaBarang;
     private javax.swing.JLabel lblJenisSatuan;
     private javax.swing.JLabel lblJudul;
+    private javax.swing.JLabel lblPelanggan;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel lppengeluaran;
     private javax.swing.JLabel lppenjualan;
@@ -2768,6 +2967,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel pnlAktifStok;
     private javax.swing.JPanel pnlAktifTransaksi;
     private javax.swing.JPanel sidebar;
+    private javax.swing.JButton simpanBeli;
     private javax.swing.JPanel stok;
     private javax.swing.JLabel subpembelian;
     private javax.swing.JPanel tabHutang;
@@ -2799,6 +2999,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel trPenjualan;
     private javax.swing.JLabel trpengeluaran;
     private javax.swing.JLabel ttlpengeluaran;
+    private javax.swing.JLabel ttlpenjualan;
+    private javax.swing.JTextField txtBayar;
+    private javax.swing.JTextField txtHrgBeli;
+    private javax.swing.JTextField txtJmlBeli;
     private javax.swing.JTextField txtberikan;
     private javax.swing.JTextField txtcatatanhutang;
     private javax.swing.JTextField txtnominal;

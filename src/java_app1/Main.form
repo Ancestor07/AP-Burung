@@ -563,7 +563,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTable" name="tblstok1">
+                            <Component class="javax.swing.JTable" name="tbltransaksi">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="3" rowCount="4">
@@ -596,7 +596,7 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblstok1MouseClicked"/>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbltransaksiMouseClicked"/>
                               </Events>
                             </Component>
                           </SubComponents>
@@ -1127,7 +1127,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JTextField" name="jTextField3">
+                            <Component class="javax.swing.JTextField" name="txtBayar">
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                                   <AbsoluteConstraints x="730" y="290" width="180" height="28"/>
@@ -1295,7 +1295,7 @@
                               </AuxValues>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="22" y="120" width="890" height="120"/>
+                                  <AbsoluteConstraints x="22" y="120" width="890" height="170"/>
                                 </Constraint>
                               </Constraints>
 
@@ -1351,7 +1351,7 @@
                               </Properties>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="650" y="260" width="-1" height="-1"/>
+                                  <AbsoluteConstraints x="650" y="310" width="-1" height="-1"/>
                                 </Constraint>
                               </Constraints>
                             </Component>
@@ -1364,40 +1364,7 @@
                               </Properties>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="700" y="260" width="-1" height="-1"/>
-                                </Constraint>
-                              </Constraints>
-                            </Component>
-                            <Component class="javax.swing.JLabel" name="jLabel37">
-                              <Properties>
-                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                  <Font name="Montserrat Medium" size="12" style="0"/>
-                                </Property>
-                                <Property name="text" type="java.lang.String" value="Bayar"/>
-                              </Properties>
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="650" y="290" width="-1" height="-1"/>
-                                </Constraint>
-                              </Constraints>
-                            </Component>
-                            <Component class="javax.swing.JLabel" name="jLabel69">
-                              <Properties>
-                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                  <Font name="Montserrat Medium" size="12" style="0"/>
-                                </Property>
-                                <Property name="text" type="java.lang.String" value="Rp"/>
-                              </Properties>
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="700" y="290" width="-1" height="-1"/>
-                                </Constraint>
-                              </Constraints>
-                            </Component>
-                            <Component class="javax.swing.JTextField" name="txtBayar">
-                              <Constraints>
-                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="730" y="290" width="180" height="28"/>
+                                  <AbsoluteConstraints x="700" y="310" width="-1" height="-1"/>
                                 </Constraint>
                               </Constraints>
                             </Component>
@@ -1600,7 +1567,7 @@
                                           <Group type="102" alignment="1" attributes="0">
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jButton9" min="-2" pref="208" max="-2" attributes="0"/>
+                                                  <Component id="btnJual" min="-2" pref="208" max="-2" attributes="0"/>
                                                   <Group type="102" attributes="0">
                                                       <Group type="103" groupAlignment="0" attributes="0">
                                                           <Component id="jLabel26" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -1608,8 +1575,8 @@
                                                       </Group>
                                                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jTextField2" min="-2" pref="113" max="-2" attributes="0"/>
+                                                          <Component id="lblJual" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="txtJual" min="-2" pref="113" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                               </Group>
@@ -1627,15 +1594,15 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtJual" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblJual" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton9" min="-2" pref="32" max="-2" attributes="0"/>
+                                      <Component id="btnJual" min="-2" pref="32" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1652,7 +1619,8 @@
                                 <Component class="javax.swing.JTable" name="tblbarangjual">
                                   <Properties>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                      <Table columnCount="4" rowCount="4">
+                                      <Table columnCount="5" rowCount="5">
+                                        <Column editable="true" title="ID Barang" type="java.lang.Object"/>
                                         <Column editable="true" title="Nama Barang" type="java.lang.Object"/>
                                         <Column editable="true" title="Stok" type="java.lang.Object"/>
                                         <Column editable="true" title="Satuan" type="java.lang.Object"/>
@@ -1681,12 +1649,20 @@
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                          <Title/>
+                                          <Editor/>
+                                          <Renderer/>
+                                        </Column>
                                       </TableColumnModel>
                                     </Property>
                                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                     </Property>
                                   </Properties>
+                                  <Events>
+                                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblbarangjualMouseClicked"/>
+                                  </Events>
                                 </Component>
                               </SubComponents>
                             </Container>
@@ -1706,7 +1682,7 @@
                                 <Property name="text" type="java.lang.String" value="Subtotal"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="jLabel27">
+                            <Component class="javax.swing.JLabel" name="lblJual">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Montserrat Medium" size="12" style="0"/>
@@ -1714,9 +1690,12 @@
                                 <Property name="text" type="java.lang.String" value="Rp 0"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JTextField" name="jTextField2">
+                            <Component class="javax.swing.JTextField" name="txtJual">
+                              <Events>
+                                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtJualKeyReleased"/>
+                              </Events>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jButton9">
+                            <Component class="javax.swing.JButton" name="btnJual">
                               <Properties>
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="8c" red="0" type="rgb"/>
@@ -1724,7 +1703,7 @@
                                 <Property name="text" type="java.lang.String" value="Tambah"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnJualActionPerformed"/>
                               </Events>
                             </Component>
                           </SubComponents>
@@ -1766,14 +1745,14 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jTextField1">
+                        <Component class="javax.swing.JTextField" name="txtCatatan">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Montserrat Medium" size="14" style="0"/>
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCatatanActionPerformed"/>
                           </Events>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

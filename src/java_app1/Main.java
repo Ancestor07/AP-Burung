@@ -23,8 +23,8 @@ public class Main extends javax.swing.JFrame {
     public ResultSet rs;
     public Statement stm;
     public PreparedStatement pst;
-    String sql, sql2, nmbr,hrgjl,satuan,jenisbr,jenisst,save, jenissatuan, id_satuan, id_barang, nama_barang, harga_beli, kd_barang, harga_barang, jumlah, subtotal;
-    int row;
+    String sql, sql2, nmbr,hrgjl,satuan,jenisbr, jltotal, jenisst,save, jenissatuan, id_satuan, id_barang, nama_barang, harga_beli, kd_barang, harga_barang, jumlah, subtotal, hrgBarangJual, stokbrg;
+    int row, totaljual, totalbeli;
     boolean update = false;
     /**
      * Creates new form Main
@@ -43,8 +43,11 @@ public class Main extends javax.swing.JFrame {
         tabelbeli();
         updateTabelHutang();
         selectKeranjang();
+        selectjual();
         totalkeluar();
-        tampilbeli();
+        totaljual();
+        trjual();
+        trDisplay();
     }
     
     private void hilangkanPesanError() {
@@ -188,6 +191,7 @@ public class Main extends javax.swing.JFrame {
         private void tabeljual() {
         // membuat tampilan model tabel
         DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Barang");
         model.addColumn("Nama Barang");
         model.addColumn("Stok");
         model.addColumn("Satuan");
@@ -195,13 +199,14 @@ public class Main extends javax.swing.JFrame {
         tblbarangjual.setModel(model);
           // menampilkan data database ke dalam tabel
         try {
-            rs = stm.executeQuery("SELECT b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
+            rs = stm.executeQuery("SELECT b.id_barang, b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
             while (rs.next()){
-            Object[] data = new Object[4];
-                data[0] = rs.getString("nama_barang");
-                data[1] = rs.getString("stok");
-                data[2] = rs.getString("jenis_satuan");
-                data[3] = rs.getString("harga_jual");
+            Object[] data = new Object[5];
+                data[0] = rs.getString("id_barang");
+                data[1] = rs.getString("nama_barang");
+                data[2] = rs.getString("stok");
+                data[3] = rs.getString("jenis_satuan");
+                data[4] = rs.getString("harga_jual");
                 model.addRow(data);
                 tblbarangjual.setModel(model);
         }
@@ -293,6 +298,32 @@ public class Main extends javax.swing.JFrame {
         }
     }
         
+        private void selectjual(){
+        DefaultTableModel models = new DefaultTableModel();
+        models.addColumn("Nama Barang");
+        models.addColumn("Harga Satuan");
+        models.addColumn("Jumlah Beli");
+        models.addColumn("Subtotal");
+        tblJual.setModel(models);
+        
+        try{
+            rs = stm.executeQuery("SELECT * FROM temp_jual");
+            while(rs.next()){
+                Object[] data = new Object[4];
+                data[0] = rs.getString("nama_barang");
+                data[1] = rs.getString("harga_jual");
+                data[2] = rs.getString("jumlah_beli");
+                data[3] = rs.getString("total");
+                models.addRow(data);
+                tblJual.setModel(models);
+            }
+            rs.close();
+       
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+        
         private void totalkeluar(){
             sql = "SELECT SUM(tb.subtotal) AS jumlah FROM temp_barang tb";
             
@@ -307,6 +338,103 @@ public class Main extends javax.swing.JFrame {
                     }
                 } catch (Exception e) {
             }
+    }
+        private void totaljual(){
+            sql = "SELECT SUM(total) AS totaljl FROM temp_jual";
+            
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        int totaljual = rs.getInt("totaljl");
+                        jltotal = Integer.toString(totaljual);
+                        
+                        ttlpenjualan.setText("Rp.   " + jltotal);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+            }
+    }
+        
+        private void trDisplay(){
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Tanggal Transaksi");
+            model.addColumn("Pemasukan");
+            model.addColumn("Pengeluaran");
+            tbltransaksi.setModel(model);
+            
+            try{
+            rs = stm.executeQuery("SELECT tj.tanggal_penjualan, tj.total_harga, tb.total_harga FROM transaksi_penjualan tj JOIN barang b "
+                    + "ON tj.id_barang = b.id_barang JOIN transaksi_pembelian tb "
+                    + "ON tb.id_barang = b.id_barang ORDER BY tj.tanggal_penjualan");
+            while(rs.next()){
+                Object[] data = new Object[3];
+                data[0] = rs.getString("tj.tanggal_penjualan");
+                data[1] = rs.getString("tj.total_harga");
+                data[2] = rs.getString("tb.total_harga");
+                model.addRow(data);
+                tbltransaksi.setModel(model);
+            }
+            rs.close();
+       
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+        
+//        private void untung(){
+//            sql = "SELECT SUM(tj.total_harga) AS jual FROM transaksi_penjualan tj "
+//                    + "JOIN barang b ON  tj.id_barang = b.id_barang";
+//            
+//            try {
+//                pst = conn.prepareStatement(sql);
+//                rs = pst.executeQuery();
+//                    while (rs.next()) {
+//                        int totaljual = rs.getInt("jual");
+////                        int totalbeli = rs.getInt("beli");
+//                        int keuntungan = totaljual;
+//                        jltotal = Integer.toString(keuntungan);
+//                        
+//                        trKeuntungan.setText("Rp.   " + jltotal);
+//                    }
+//                } catch (Exception e) {
+//                    JOptionPane.showMessageDialog(null, e);
+//            }
+//        }
+        
+        private void trjual(){
+            sql = "SELECT SUM(total_harga) AS total_harga FROM transaksi_penjualan";
+            sql2 = "SELECT SUM(total_harga) AS total_harga FROM transaksi_pembelian";
+            
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        totaljual = rs.getInt("total_harga");
+                        jltotal = Integer.toString(totaljual);
+                        
+                        trPenjualan.setText("Rp.   " + jltotal);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+            }
+            try {
+                pst = conn.prepareStatement(sql2);
+                rs = pst.executeQuery();
+                    while (rs.next()) {
+                        totalbeli = rs.getInt("total_harga");
+                        jltotal = Integer.toString(totalbeli);
+                        
+                        trpengeluaran.setText("Rp.   " + jltotal);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+            }
+            
+            int untung = totaljual - totalbeli;
+            jltotal = Integer.toString(untung);
+                        
+            trKeuntungan.setText("Rp.   " + jltotal);
     }
         
         private void balik(){
@@ -323,63 +451,94 @@ public class Main extends javax.swing.JFrame {
         private void tranBeli(){
             sql = "SELECT * FROM temp_barang";
             String tglbeli = null;
+            String catatan = null;
             
-            if(dateBeli.getDate() != null){
-                SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
-                tglbeli = dcn.format(dateBeli.getDate());
-                try {
-                pst = conn.prepareStatement(sql);
-                rs = pst.executeQuery();
-                    while (rs.next()) {
-                        int id_barang = rs.getInt("id_barang");
-                        String nm_barang = rs.getString("nama_barang");
-                        int hrg_pokok = rs.getInt("harga_pokok");
-                        int jml = rs.getInt("jumlah");
-                        int stotal = rs.getInt("subtotal");
-                        
-                        stm.executeUpdate("INSERT INTO transaksi_pembelian (id_barang, jumlah_pembelian, harga_beli_satuan, tanggal, total_harga ) VALUES ("+id_barang+", '"+jml+"', '"+hrg_pokok+"', '"+tglbeli+"','"+stotal+"')");
-                    }
-                     JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    
-                     balik();
-                     stm.executeUpdate("TRUNCATE temp_barang");
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
-            }
+            if(dateBeli.getDate() == null && txtCatatan.getText() != null){
+                JOptionPane.showMessageDialog(this, "Isi Kolom Tanggal", "Perhatian", JOptionPane.WARNING_MESSAGE);
             }else{
-                try {
-                pst = conn.prepareStatement(sql);
-                rs = pst.executeQuery();
-                    while (rs.next()) {
-                        int id_barang = rs.getInt("id_barang");
-                        String nm_barang = rs.getString("nama_barang");
-                        int hrg_pokok = rs.getInt("harga_pokok");
-                        int jml = rs.getInt("jumlah");
-                        int stotal = rs.getInt("subtotal");
-                        
-                        stm.executeUpdate("INSERT INTO transaksi_pembelian (id_barang, jumlah_pembelian, harga_beli_satuan, tanggal, total_harga ) VALUES ("+id_barang+", '"+jml+"', '"+hrg_pokok+"', "+tglbeli+",'"+stotal+"')");
+                if(dateBeli.getDate() != null){
+                    SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
+                    tglbeli = dcn.format(dateBeli.getDate());
+                    catatan = txtCatatan.getText();
+                        try {
+                        pst = conn.prepareStatement(sql);
+                        rs = pst.executeQuery();
+                            while (rs.next()) {
+                                int id_barang = rs.getInt("id_barang");
+                                String nm_barang = rs.getString("nama_barang");
+                                int hrg_pokok = rs.getInt("harga_pokok");
+                                int jml = rs.getInt("jumlah");
+                                int stotal = rs.getInt("subtotal");
+
+                                stm.executeUpdate("INSERT INTO transaksi_pembelian (id_barang, jumlah_pembelian, harga_beli_satuan, tanggal, total_harga, catatan) VALUES ("+id_barang+", '"+jml+"', '"+hrg_pokok+"', '"+tglbeli+"','"+stotal+"', '"+catatan+"')");
+                            }
+                            
+                            JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+                             
+                            balik();
+                             stm.executeUpdate("TRUNCATE temp_barang");
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e);
                     }
-                     JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    
-                     balik();
-                     stm.executeUpdate("TRUNCATE temp_barang");
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
+                }
             }
-            }
-            
-            
     }
         
-        private void tampilbeli(){
-            sql = "SELECT * FROM temp_barang";
+        private void tranJual(){
+            sql = "SELECT * FROM temp_jual";
             
-            try {
-                pst = conn.prepareStatement(sql);
-                rs = pst.executeQuery();
-                } catch (Exception e) {
+            String tglbeli = null;
+            String catatan = null;
+            String ttlJual = "SELECT SUM(total) AS totaljl FROM temp_jual";
+            
+            if(dateBeli.getDate() == null && txtCatatan.getText() != null){
+                JOptionPane.showMessageDialog(this, "Isi Kolom Tanggal", "Perhatian", JOptionPane.WARNING_MESSAGE);
+            }else{
+                if(dateBeli.getDate() != null){
+                    SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
+                    tglbeli = dcn.format(dateBeli.getDate());
+                    catatan = txtCatatan.getText();
+                    if(txtBayar.getText() == ttlJual){
+                        try {
+                            pst = conn.prepareStatement(sql);
+                            rs = pst.executeQuery();
+                            while (rs.next()) {
+                                int kd_barang = rs.getInt("id_barang");
+                                String nm_barang = rs.getString("nama_barang");
+                                int jmlbeli = rs.getInt("jumlah_beli");
+                                int harga = rs.getInt("harga_jual");
+                                int totaljual = rs.getInt("total");
+                                stm.executeUpdate("INSERT INTO transaksi_penjualan (id_barang, nama_barang, jumlah_beli, harga_jual, tanggal_penjualan, total_harga, status, catatan) VALUES ('"+kd_barang+"', '"+nm_barang+"', '"+jmlbeli+"', '"+harga+"', '"+tglbeli+"', '"+totaljual+"', 'Lunas', '"+catatan+"')");
+                            }
+                            JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+                             
+                            balik();
+                             stm.executeUpdate("TRUNCATE temp_jual");
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, e);
+                        }
+                    }else{
+                        try {
+                            pst = conn.prepareStatement(sql);
+                            rs = pst.executeQuery();
+                            while (rs.next()) {
+                                int kd_barang = rs.getInt("id_barang");
+                                String nm_barang = rs.getString("nama_barang");
+                                int jmlbeli = rs.getInt("jumlah_beli");
+                                int harga = rs.getInt("harga_jual");
+                                int totaljual = rs.getInt("total");
+                                stm.executeUpdate("INSERT INTO transaksi_penjualan (id_barang, nama_barang, jumlah_beli, harga_jual, tanggal_penjualan, total_harga, status, catatan) VALUES ('"+kd_barang+"', '"+nama_barang+"', '"+jmlbeli+"', '"+harga+"', '"+tglbeli+"', '"+totaljual+"', 'Belum Lunas', '"+catatan+"')");
+                            }
+                             
+                            balik();
+                             stm.executeUpdate("TRUNCATE temp_jual");
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, e);
+                        }
+                    }
+                }
             }
-    } 
+    }
         
         private void refreshtabel(){
             DefaultTableModel model = new DefaultTableModel();
@@ -389,6 +548,23 @@ public class Main extends javax.swing.JFrame {
             model.addColumn("Subtotal");
             tblpengeluaran.setModel(model);
             ttlpengeluaran.setText("Rp.   0");
+            
+            try{
+            rs = stm.executeQuery("SELECT * FROM temp_barang");
+            while(rs.next()){
+                Object[] data = new Object[4];
+                data[0] = rs.getString("nama_barang");
+                data[1] = rs.getString("harga_pokok");
+                data[2] = rs.getString("jumlah");
+                data[3] = rs.getString("subtotal");
+                model.addRow(data);
+                tblpengeluaran.setModel(model);
+            }
+            rs.close();
+       
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
 
            DefaultTableModel models = new DefaultTableModel();
             models.addColumn("Nama Barang");
@@ -398,7 +574,27 @@ public class Main extends javax.swing.JFrame {
             tblJual.setModel(models);
             ttlpenjualan.setText("Rp.   0");
             
+            try{
+            rs = stm.executeQuery("SELECT * FROM temp_jual");
+            while(rs.next()){
+                Object[] data = new Object[4];
+                data[0] = rs.getString("nama_barang");
+                data[1] = rs.getString("harga_jual");
+                data[2] = rs.getString("jumlah_beli");
+                data[3] = rs.getString("total");
+                models.addRow(data);
+                tblJual.setModel(models);
+            }
+            rs.close();
+       
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+            
+            trjual();
             dateBeli.setCalendar(null);
+            txtCatatan.setText(" ");
+            txtBayar.setText(" ");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -435,7 +631,7 @@ public class Main extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblstok1 = new javax.swing.JTable();
+        tbltransaksi = new javax.swing.JTable();
         jPanel13 = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
@@ -463,7 +659,7 @@ public class Main extends javax.swing.JFrame {
         ttlpenjualan = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtBayar = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
         pengeluaranOnClick = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
@@ -475,9 +671,6 @@ public class Main extends javax.swing.JFrame {
         tblpengeluaran = new javax.swing.JTable();
         jLabel35 = new javax.swing.JLabel();
         ttlpengeluaran = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel69 = new javax.swing.JLabel();
-        txtBayar = new javax.swing.JTextField();
         tblTransaksiPengeluaran = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tblbarangbeli = new javax.swing.JTable();
@@ -493,12 +686,12 @@ public class Main extends javax.swing.JFrame {
         tblbarangjual = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
+        lblJual = new javax.swing.JLabel();
+        txtJual = new javax.swing.JTextField();
+        btnJual = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCatatan = new javax.swing.JTextField();
         cbxPelanggan = new javax.swing.JComboBox<>();
         dateBeli = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
@@ -807,7 +1000,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        tblstok1.setModel(new javax.swing.table.DefaultTableModel(
+        tbltransaksi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -818,12 +1011,12 @@ public class Main extends javax.swing.JFrame {
                 "Tanggal", "Pemasukan", "Pengeluaran"
             }
         ));
-        tblstok1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbltransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblstok1MouseClicked(evt);
+                tbltransaksiMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tblstok1);
+        jScrollPane3.setViewportView(tbltransaksi);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1071,7 +1264,7 @@ public class Main extends javax.swing.JFrame {
         jLabel34.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel34.setText("Rp");
         penjualanOnClick.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 290, -1, -1));
-        penjualanOnClick.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 290, 180, 28));
+        penjualanOnClick.add(txtBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 290, 180, 28));
 
         jButton10.setBackground(new java.awt.Color(255, 255, 255));
         jButton10.setForeground(new java.awt.Color(0, 140, 255));
@@ -1164,24 +1357,15 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane7.setViewportView(tblpengeluaran);
 
-        pengeluaranOnClick.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 120));
+        pengeluaranOnClick.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 170));
 
         jLabel35.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel35.setText("Total");
-        pengeluaranOnClick.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 260, -1, -1));
+        pengeluaranOnClick.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 310, -1, -1));
 
         ttlpengeluaran.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         ttlpengeluaran.setText("Rp. 0");
-        pengeluaranOnClick.add(ttlpengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, -1, -1));
-
-        jLabel37.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel37.setText("Bayar");
-        pengeluaranOnClick.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 290, -1, -1));
-
-        jLabel69.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel69.setText("Rp");
-        pengeluaranOnClick.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 290, -1, -1));
-        pengeluaranOnClick.add(txtBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 290, 180, 28));
+        pengeluaranOnClick.add(ttlpengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 310, -1, -1));
 
         jPanel2.add(pengeluaranOnClick, "pengeluaranOnClick");
 
@@ -1308,15 +1492,21 @@ public class Main extends javax.swing.JFrame {
 
         tblbarangjual.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nama Barang", "Stok", "Satuan", "Harga Jual"
+                "ID Barang", "Nama Barang", "Stok", "Satuan", "Harga Jual"
             }
         ));
+        tblbarangjual.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblbarangjualMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblbarangjual);
 
         jLabel17.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
@@ -1325,14 +1515,20 @@ public class Main extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel26.setText("Subtotal");
 
-        jLabel27.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel27.setText("Rp 0");
+        lblJual.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        lblJual.setText("Rp 0");
 
-        jButton9.setForeground(new java.awt.Color(0, 140, 255));
-        jButton9.setText("Tambah");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        txtJual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtJualKeyReleased(evt);
+            }
+        });
+
+        btnJual.setForeground(new java.awt.Color(0, 140, 255));
+        btnJual.setText("Tambah");
+        btnJual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnJualActionPerformed(evt);
             }
         });
 
@@ -1347,15 +1543,15 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPenjualanLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnJual, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(tblTransaksiPenjualanLayout.createSequentialGroup()
                                 .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel26)
                                     .addComponent(jLabel17))
                                 .addGap(25, 25, 25)
                                 .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel27)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(lblJual)
+                                    .addComponent(txtJual, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         tblTransaksiPenjualanLayout.setVerticalGroup(
@@ -1366,13 +1562,13 @@ public class Main extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtJual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(jLabel27))
+                    .addComponent(lblJual))
                 .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnJual, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(126, 126, 126))
         );
 
@@ -1389,13 +1585,13 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setText("Informasi Optional");
         jPanel16.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 16, -1, -1));
 
-        jTextField1.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtCatatan.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        txtCatatan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtCatatanActionPerformed(evt);
             }
         });
-        jPanel16.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 65, 881, 40));
+        jPanel16.add(txtCatatan, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 65, 881, 40));
 
         cbxPelanggan.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
         cbxPelanggan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Pelanggan" }));
@@ -2449,10 +2645,10 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        CardLayout clayout = (CardLayout) Transaksi.getLayout();
-        clayout.show(Transaksi, "panelPenjualan");
-        
-        refreshtabel();
+            CardLayout clayout = (CardLayout) Transaksi.getLayout();
+            clayout.show(Transaksi, "panelPenjualan");
+
+            refreshtabel();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
@@ -2634,9 +2830,9 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton8jButton3ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtCatatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCatatanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtCatatanActionPerformed
 
     private void cbxPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPelangganActionPerformed
         // TODO add your handling code here:
@@ -2644,6 +2840,8 @@ public class Main extends javax.swing.JFrame {
 
     private void simpanBeliActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanBeliActionPerformed1
         tranBeli();
+        tranJual();
+        trjual();
     }//GEN-LAST:event_simpanBeliActionPerformed1
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -2656,9 +2854,9 @@ public class Main extends javax.swing.JFrame {
         clayout.show(Transaksi, "cetaklap");
     }//GEN-LAST:event_jPanel7MouseClicked
 
-    private void tblstok1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblstok1MouseClicked
+    private void tbltransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbltransaksiMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblstok1MouseClicked
+    }//GEN-LAST:event_tbltransaksiMouseClicked
 
     private void tblhutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhutangMouseClicked
         // TODO add your handling code here:
@@ -2668,6 +2866,10 @@ public class Main extends javax.swing.JFrame {
         CardLayout clayout = (CardLayout) jPanel2.getLayout();
         clayout.show(jPanel2, "tblTransaksiPenjualan");
         
+        txtJual.setText("");
+        lblJual.setText("Rp. 0");
+        
+        simpanBeli.setEnabled(false);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -2676,6 +2878,8 @@ public class Main extends javax.swing.JFrame {
         txtHrgBeli.setText("");
         txtJmlBeli.setText("");
         subpembelian.setText("");
+        
+        simpanBeli.setEnabled(false);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -2713,16 +2917,52 @@ public class Main extends javax.swing.JFrame {
             }
         }
         
-        
-        
+        simpanBeli.setEnabled(true);
         CardLayout cla = (CardLayout) jPanel2.getLayout();
         cla.show(jPanel2, "pengeluaranOnClick");
     }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void btnJualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJualActionPerformed
+        int jmljual = Integer.parseInt(txtJual.getText());
+        int harga = Integer.parseInt(hrgBarangJual);
+        int totaljual = jmljual * harga;
+        int row = tblbarangjual.getSelectedRow();
+        kd_barang     = ((String) tblbarangjual.getValueAt(row, 0));
+        nama_barang   = ((String) tblbarangjual.getValueAt(row, 1));
+        satuan        = ((String) tblbarangjual.getValueAt(row, 3));
+        hrgBarangJual = ((String) tblbarangjual.getValueAt(row, 4));
+         
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nama Barang");
+        model.addColumn("Jumlah Barang");
+        model.addColumn("Harga");
+        model.addColumn("Subtotal");
+        tblJual.setModel(model);
+        
+        Object[] data = new Object[4];
+                data[0] = nama_barang;
+                data[1] = jmljual;
+                data[2] = harga;
+                data[3] = totaljual;
+                model.addRow(data);
+                tblJual.setModel(model);
+        if(!"".equals(nama_barang) & !"".equals(jmljual)){
+           try {
+                stm.executeUpdate("INSERT INTO temp_jual (id_barang, nama_barang, jumlah_beli, satuan, harga_jual, total) VALUES('"+kd_barang+"', '"+nama_barang+"', '"+jmljual+"', '"+satuan+"','"+harga+"', "
+                    + "'"+totaljual+"')");
+                JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
+                selectjual();
+                totaljual();
+                }
+           catch (SQLException err) {
+                JOptionPane.showMessageDialog(null, err);
+            }
+        }
+        
+        simpanBeli.setEnabled(true);
         CardLayout cla = (CardLayout) jPanel2.getLayout();
         cla.show(jPanel2, "penjualanOnClick");
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_btnJualActionPerformed
 
     private void tblbarangbeliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblbarangbeliMouseClicked
         int row = tblbarangbeli.getSelectedRow();
@@ -2773,6 +3013,22 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtHrgBeliActionPerformed
 
+    private void txtJualKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJualKeyReleased
+        int jmljual = Integer.parseInt(txtJual.getText());
+        int harga = Integer.parseInt(hrgBarangJual);
+        int totaljual = jmljual * harga;
+        String subtotaljual = Integer.toString(totaljual);
+        
+        lblJual.setText("Rp. " + totaljual);
+    }//GEN-LAST:event_txtJualKeyReleased
+
+    private void tblbarangjualMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblbarangjualMouseClicked
+        int row = tblbarangjual.getSelectedRow();
+        kd_barang     = ((String) tblbarangjual.getValueAt(row, 0));
+        nama_barang   = ((String) tblbarangjual.getValueAt(row, 1));
+        hrgBarangJual = ((String) tblbarangjual.getValueAt(row, 4));
+    }//GEN-LAST:event_tblbarangjualMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2815,6 +3071,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel Transaksi;
     private javax.swing.JPanel berikanOnClick;
     private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnJual;
     private javax.swing.JLabel btnStok;
     private javax.swing.JButton btnUbah;
     private javax.swing.JButton btncetakstok;
@@ -2834,7 +3091,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2854,7 +3110,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -2863,7 +3118,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
@@ -2896,7 +3150,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel8;
@@ -2940,9 +3193,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JPanel lapbarang;
@@ -2951,6 +3201,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblErrorJenisSatuan;
     private javax.swing.JLabel lblErrorNamaBarang;
     private javax.swing.JLabel lblJenisSatuan;
+    private javax.swing.JLabel lblJual;
     private javax.swing.JLabel lblJudul;
     private javax.swing.JLabel lblPelanggan;
     private javax.swing.JLabel logout;
@@ -2981,7 +3232,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable tblhutang;
     private javax.swing.JTable tblpengeluaran;
     private javax.swing.JTable tblstok;
-    private javax.swing.JTable tblstok1;
+    private javax.swing.JTable tbltransaksi;
     private javax.swing.JPanel terimaOnClick;
     private javax.swing.JTextField tfKelolaJenis;
     private com.toedter.calendar.JDateChooser tglhutang;
@@ -3001,8 +3252,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel ttlpengeluaran;
     private javax.swing.JLabel ttlpenjualan;
     private javax.swing.JTextField txtBayar;
+    private javax.swing.JTextField txtCatatan;
     private javax.swing.JTextField txtHrgBeli;
     private javax.swing.JTextField txtJmlBeli;
+    private javax.swing.JTextField txtJual;
     private javax.swing.JTextField txtberikan;
     private javax.swing.JTextField txtcatatanhutang;
     private javax.swing.JTextField txtnominal;

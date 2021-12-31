@@ -364,14 +364,12 @@ public class Main extends javax.swing.JFrame {
             tbltransaksi.setModel(model);
             
             try{
-            rs = stm.executeQuery("SELECT tj.tanggal_penjualan, tj.total_harga, tb.total_harga FROM transaksi_penjualan tj JOIN barang b "
-                    + "ON tj.id_barang = b.id_barang JOIN transaksi_pembelian tb "
-                    + "ON tb.id_barang = b.id_barang ORDER BY tj.tanggal_penjualan");
+            rs = stm.executeQuery("SELECT * FROM laporan");
             while(rs.next()){
                 Object[] data = new Object[3];
-                data[0] = rs.getString("tj.tanggal_penjualan");
-                data[1] = rs.getString("tj.total_harga");
-                data[2] = rs.getString("tb.total_harga");
+                data[0] = rs.getString("tanggal");
+                data[1] = rs.getString("pemasukan");
+                data[2] = rs.getString("pengeluaran");
                 model.addRow(data);
                 tbltransaksi.setModel(model);
             }
@@ -463,6 +461,7 @@ public class Main extends javax.swing.JFrame {
                         try {
                         pst = conn.prepareStatement(sql);
                         rs = pst.executeQuery();
+                            int total = 0;
                             while (rs.next()) {
                                 int id_barang = rs.getInt("id_barang");
                                 String nm_barang = rs.getString("nama_barang");
@@ -471,12 +470,18 @@ public class Main extends javax.swing.JFrame {
                                 int stotal = rs.getInt("subtotal");
 
                                 stm.executeUpdate("INSERT INTO transaksi_pembelian (id_barang, jumlah_pembelian, harga_beli_satuan, tanggal, total_harga, catatan) VALUES ("+id_barang+", '"+jml+"', '"+hrg_pokok+"', '"+tglbeli+"','"+stotal+"', '"+catatan+"')");
+                                
+                                // variabel total untuk insert ke dalam tabel laporan
+                                total += stotal;
                             }
+                            // insert ke tabel laporan, tanggal serta total pengeluarannya
+                            stm.executeUpdate("INSERT INTO laporan VALUES ('" + tglbeli + "', '-', '" + total + "')");
                             
                             JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
                              
                             balik();
                              stm.executeUpdate("TRUNCATE temp_barang");
+                             trDisplay();
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, e);
                     }
@@ -2908,7 +2913,6 @@ public class Main extends javax.swing.JFrame {
            try {
                 stm.executeUpdate("INSERT INTO temp_barang (id_barang, nama_barang, harga_pokok, jumlah, subtotal) VALUES('"+kd_barang+"', '"+nama_barang+"', '"+harga_beli+"', '"+jmlbeli+"', "
                     + "'"+subtotal+"')");
-                JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
                 selectKeranjang();
                 totalkeluar();
                 }

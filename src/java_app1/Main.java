@@ -51,6 +51,19 @@ public class Main extends javax.swing.JFrame {
         trDisplay();
     }
     
+    private void updateTotalHutangPelanggan() {
+        sql = "SELECT SUM(sisa_hutang) AS total_hutang FROM peminjaman_hutang";
+        try {
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            cbNamaPenghutang.addItem("");
+            while (rs.next()) {                
+                String total = rs.getString("total_hutang");
+                lblTotalHutangPelanggan.setText("Rp " + total);
+            }
+        } catch (Exception e) {}
+    }
+    
     private void updateComboboxPenghutang() {
         cbNamaPenghutang.removeAllItems();
         sql = "SELECT nama_pelanggan FROM peminjaman_hutang WHERE status='Belum Lunas'";
@@ -313,6 +326,8 @@ public class Main extends javax.swing.JFrame {
         tfNominalPelunasan.setText("");
         checkboxPelunasan.setSelected(false);
         cbNamaPenghutang.setSelectedItem(null);
+        
+        updateTotalHutangPelanggan();
         }
         
         private void selectKeranjang(){
@@ -777,7 +792,7 @@ public class Main extends javax.swing.JFrame {
         jPanel28 = new javax.swing.JPanel();
         jLabel62 = new javax.swing.JLabel();
         jLabel63 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        lblTotalHutangPelanggan = new javax.swing.JLabel();
         panelHutang = new javax.swing.JPanel();
         topPanel6 = new javax.swing.JPanel();
         jLabel44 = new javax.swing.JLabel();
@@ -1927,9 +1942,9 @@ public class Main extends javax.swing.JFrame {
         jLabel63.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
         jLabel63.setForeground(new java.awt.Color(0, 204, 51));
 
-        jLabel23.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(255, 91, 91));
-        jLabel23.setText("Rp0");
+        lblTotalHutangPelanggan.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
+        lblTotalHutangPelanggan.setForeground(new java.awt.Color(255, 91, 91));
+        lblTotalHutangPelanggan.setText("Rp0");
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
@@ -1941,7 +1956,7 @@ public class Main extends javax.swing.JFrame {
                         .addGap(228, 228, 228)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel62)
-                            .addComponent(jLabel23)))
+                            .addComponent(lblTotalHutangPelanggan)))
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1953,7 +1968,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel62)
                 .addGap(13, 13, 13)
-                .addComponent(jLabel23)
+                .addComponent(lblTotalHutangPelanggan)
                 .addGap(11, 11, 11)
                 .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -2192,6 +2207,11 @@ public class Main extends javax.swing.JFrame {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
                 checkboxPelunasanAncestorRemoved(evt);
+            }
+        });
+        checkboxPelunasan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkboxPelunasanMouseClicked(evt);
             }
         });
         checkboxPelunasan.addActionListener(new java.awt.event.ActionListener() {
@@ -2723,6 +2743,8 @@ public class Main extends javax.swing.JFrame {
         ClearFormHutang();
         hilangkanPesanErrorHutang();
         update = false;
+        
+        updateTotalHutangPelanggan();
     }//GEN-LAST:event_btnhutangMouseClicked
 
     private void nmbarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nmbarangFocusGained
@@ -3338,6 +3360,13 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception e) {
 
             }
+            if (checkboxPelunasan.isSelected()) {
+            int panjang = lblSisaHutang.getText().length();
+            String sisaHutang = lblSisaHutang.getText().substring(3, panjang);
+            tfNominalPelunasan.setText(sisaHutang);
+            } else {
+                tfNominalPelunasan.setText("");
+            }
         }
     }//GEN-LAST:event_cbNamaPenghutangActionPerformed
 
@@ -3376,6 +3405,16 @@ public class Main extends javax.swing.JFrame {
     private void tfNominalPelunasanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfNominalPelunasanFocusGained
         hilangkanPesanErrorHutang();
     }//GEN-LAST:event_tfNominalPelunasanFocusGained
+
+    private void checkboxPelunasanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkboxPelunasanMouseClicked
+        if (checkboxPelunasan.isSelected()) {
+            int panjang = lblSisaHutang.getText().length();
+            String sisaHutang = lblSisaHutang.getText().substring(3, panjang);
+            tfNominalPelunasan.setText(sisaHutang);
+        } else {
+            tfNominalPelunasan.setText("");
+        }
+    }//GEN-LAST:event_checkboxPelunasanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -3457,7 +3496,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -3560,6 +3598,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblJudul;
     private javax.swing.JLabel lblPelanggan;
     private javax.swing.JLabel lblSisaHutang;
+    private javax.swing.JLabel lblTotalHutangPelanggan;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel lppengeluaran;
     private javax.swing.JLabel lppenjualan;

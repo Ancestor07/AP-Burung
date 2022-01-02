@@ -2388,7 +2388,7 @@
                                           <EmptySpace min="228" pref="228" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="2" attributes="0">
                                               <Component id="jLabel62" alignment="2" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel23" alignment="2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblTotalHutangPelanggan" alignment="2" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" attributes="0">
@@ -2406,7 +2406,7 @@
                                   <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
                                   <Component id="jLabel62" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="13" pref="13" max="-2" attributes="0"/>
-                                  <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblTotalHutangPelanggan" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
                                   <Component id="jLabel63" min="-2" pref="39" max="-2" attributes="0"/>
                               </Group>
@@ -2435,7 +2435,7 @@
                             </Property>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel23">
+                        <Component class="javax.swing.JLabel" name="lblTotalHutangPelanggan">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Montserrat Medium" size="18" style="0"/>
@@ -3076,6 +3076,7 @@
                               </Properties>
                               <Events>
                                 <EventHandler event="ancestorRemoved" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="checkboxPelunasanAncestorRemoved"/>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="checkboxPelunasanMouseClicked"/>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkboxPelunasanActionPerformed"/>
                               </Events>
                               <Constraints>

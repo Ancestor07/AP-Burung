@@ -39,6 +39,7 @@ public class Main extends javax.swing.JFrame {
         cbboxjenis();
         cbboxJenisSatuan();
         hilangkanPesanError();
+        hilangkanPesanErrorHutang();
         tabeljual();
         tabelbeli();
         updateTabelHutang();
@@ -48,6 +49,37 @@ public class Main extends javax.swing.JFrame {
         totaljual();
         trjual();
         trDisplay();
+    }
+    
+    private void updateComboboxPenghutang() {
+        cbNamaPenghutang.removeAllItems();
+        sql = "SELECT nama_pelanggan FROM peminjaman_hutang WHERE status='Belum Lunas'";
+        try {
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            cbNamaPenghutang.addItem("");
+            while (rs.next()) {                
+                String jenis = rs.getString("nama_pelanggan");
+                cbNamaPenghutang.addItem(jenis);
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    private void hilangkanPesanErrorHutang() {
+        lblErrorNamaPenghutang.setVisible(false);
+        lblErrorJumlahHutang.setVisible(false);
+        lblErrorTglHutang.setVisible(false);
+        lblErrorTglTempo.setVisible(false);
+        tfNamaPenghutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        tfMintaHutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        dcTglHutang.setBorder(new javax.swing.border.EmptyBorder(1, 1, 1, 1));
+        dcTglTempo.setBorder(new javax.swing.border.EmptyBorder(1, 1, 1, 1));
+        lblErrorNamaPenghutang2.setVisible(false);
+        lblErrorNominalLunas.setVisible(false);
+        cbNamaPenghutang.setBorder(new javax.swing.border.EmptyBorder(1, 1, 1, 1));
+        tfNominalPelunasan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
     }
     
     private void hilangkanPesanError() {
@@ -246,15 +278,21 @@ public class Main extends javax.swing.JFrame {
         private void updateTabelHutang(){
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Nama Pelanggan");
-        model.addColumn("Jumlah Hutang");
+        model.addColumn("Total Pinjam");
+        model.addColumn("Sisa Hutang");
+        model.addColumn("Jatuh Tempo");
+        model.addColumn("Status");
         tblhutang.setModel(model);
         
         try{
             rs = stm.executeQuery("SELECT * FROM peminjaman_hutang");
             while(rs.next()){
-                Object[] data = new Object[2];
+                Object[] data = new Object[5];
                 data[0] = rs.getString("nama_pelanggan");
                 data[1] = rs.getString("nominal_peminjaman");
+                data[2] = rs.getString("sisa_hutang");
+                data[3] = rs.getString("jatuh_tempo");
+                data[4] = rs.getString("status");
                 model.addRow(data);
                 tblhutang.setModel(model);
             }
@@ -264,12 +302,17 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-        private void ClearTabelHutang(){
-        txtberikan.setText("");
-        txtnominal.setText("");
-        txtcatatanhutang.setText("");
-        tglhutang.setCalendar(null);
-        tgljatuhtempo.setCalendar(null);
+        private void ClearFormHutang(){
+        tfNamaPenghutang.setText("");
+        tfMintaHutang.setText("");
+        tfCatatanHutang.setText("");
+        dcTglHutang.setCalendar(null);
+        dcTglTempo.setCalendar(null);
+
+        lblSisaHutang.setText("Rp 0");
+        tfNominalPelunasan.setText("");
+        checkboxPelunasan.setSelected(false);
+        cbNamaPenghutang.setSelectedItem(null);
         }
         
         private void selectKeranjang(){
@@ -746,32 +789,39 @@ public class Main extends javax.swing.JFrame {
         jLabel51 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel56 = new javax.swing.JLabel();
-        txtberikan = new javax.swing.JTextField();
+        tfNamaPenghutang = new javax.swing.JTextField();
         jLabel57 = new javax.swing.JLabel();
-        txtnominal = new javax.swing.JTextField();
-        txtcatatanhutang = new javax.swing.JTextField();
+        tfMintaHutang = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel58 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
         jLabel60 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
-        tglhutang = new com.toedter.calendar.JDateChooser();
-        tgljatuhtempo = new com.toedter.calendar.JDateChooser();
-        jButton8 = new javax.swing.JButton();
+        dcTglHutang = new com.toedter.calendar.JDateChooser();
+        dcTglTempo = new com.toedter.calendar.JDateChooser();
+        btnSimpanHutang = new javax.swing.JButton();
+        lblErrorNamaPenghutang = new javax.swing.JLabel();
+        lblErrorTglTempo = new javax.swing.JLabel();
+        lblErrorJumlahHutang = new javax.swing.JLabel();
+        lblErrorTglHutang = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tfCatatanHutang = new javax.swing.JTextArea();
         terimaOnClick = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel48 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jLabel52 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        lblSisaHutang = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jButton7 = new javax.swing.JButton();
+        tfNominalPelunasan = new javax.swing.JTextField();
+        checkboxPelunasan = new javax.swing.JCheckBox();
+        btnSimpanPelunasan = new javax.swing.JButton();
+        cbNamaPenghutang = new javax.swing.JComboBox<>();
+        lblErrorNominalLunas = new javax.swing.JLabel();
+        lblErrorNamaPenghutang2 = new javax.swing.JLabel();
         stok = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lapbarang = new javax.swing.JPanel();
@@ -1973,23 +2023,32 @@ public class Main extends javax.swing.JFrame {
         jLabel56.setText("Memberikan ke:");
         berikanOnClick.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 100, -1, -1));
 
-        txtberikan.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-        berikanOnClick.add(txtberikan, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 130, 1100, 40));
+        tfNamaPenghutang.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        tfNamaPenghutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        tfNamaPenghutang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfNamaPenghutangFocusGained(evt);
+            }
+        });
+        berikanOnClick.add(tfNamaPenghutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 130, 1100, 40));
 
         jLabel57.setFont(new java.awt.Font("Montserrat Medium", 1, 16)); // NOI18N
         jLabel57.setText("Informasi Opsional");
-        berikanOnClick.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 310, -1, -1));
+        berikanOnClick.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 480, -1, -1));
 
-        txtnominal.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-        berikanOnClick.add(txtnominal, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 220, 1100, 40));
-
-        txtcatatanhutang.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-        berikanOnClick.add(txtcatatanhutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 380, 1100, 40));
-        berikanOnClick.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 1140, -1));
+        tfMintaHutang.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        tfMintaHutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        tfMintaHutang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfMintaHutangFocusGained(evt);
+            }
+        });
+        berikanOnClick.add(tfMintaHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 220, 1100, 40));
+        berikanOnClick.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 1140, -1));
 
         jLabel58.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel58.setText("Tanggal Hutang");
-        berikanOnClick.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, -1));
+        berikanOnClick.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 280, -1, -1));
 
         jLabel59.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel59.setText("Memberikan sejumlah:");
@@ -1997,24 +2056,60 @@ public class Main extends javax.swing.JFrame {
 
         jLabel60.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel60.setText("Catatan:");
-        berikanOnClick.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 350, -1, -1));
+        berikanOnClick.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 505, -1, -1));
 
         jLabel61.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel61.setText("Jatuh Tempo");
-        berikanOnClick.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, -1, -1));
-        berikanOnClick.add(tglhutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 590, 40));
-        berikanOnClick.add(tgljatuhtempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 590, 40));
+        berikanOnClick.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 370, -1, -1));
 
-        jButton8.setBackground(new java.awt.Color(255, 188, 58));
-        jButton8.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
-        jButton8.setText("Simpan");
-        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8jButton3ActionPerformed(evt);
+        dcTglHutang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                dcTglHutangFocusGained(evt);
             }
         });
-        berikanOnClick.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 615, 1105, 40));
+        berikanOnClick.add(dcTglHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 310, 590, 40));
+
+        dcTglTempo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                dcTglTempoFocusGained(evt);
+            }
+        });
+        berikanOnClick.add(dcTglTempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 400, 590, 40));
+
+        btnSimpanHutang.setBackground(new java.awt.Color(255, 188, 58));
+        btnSimpanHutang.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
+        btnSimpanHutang.setText("Simpan");
+        btnSimpanHutang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSimpanHutang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanHutangjButton3ActionPerformed(evt);
+            }
+        });
+        berikanOnClick.add(btnSimpanHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 615, 1105, 40));
+
+        lblErrorNamaPenghutang.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorNamaPenghutang.setText("Please fill out this field.");
+        berikanOnClick.add(lblErrorNamaPenghutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 170, -1, -1));
+
+        lblErrorTglTempo.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorTglTempo.setText("Please fill out this field.");
+        berikanOnClick.add(lblErrorTglTempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 440, -1, -1));
+
+        lblErrorJumlahHutang.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorJumlahHutang.setText("Please fill out this field.");
+        berikanOnClick.add(lblErrorJumlahHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 260, -1, -1));
+
+        lblErrorTglHutang.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorTglHutang.setText("Please fill out this field.");
+        berikanOnClick.add(lblErrorTglHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 350, -1, -1));
+
+        tfCatatanHutang.setColumns(70);
+        tfCatatanHutang.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        tfCatatanHutang.setRows(2);
+        tfCatatanHutang.setTabSize(5);
+        jScrollPane9.setViewportView(tfCatatanHutang);
+
+        berikanOnClick.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 1100, 70));
 
         jPanel9.add(berikanOnClick, "berikanOnClick");
 
@@ -2060,13 +2155,10 @@ public class Main extends javax.swing.JFrame {
         terimaOnClick.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 16, 543, 50));
         terimaOnClick.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 82, 1140, -1));
 
-        jLabel52.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
-        jLabel52.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel52.setText("Rp 0");
-        terimaOnClick.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 200, -1, -1));
-
-        jTextField7.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        terimaOnClick.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 130, 1100, 40));
+        lblSisaHutang.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
+        lblSisaHutang.setForeground(new java.awt.Color(255, 0, 51));
+        lblSisaHutang.setText("Rp 0");
+        terimaOnClick.add(lblSisaHutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 200, -1, -1));
 
         jLabel53.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel53.setText("Menerima dari:");
@@ -2074,36 +2166,96 @@ public class Main extends javax.swing.JFrame {
 
         jLabel54.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel54.setText("Sisa Hutang");
-        terimaOnClick.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
+        terimaOnClick.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 200, -1, -1));
 
         jLabel55.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
         jLabel55.setText("Menerima sejumlah:");
-        terimaOnClick.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
+        terimaOnClick.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 250, -1, -1));
 
-        jTextField8.setFont(new java.awt.Font("Montserrat Medium", 0, 28)); // NOI18N
-        terimaOnClick.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 1100, 40));
-
-        jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox3.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-        jCheckBox3.setText(" Terima Pelunasan");
-        jCheckBox3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
+        tfNominalPelunasan.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        tfNominalPelunasan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(196, 196, 196), 1, true));
+        tfNominalPelunasan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfNominalPelunasanFocusGained(evt);
             }
         });
-        terimaOnClick.add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
+        terimaOnClick.add(tfNominalPelunasan, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 280, 1100, 40));
 
-        jButton7.setBackground(new java.awt.Color(255, 188, 58));
-        jButton7.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
-        jButton7.setText("Simpan");
-        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7jButton3ActionPerformed(evt);
+        checkboxPelunasan.setBackground(new java.awt.Color(255, 255, 255));
+        checkboxPelunasan.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        checkboxPelunasan.setText(" Terima Pelunasan");
+        checkboxPelunasan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        checkboxPelunasan.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                checkboxPelunasanAncestorRemoved(evt);
             }
         });
-        terimaOnClick.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 380, 1105, 40));
+        checkboxPelunasan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkboxPelunasanActionPerformed(evt);
+            }
+        });
+        terimaOnClick.add(checkboxPelunasan, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 340, -1, -1));
+
+        btnSimpanPelunasan.setBackground(new java.awt.Color(255, 188, 58));
+        btnSimpanPelunasan.setFont(new java.awt.Font("Montserrat ExtraBold", 1, 12)); // NOI18N
+        btnSimpanPelunasan.setText("Simpan");
+        btnSimpanPelunasan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSimpanPelunasan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanPelunasanjButton3ActionPerformed(evt);
+            }
+        });
+        terimaOnClick.add(btnSimpanPelunasan, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 380, 1105, 40));
+
+        cbNamaPenghutang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbNamaPenghutangFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cbNamaPenghutangFocusLost(evt);
+            }
+        });
+        cbNamaPenghutang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbNamaPenghutangMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cbNamaPenghutangMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cbNamaPenghutangMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cbNamaPenghutangMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                cbNamaPenghutangMouseReleased(evt);
+            }
+        });
+        cbNamaPenghutang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbNamaPenghutangActionPerformed(evt);
+            }
+        });
+        cbNamaPenghutang.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cbNamaPenghutangPropertyChange(evt);
+            }
+        });
+        terimaOnClick.add(cbNamaPenghutang, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 130, 1100, 40));
+
+        lblErrorNominalLunas.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorNominalLunas.setText("Please fill out this field.");
+        terimaOnClick.add(lblErrorNominalLunas, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 320, -1, -1));
+
+        lblErrorNamaPenghutang2.setForeground(new java.awt.Color(255, 0, 0));
+        lblErrorNamaPenghutang2.setText("Please fill out this field.");
+        terimaOnClick.add(lblErrorNamaPenghutang2, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 170, -1, -1));
 
         jPanel9.add(terimaOnClick, "terimaOnClick");
 
@@ -2544,6 +2696,8 @@ public class Main extends javax.swing.JFrame {
         
         hilangkanPesanError();
         bersihkanTabelStok();
+        ClearFormHutang();
+        hilangkanPesanErrorHutang();
         update = false;
     }//GEN-LAST:event_jLabel2MouseClicked
 
@@ -2566,6 +2720,8 @@ public class Main extends javax.swing.JFrame {
         
         hilangkanPesanError();
         bersihkanTabelStok();
+        ClearFormHutang();
+        hilangkanPesanErrorHutang();
         update = false;
     }//GEN-LAST:event_btnhutangMouseClicked
 
@@ -2711,6 +2867,8 @@ public class Main extends javax.swing.JFrame {
         
         hilangkanPesanError();
         bersihkanTabelStok();
+        ClearFormHutang();
+        hilangkanPesanErrorHutang();
         update = false;
     }//GEN-LAST:event_btnStokMouseClicked
 
@@ -2779,16 +2937,21 @@ public class Main extends javax.swing.JFrame {
         
         CardLayout clayout2 = (CardLayout) jPanel9.getLayout();
         clayout2.show(jPanel9, "berikanOnClick");
+        
+        // update combobox nama penghutang
+        updateComboboxPenghutang();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jLabel49MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel49MouseClicked
         CardLayout clayout = (CardLayout) jPanel9.getLayout();
         clayout.show(jPanel9, "berikanOnClick");
+        ClearFormHutang();
     }//GEN-LAST:event_jLabel49MouseClicked
 
     private void jPanel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel24MouseClicked
         CardLayout clayout = (CardLayout) jPanel9.getLayout();
         clayout.show(jPanel9, "berikanOnClick");
+        ClearFormHutang();
     }//GEN-LAST:event_jPanel24MouseClicked
 
     private void jLabel50MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel50MouseClicked
@@ -2801,39 +2964,149 @@ public class Main extends javax.swing.JFrame {
         clayout.show(jPanel9, "terimaOnClick");
     }//GEN-LAST:event_jPanel25MouseClicked
 
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+    private void checkboxPelunasanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxPelunasanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }//GEN-LAST:event_checkboxPelunasanActionPerformed
 
-    private void jButton7jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7jButton3ActionPerformed
-
-    private void jButton8jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8jButton3ActionPerformed
-        // TODO add your handling code here:
-        String tampilan = "yyyy-MM-dd";
-        SimpleDateFormat fm = new SimpleDateFormat(tampilan);
-        String oranghutang = txtberikan.getText();
-        String nominal = txtnominal.getText();
-        String catatan = txtcatatanhutang.getText();
-        String tanggalhutang = String.valueOf(fm.format(tglhutang.getDate()));
-        String tempo = String.valueOf(fm.format(tgljatuhtempo.getDate()));
-        if(!"".equals(oranghutang) & !"".equals(nominal) & !"".equals(catatan)){
-           try {
-                stm.executeUpdate("INSERT INTO peminjaman_hutang (nama_pelanggan, nominal_peminjaman, tanggal_hutang, jatuh_tempo, catatan) VALUES('"+oranghutang+"', '"+nominal+"', '"+tanggalhutang+"', "
-                    + "'"+tempo+"', '"+catatan+"')");
-                JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
-                updateTabelHutang();
-                ClearTabelHutang();
-                           }
-           catch (SQLException err) {
-                JOptionPane.showMessageDialog(null, err);
+    private void btnSimpanPelunasanjButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanPelunasanjButton3ActionPerformed
+        // jika nama penghutang atau nominal pelunasan belum diisi
+        if (cbNamaPenghutang.getSelectedIndex()==0 || tfNominalPelunasan.getText().isBlank()) {
+            
+            // jika nama penghutang belum diisi
+            if (cbNamaPenghutang.getSelectedIndex()==0) {
+                cbNamaPenghutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+                lblErrorNamaPenghutang2.setVisible(true);
             }
+            
+            // jika nominal pelunasan belum diisi
+            if (tfNominalPelunasan.getText().isBlank()) {
+                lblErrorNominalLunas.setVisible(true);
+                tfNominalPelunasan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            return;
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Semua data harus diisi terlebih dahulu!");
+
+        // ambil id hutang dulu
+        String nama = cbNamaPenghutang.getSelectedItem().toString();
+        int id_peminjaman = 0;
+        String nominal = tfNominalPelunasan.getText();
+        sql = "SELECT id_peminjaman FROM peminjaman_hutang WHERE nama_pelanggan = '" + nama + "'";
+        try {
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {                
+                id_peminjaman = rs.getInt("id_peminjaman");
+            }
+        } catch (Exception e) {
+            
         }
-    }//GEN-LAST:event_jButton8jButton3ActionPerformed
+        
+        // insert pelunasan
+        try {
+                sql = "INSERT INTO pembayaran_hutang (id_peminjaman, nominal_pembayaran) VALUES (" + id_peminjaman + ", " + nominal + ")";
+                stm = conn.createStatement();
+                stm.executeUpdate(sql);
+                
+                JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+                CardLayout clayout = (CardLayout) Hutang.getLayout();
+                clayout.show(Hutang, "panelLihatHutang"); 
+                updateTabelHutang();
+                updateComboboxPenghutang();
+                ClearFormHutang();
+            } catch (HeadlessException | SQLException e) {
+                JOptionPane.showMessageDialog(this, "Data gagal disimpan" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_btnSimpanPelunasanjButton3ActionPerformed
+
+    private void btnSimpanHutangjButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanHutangjButton3ActionPerformed
+
+        // cek apakah field nama, nominal, tglHutang dan tglTempo sudah diisi
+        if (tfNamaPenghutang.getText().isBlank() || tfMintaHutang.getText().isBlank() ||
+                dcTglHutang.getDate() == null || dcTglTempo.getDate() == null) {
+            
+            // jika nama penghutang belum diisi
+            if (tfNamaPenghutang.getText().isBlank()) {
+                lblErrorNamaPenghutang.setVisible(true);
+                tfNamaPenghutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            // jika nominal belum diisi
+            if (tfMintaHutang.getText().isBlank()) {
+                lblErrorJumlahHutang.setVisible(true);
+                tfMintaHutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            // jika tgl hutang belum diisi
+            if (dcTglHutang.getDate() == null) {
+                lblErrorTglHutang.setVisible(true);
+                dcTglHutang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            // jika tgl tempo belum diisi
+            if (dcTglTempo.getDate() == null) {
+                lblErrorTglTempo.setVisible(true);
+                dcTglTempo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 51), 1, true));
+            }
+            
+            return;
+        }
+        
+        String namaPenghutang = tfNamaPenghutang.getText();
+        String nominalHutang = tfMintaHutang.getText();
+        SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
+        String tglHutang = dcn.format(dcTglHutang.getDate());
+        String tglTempo = dcn.format(dcTglTempo.getDate());
+        String catatan = tfCatatanHutang.getText();
+        int id_peminjaman = 0;
+        
+        // cek apakah sudah ada nama yang sama
+        sql = "SELECT id_peminjaman FROM peminjaman_hutang WHERE nama_pelanggan = '" + namaPenghutang + "'";
+        try {
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {                
+                id_peminjaman = rs.getInt("id_peminjaman");
+            }
+        } catch (Exception e) {}
+        
+        // jika ada, lakukan update nominal_peminjaman
+        if (id_peminjaman > 0) {
+            try {
+            sql = "UPDATE peminjaman_hutang SET nominal_peminjaman = nominal_peminjaman + " + nominalHutang + ", sisa_hutang = sisa_hutang + " 
+                    + nominalHutang + ", status = 'Belum lunas', jatuh_tempo = '" + tglTempo + "' WHERE id_peminjaman =" + id_peminjaman;
+            stm = conn.createStatement();
+            stm.executeUpdate(sql);
+            
+            JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+            CardLayout clayout = (CardLayout) Hutang.getLayout();
+            clayout.show(Hutang, "panelLihatHutang"); 
+            updateTabelHutang();
+            ClearFormHutang();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Data gagal disimpan"+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            return;
+        }
+        
+        // jika tidak ada, insert peminjaman hutang baru
+        try {
+            sql = "INSERT INTO peminjaman_hutang (nama_pelanggan, nominal_peminjaman, tanggal_hutang, jatuh_tempo, catatan) VALUES ('"+ namaPenghutang 
+                    + "', '" + nominalHutang + "', '" + tglHutang + "', '" + tglTempo + "', '" + catatan + "')";
+            stm = conn.createStatement();
+            stm.executeUpdate(sql);
+            
+            JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
+            CardLayout clayout = (CardLayout) Hutang.getLayout();
+            clayout.show(Hutang, "panelLihatHutang"); 
+            updateTabelHutang();
+            ClearFormHutang();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Data gagal disimpan"+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }    
+        
+    }//GEN-LAST:event_btnSimpanHutangjButton3ActionPerformed
 
     private void txtCatatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCatatanActionPerformed
         // TODO add your handling code here:
@@ -3008,9 +3281,6 @@ public class Main extends javax.swing.JFrame {
 
             subpembelian.setText("Rp. " + subtotalstring);
         }
-            
-        
-        
     }//GEN-LAST:event_txtHrgBeliKeyReleased
 
     private void txtHrgBeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHrgBeliActionPerformed
@@ -3032,6 +3302,80 @@ public class Main extends javax.swing.JFrame {
         nama_barang   = ((String) tblbarangjual.getValueAt(row, 1));
         hrgBarangJual = ((String) tblbarangjual.getValueAt(row, 4));
     }//GEN-LAST:event_tblbarangjualMouseClicked
+
+    private void tfNamaPenghutangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfNamaPenghutangFocusGained
+        hilangkanPesanErrorHutang();
+    }//GEN-LAST:event_tfNamaPenghutangFocusGained
+
+    private void tfMintaHutangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfMintaHutangFocusGained
+        hilangkanPesanErrorHutang();
+    }//GEN-LAST:event_tfMintaHutangFocusGained
+
+    private void dcTglHutangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dcTglHutangFocusGained
+        hilangkanPesanErrorHutang();
+    }//GEN-LAST:event_dcTglHutangFocusGained
+
+    private void dcTglTempoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dcTglTempoFocusGained
+        hilangkanPesanErrorHutang();
+    }//GEN-LAST:event_dcTglTempoFocusGained
+
+    private void cbNamaPenghutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbNamaPenghutangMouseClicked
+        
+    }//GEN-LAST:event_cbNamaPenghutangMouseClicked
+
+    private void cbNamaPenghutangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNamaPenghutangActionPerformed
+        // update sisa hutang
+        if (cbNamaPenghutang.getSelectedIndex() > 0) { // jika item yang dipilih bukan index ke 0
+            String nama = cbNamaPenghutang.getSelectedItem().toString();
+            sql = "SELECT sisa_hutang FROM peminjaman_hutang WHERE nama_pelanggan='" + nama + "'";
+            try {
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                while (rs.next()) {                
+                    String nominal = rs.getString("sisa_hutang");
+                    lblSisaHutang.setText("Rp " + nominal);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }//GEN-LAST:event_cbNamaPenghutangActionPerformed
+
+    private void checkboxPelunasanAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_checkboxPelunasanAncestorRemoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkboxPelunasanAncestorRemoved
+
+    private void cbNamaPenghutangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbNamaPenghutangMousePressed
+        
+    }//GEN-LAST:event_cbNamaPenghutangMousePressed
+
+    private void cbNamaPenghutangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbNamaPenghutangMouseReleased
+        
+    }//GEN-LAST:event_cbNamaPenghutangMouseReleased
+
+    private void cbNamaPenghutangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbNamaPenghutangMouseEntered
+        
+    }//GEN-LAST:event_cbNamaPenghutangMouseEntered
+
+    private void cbNamaPenghutangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbNamaPenghutangMouseExited
+        
+    }//GEN-LAST:event_cbNamaPenghutangMouseExited
+
+    private void cbNamaPenghutangPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbNamaPenghutangPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbNamaPenghutangPropertyChange
+
+    private void cbNamaPenghutangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbNamaPenghutangFocusLost
+       
+    }//GEN-LAST:event_cbNamaPenghutangFocusLost
+
+    private void cbNamaPenghutangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbNamaPenghutangFocusGained
+        hilangkanPesanErrorHutang();
+    }//GEN-LAST:event_cbNamaPenghutangFocusGained
+
+    private void tfNominalPelunasanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfNominalPelunasanFocusGained
+        hilangkanPesanErrorHutang();
+    }//GEN-LAST:event_tfNominalPelunasanFocusGained
 
     /**
      * @param args the command line arguments
@@ -3076,14 +3420,20 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel berikanOnClick;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnJual;
+    private javax.swing.JButton btnSimpanHutang;
+    private javax.swing.JButton btnSimpanPelunasan;
     private javax.swing.JLabel btnStok;
     private javax.swing.JButton btnUbah;
     private javax.swing.JButton btncetakstok;
     private javax.swing.JLabel btnhutang;
+    private javax.swing.JComboBox<String> cbNamaPenghutang;
     private javax.swing.JComboBox<String> cbjenisbarang;
     private javax.swing.JComboBox<String> cbjenissatuan;
     private javax.swing.JComboBox<String> cbxPelanggan;
+    private javax.swing.JCheckBox checkboxPelunasan;
     private com.toedter.calendar.JDateChooser dateBeli;
+    private com.toedter.calendar.JDateChooser dcTglHutang;
+    private com.toedter.calendar.JDateChooser dcTglTempo;
     private javax.swing.JTextField hrgjual;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -3093,9 +3443,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3138,7 +3485,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
@@ -3193,21 +3539,27 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JPanel lapbarang;
     private javax.swing.JLabel lblErrorHargaJual;
     private javax.swing.JLabel lblErrorJenisBarang;
     private javax.swing.JLabel lblErrorJenisSatuan;
+    private javax.swing.JLabel lblErrorJumlahHutang;
     private javax.swing.JLabel lblErrorNamaBarang;
+    private javax.swing.JLabel lblErrorNamaPenghutang;
+    private javax.swing.JLabel lblErrorNamaPenghutang2;
+    private javax.swing.JLabel lblErrorNominalLunas;
+    private javax.swing.JLabel lblErrorTglHutang;
+    private javax.swing.JLabel lblErrorTglTempo;
     private javax.swing.JLabel lblJenisSatuan;
     private javax.swing.JLabel lblJual;
     private javax.swing.JLabel lblJudul;
     private javax.swing.JLabel lblPelanggan;
+    private javax.swing.JLabel lblSisaHutang;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel lppengeluaran;
     private javax.swing.JLabel lppenjualan;
@@ -3238,9 +3590,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable tblstok;
     private javax.swing.JTable tbltransaksi;
     private javax.swing.JPanel terimaOnClick;
+    private javax.swing.JTextArea tfCatatanHutang;
     private javax.swing.JTextField tfKelolaJenis;
-    private com.toedter.calendar.JDateChooser tglhutang;
-    private com.toedter.calendar.JDateChooser tgljatuhtempo;
+    private javax.swing.JTextField tfMintaHutang;
+    private javax.swing.JTextField tfNamaPenghutang;
+    private javax.swing.JTextField tfNominalPelunasan;
     private javax.swing.JPanel tmbhbarang;
     private javax.swing.JButton tmbhstok;
     private javax.swing.JPanel topPanel;
@@ -3260,8 +3614,5 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField txtHrgBeli;
     private javax.swing.JTextField txtJmlBeli;
     private javax.swing.JTextField txtJual;
-    private javax.swing.JTextField txtberikan;
-    private javax.swing.JTextField txtcatatanhutang;
-    private javax.swing.JTextField txtnominal;
     // End of variables declaration//GEN-END:variables
 }

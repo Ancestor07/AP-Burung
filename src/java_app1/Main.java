@@ -1,7 +1,6 @@
 package java_app1;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,9 +9,17 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.awt.HeadlessException;
+import java.io.File;
+import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author A.T.T.A
@@ -658,7 +665,37 @@ public class Main extends javax.swing.JFrame {
             dateBeli.setCalendar(null);
             txtCatatan.setText(" ");
             txtBayar.setText(" ");
-    }
+        }
+   
+          private void cetak_khs(String namaReport) {
+        String url = "jdbc:mysql://localhost:3306/mahasiswa_stiki?useSSL=false";
+        String user = "root";
+        String pass = "";
+
+        try {
+            String jrxmlFile = "./src/FrameUtama/" + namaReport + ".jrxml"; // lokasi file
+            Class.forName("com.mysql.jdbc.Driver"); // untuk connector versi 8
+            Connection con = DriverManager.getConnection(url, user, pass);
+            HashMap param = new HashMap();
+            JasperReport jspR = JasperCompileManager.compileReport(jrxmlFile);
+            JasperPrint JPrint = JasperFillManager.fillReport(jspR, param, con);
+            JasperViewer.viewReport(JPrint, false);
+
+        } catch (ClassNotFoundException | SQLException | JRException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+          }
+//        private void cetak(String namareport){
+//        try {
+//            HashMap para = new HashMap();
+//            File file = new File("src/java_app1/" + namareport + ".jasper");            
+//            JasperReport jr = (JasperReport) JRLoader.loadObject(file);
+//            JasperPrint jp = JasperFillManager.fillReport(jr, para, conn);
+//            JasperViewer.viewReport(jp,false);
+//            JasperViewer.setDefaultLookAndFeelDecorated(true);
+//        } catch (JRException e) {
+//            JOptionPane.showMessageDialog(null, e); }
+//        }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -782,6 +819,7 @@ public class Main extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblhutang = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -1706,7 +1744,7 @@ public class Main extends javax.swing.JFrame {
         topPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel21.setFont(new java.awt.Font("Montserrat Medium", 1, 18)); // NOI18N
-        jLabel21.setText("Laporan Hutang");
+        jLabel21.setText("Laporan Transaksi");
         topPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
@@ -1871,12 +1909,13 @@ public class Main extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(255, 188, 58));
         jButton6.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
         jButton6.setText("+ Catat Hutang");
+        jButton6.setActionCommand("+ Catat Hutang");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel8.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 340, -1, 35));
+        jPanel8.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 340, -1, 35));
 
         tblhutang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1898,10 +1937,26 @@ public class Main extends javax.swing.JFrame {
 
         jPanel8.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1110, 310));
 
+        jButton7.setBackground(new java.awt.Color(255, 188, 58));
+        jButton7.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
+        jButton7.setText("Unduh Laporan");
+        jButton7.setActionCommand("Unduh Laporan");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, 35));
+
         panelLihatHutang.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 294, 1134, 400));
 
         jPanel20.setBackground(new java.awt.Color(255, 255, 255));
         jPanel20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel20MouseClicked(evt);
+            }
+        });
         jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel45.setFont(new java.awt.Font("Montserrat Medium", 1, 14)); // NOI18N
@@ -2593,6 +2648,22 @@ public class Main extends javax.swing.JFrame {
 
     private void btncetakstokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncetakstokActionPerformed
         // TODO add your handling code here:
+        String url = "jdbc:mysql://localhost:3306/ap1_bukuwarung?useSSL=false";
+        String user = "root";
+        String pass = "";
+        
+        try {
+            String jrxmlFile = "./src/java_app1/stok.jrxml"; // lokasi file
+            Class.forName("com.mysql.cj.jdbc.Driver"); // untuk connector versi 8
+            Connection con = DriverManager.getConnection(url, user, pass);
+            HashMap param = new HashMap();
+            JasperReport jspR = JasperCompileManager.compileReport(jrxmlFile);
+            JasperPrint JPrint = JasperFillManager.fillReport(jspR, param, con);
+            JasperViewer.viewReport(JPrint, false);
+            
+        } catch (ClassNotFoundException | SQLException | JRException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
     }//GEN-LAST:event_btncetakstokActionPerformed
 
     private void tmbhstokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tmbhstokActionPerformed
@@ -3145,7 +3216,32 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_simpanBeliActionPerformed1
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        String url = "jdbc:mysql://localhost:3306/ap1_bukuwarung?useSSL=false";
+        String user = "root";
+        String pass = "";
+        
+        try {
+            String jrxmlFile = "./src/java_app1/transaksi.jrxml"; // lokasi file
+            Class.forName("com.mysql.cj.jdbc.Driver"); // untuk connector versi 8
+            Connection con = DriverManager.getConnection(url, user, pass);
+            HashMap param = new HashMap();
+            JasperReport jspR = JasperCompileManager.compileReport(jrxmlFile);
+            JasperPrint JPrint = JasperFillManager.fillReport(jspR, param, con);
+            JasperViewer.viewReport(JPrint, false);
+            
+        } catch (ClassNotFoundException | SQLException | JRException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+//        try {
+//            HashMap para = new HashMap();
+//            File file = new File("./src/java_app1/report1.jasper");            
+//            JasperReport jr = (JasperReport) JRLoader.loadObject(file);
+//            JasperPrint jp = JasperFillManager.fillReport(jr, para, conn);
+//            JasperViewer.viewReport(jp,false);
+//            JasperViewer.setDefaultLookAndFeelDecorated(true);
+//        } catch (JRException e) {
+//            JOptionPane.showMessageDialog(null, e); 
+//        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
@@ -3416,6 +3512,31 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkboxPelunasanMouseClicked
 
+    private void jPanel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel20MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jPanel20MouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        String url = "jdbc:mysql://localhost:3306/ap1_bukuwarung?useSSL=false";
+        String user = "root";
+        String pass = "";
+        
+        try {
+            String jrxmlFile = "./src/java_app1/hutang.jrxml"; // lokasi file
+            Class.forName("com.mysql.cj.jdbc.Driver"); // untuk connector versi 8
+            Connection con = DriverManager.getConnection(url, user, pass);
+            HashMap param = new HashMap();
+            JasperReport jspR = JasperCompileManager.compileReport(jrxmlFile);
+            JasperPrint JPrint = JasperFillManager.fillReport(jspR, param, con);
+            JasperViewer.viewReport(JPrint, false);
+            
+        } catch (ClassNotFoundException | SQLException | JRException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3482,6 +3603,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

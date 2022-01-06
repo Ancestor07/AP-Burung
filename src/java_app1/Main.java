@@ -547,8 +547,9 @@ public class Main extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
                              
                             balik();
-                             stm.executeUpdate("TRUNCATE temp_barang");
-                             trDisplay();
+                            stm.executeUpdate("TRUNCATE temp_barang");
+                            trDisplay();
+                            update_tabelbarang();
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, e);
                     }
@@ -561,18 +562,11 @@ public class Main extends javax.swing.JFrame {
             
             String tglbeli = null;
             String catatan = null;
-            String ttlJual = "SELECT SUM(total) AS totaljl FROM temp_jual";
             
-            if(dateBeli.getDate() == null || txtBayar.getText().isBlank()){
-                if (dateBeli.getDate() == null) {
-                    JOptionPane.showMessageDialog(this, "Isi Kolom Tanggal", "Perhatian", JOptionPane.WARNING_MESSAGE);
-                }
-                if (txtBayar.getText().isBlank()) {
-                    JOptionPane.showMessageDialog(this, "Isi nominal bayar dulu bang", "Perhatian", JOptionPane.WARNING_MESSAGE);
-                }
-                
+            if(dateBeli.getDate() == null){
+                JOptionPane.showMessageDialog(this, "Isi Kolom Tanggal", "Perhatian", JOptionPane.WARNING_MESSAGE);
             }else{
-                if(dateBeli.getDate() != null && txtBayar.getText().isBlank() == false){
+                
                     SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
                     tglbeli = dcn.format(dateBeli.getDate());
                     catatan = txtCatatan.getText();
@@ -588,57 +582,26 @@ public class Main extends javax.swing.JFrame {
                             int totaljual = rs.getInt("total");
                             stm.executeUpdate("INSERT INTO transaksi_penjualan (id_barang, nama_barang, jumlah_beli, harga_jual, tanggal_penjualan, total_harga, status, catatan) VALUES ('"+kd_barang+"', '"+nm_barang+"', '"+jmlbeli+"', '"+harga+"', '"+tglbeli+"', '"+totaljual+"', 'Lunas', '"+catatan+"')");
                             total += totaljual;
+                            // update tabel stok
+                            stm.executeUpdate("UPDATE barang SET stok = stok - " + jmlbeli + " WHERE id_barang = " + kd_barang);
                         }
                         // insert ke tabel laporan, tanggal serta total pengeluarannya
                         stm.executeUpdate("INSERT INTO laporan VALUES ('" + tglbeli + "', '" + total + "', '-')");
+                        
+                        
+                        
                         
                         JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                         balik();
                         trDisplay();
-                         stm.executeUpdate("TRUNCATE temp_jual");
+                        
+                        stm.executeUpdate("TRUNCATE temp_jual");
+                        update_tabelbarang();
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, e);
                     }
-//                    if(txtBayar.getText() == ttlJual){
-//                        try {
-//                            pst = conn.prepareStatement(sql);
-//                            rs = pst.executeQuery();
-//                            while (rs.next()) {
-//                                int kd_barang = rs.getInt("id_barang");
-//                                String nm_barang = rs.getString("nama_barang");
-//                                int jmlbeli = rs.getInt("jumlah_beli");
-//                                int harga = rs.getInt("harga_jual");
-//                                int totaljual = rs.getInt("total");
-//                                stm.executeUpdate("INSERT INTO transaksi_penjualan (id_barang, nama_barang, jumlah_beli, harga_jual, tanggal_penjualan, total_harga, status, catatan) VALUES ('"+kd_barang+"', '"+nm_barang+"', '"+jmlbeli+"', '"+harga+"', '"+tglbeli+"', '"+totaljual+"', 'Lunas', '"+catatan+"')");
-//                            }
-//                            JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
-//                             
-//                            balik();
-//                             stm.executeUpdate("TRUNCATE temp_jual");
-//                            } catch (Exception e) {
-//                                JOptionPane.showMessageDialog(null, e);
-//                        }
-//                    }else{
-//                        try {
-//                            pst = conn.prepareStatement(sql);
-//                            rs = pst.executeQuery();
-//                            while (rs.next()) {
-//                                int kd_barang = rs.getInt("id_barang");
-//                                String nm_barang = rs.getString("nama_barang");
-//                                int jmlbeli = rs.getInt("jumlah_beli");
-//                                int harga = rs.getInt("harga_jual");
-//                                int totaljual = rs.getInt("total");
-//                                stm.executeUpdate("INSERT INTO transaksi_penjualan (id_barang, nama_barang, jumlah_beli, harga_jual, tanggal_penjualan, total_harga, status, catatan) VALUES ('"+kd_barang+"', '"+nama_barang+"', '"+jmlbeli+"', '"+harga+"', '"+tglbeli+"', '"+totaljual+"', 'Belum Lunas', '"+catatan+"')");
-//                            }
-//                             
-//                            balik();
-//                             stm.executeUpdate("TRUNCATE temp_jual");
-//                            } catch (Exception e) {
-//                                JOptionPane.showMessageDialog(null, e);
-//                        }
-//                    }
-                }
+                
             }
     }
         
@@ -696,7 +659,6 @@ public class Main extends javax.swing.JFrame {
             trjual();
             dateBeli.setCalendar(null);
             txtCatatan.setText(" ");
-            txtBayar.setText(" ");
         }
    
           private void cetak_khs(String namaReport) {
@@ -789,9 +751,6 @@ public class Main extends javax.swing.JFrame {
         tblJual = new javax.swing.JTable();
         jLabel29 = new javax.swing.JLabel();
         ttlpenjualan = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        txtBayar = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
         pengeluaranOnClick = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
@@ -1393,24 +1352,15 @@ public class Main extends javax.swing.JFrame {
         ));
         jScrollPane6.setViewportView(tblJual);
 
-        penjualanOnClick.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 200));
+        penjualanOnClick.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 120, 890, 240));
 
         jLabel29.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel29.setText("Total");
-        penjualanOnClick.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 330, -1, -1));
+        penjualanOnClick.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 370, -1, -1));
 
         ttlpenjualan.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         ttlpenjualan.setText("Rp0");
-        penjualanOnClick.add(ttlpenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 330, -1, -1));
-
-        jLabel32.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel32.setText("Bayar");
-        penjualanOnClick.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 360, -1, -1));
-
-        jLabel34.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        jLabel34.setText("Rp");
-        penjualanOnClick.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 360, -1, -1));
-        penjualanOnClick.add(txtBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 360, 180, 28));
+        penjualanOnClick.add(ttlpenjualan, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 370, -1, -1));
 
         jButton10.setBackground(new java.awt.Color(255, 255, 255));
         jButton10.setForeground(new java.awt.Color(0, 140, 255));
@@ -3703,9 +3653,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -3847,7 +3795,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel trpengeluaran;
     private javax.swing.JLabel ttlpengeluaran;
     private javax.swing.JLabel ttlpenjualan;
-    private javax.swing.JTextField txtBayar;
     private javax.swing.JTextField txtCatatan;
     private javax.swing.JTextField txtHrgBeli;
     private javax.swing.JTextField txtJmlBeli;

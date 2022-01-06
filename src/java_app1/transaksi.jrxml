@@ -71,14 +71,14 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="185" y="0" width="185" height="20"/>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pemasukan}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="370" y="0" width="185" height="20"/>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pengeluaran}]]></textFieldExpression>

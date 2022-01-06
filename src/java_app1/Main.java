@@ -588,9 +588,6 @@ public class Main extends javax.swing.JFrame {
                         // insert ke tabel laporan, tanggal serta total pengeluarannya
                         stm.executeUpdate("INSERT INTO laporan VALUES ('" + tglbeli + "', '" + total + "', '-')");
                         
-                        
-                        
-                        
                         JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                         balik();
@@ -810,7 +807,6 @@ public class Main extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblhutang = new javax.swing.JTable();
-        jButton7 = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -1931,16 +1927,6 @@ public class Main extends javax.swing.JFrame {
         jScrollPane4.setViewportView(tblhutang);
 
         jPanel8.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1110, 310));
-
-        jButton7.setBackground(new java.awt.Color(255, 188, 58));
-        jButton7.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
-        jButton7.setText("Unduh Laporan");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        jPanel8.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, 35));
 
         panelLihatHutang.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 294, 1134, 400));
 
@@ -3515,26 +3501,6 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jPanel20MouseClicked
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        String url = "jdbc:mysql://localhost:3306/ap1_bukuwarung?useSSL=false";
-        String user = "root";
-        String pass = "";
-        
-        try {
-            String jrxmlFile = "./src/java_app1/hutang.jrxml"; // lokasi file
-            Class.forName("com.mysql.cj.jdbc.Driver"); // untuk connector versi 8
-            Connection con = DriverManager.getConnection(url, user, pass);
-            HashMap param = new HashMap();
-            JasperReport jspR = JasperCompileManager.compileReport(jrxmlFile);
-            JasperPrint JPrint = JasperFillManager.fillReport(jspR, param, con);
-            JasperViewer.viewReport(JPrint, false);
-            
-        } catch (ClassNotFoundException | SQLException | JRException e) {
-            JOptionPane.showMessageDialog(rootPane, e);
-        }
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         String url = "jdbc:mysql://localhost:3306/ap1_bukuwarung?useSSL=false";
         String user = "root";
@@ -3631,7 +3597,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

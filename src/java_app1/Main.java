@@ -2850,6 +2850,9 @@ public class Main extends javax.swing.JFrame {
             // refresh tabel barang di transaksi beli dan jual
             tabelbeli();
             tabeljual();
+            // refresh total
+            totaljual();
+            totalkeluar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked

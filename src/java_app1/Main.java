@@ -3260,8 +3260,17 @@ public class Main extends javax.swing.JFrame {
         int row = tblbarangjual.getSelectedRow();
         kd_barang     = ((String) tblbarangjual.getValueAt(row, 0));
         nama_barang   = ((String) tblbarangjual.getValueAt(row, 1));
+        String stok_sekarang_string = ((String) tblbarangjual.getValueAt(row, 2));
         satuan        = ((String) tblbarangjual.getValueAt(row, 3));
         hrgBarangJual = ((String) tblbarangjual.getValueAt(row, 4));
+        
+        // cek apakah stok cukup untuk di tambah
+        int stok_sekarang = Integer.parseInt(stok_sekarang_string);
+        
+        if (jmljual > stok_sekarang) {
+            JOptionPane.showMessageDialog(this, "Maaf, stok tidak mencukupi", "Gagal", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
          
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Nama Barang");

@@ -221,7 +221,7 @@ public class Main extends javax.swing.JFrame {
             rs = stm.executeQuery("SELECT b.id_barang,j.jenis_barang, s.jenis_satuan,"
                     + " b.nama_barang,b.stok,b.harga_pokok,b.harga_jual "
                     + "FROM barang b join jenis j on j.id_jenis=b.id_jenis "
-                    + "join satuan s on s.id_satuan = b.id_satuan order by id_barang");
+                    + "join satuan s on s.id_satuan = b.id_satuan WHERE b.status = 'aktif' order by id_barang");
             while (rs.next()){
             Object[] data = new Object[7];
                 data[0] = rs.getString("id_barang");
@@ -253,7 +253,7 @@ public class Main extends javax.swing.JFrame {
         tblbarangjual.setModel(model);
           // menampilkan data database ke dalam tabel
         try {
-            rs = stm.executeQuery("SELECT b.id_barang, b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
+            rs = stm.executeQuery("SELECT b.id_barang, b.nama_barang, b.stok, s.jenis_satuan, b.harga_jual FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan AND b.status = 'aktif' ORDER BY b.nama_barang");
             while (rs.next()){
             Object[] data = new Object[5];
                 data[0] = rs.getString("id_barang");
@@ -281,7 +281,7 @@ public class Main extends javax.swing.JFrame {
         tblbarangbeli.setModel(model);
           // menampilkan data database ke dalam tabel
         try {
-            rs = stm.executeQuery("SELECT b.id_barang, b.nama_barang, s.jenis_satuan FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan");
+            rs = stm.executeQuery("SELECT b.id_barang, b.nama_barang, s.jenis_satuan FROM barang b, satuan s WHERE b.id_satuan = s.id_satuan AND b.status = 'aktif' ORDER BY b.nama_barang");
             while (rs.next()){
             Object[] data = new Object[4];
                 data[0] = rs.getString("id_barang");
@@ -2847,6 +2847,9 @@ public class Main extends javax.swing.JFrame {
             clayout.show(Transaksi, "panelPenjualan");
 
             refreshtabel();
+            // refresh tabel barang di transaksi beli dan jual
+            tabelbeli();
+            tabeljual();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
@@ -2938,11 +2941,11 @@ public class Main extends javax.swing.JFrame {
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         try {
-            int opsi = JOptionPane.showConfirmDialog(null, "Semua data penjualan dan pembelian akan ikut terhapus. \nHapus data?",
+            int opsi = JOptionPane.showConfirmDialog(null, "Hapus data?",
                     "Hapus Data", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             
             if (opsi == JOptionPane.YES_OPTION) {
-                sql = "DELETE FROM barang WHERE id_barang='" + id_barang + "'";
+                sql = "UPDATE barang SET status = 'tidak aktif' WHERE id_barang='" + id_barang + "'";
                 stm = conn.createStatement();
                 stm.executeUpdate(sql);
                 CardLayout clayout = (CardLayout) jPanel3.getLayout();

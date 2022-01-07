@@ -3024,17 +3024,31 @@ public class Main extends javax.swing.JFrame {
 
         // ambil id hutang dulu
         String nama = cbNamaPenghutang.getSelectedItem().toString();
+        String nominal_pelunasan_string = tfNominalPelunasan.getText();
+        int nominal_pelunasan = Integer.parseInt(nominal_pelunasan_string);
         int id_peminjaman = 0;
+        int sisa_hutang = 0;
         String nominal = tfNominalPelunasan.getText();
-        sql = "SELECT id_peminjaman FROM peminjaman_hutang WHERE nama_pelanggan = '" + nama + "'";
+        sql = "SELECT id_peminjaman, sisa_hutang FROM peminjaman_hutang WHERE nama_pelanggan = '" + nama + "'";
         try {
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {                
                 id_peminjaman = rs.getInt("id_peminjaman");
+                sisa_hutang = rs.getInt("sisa_hutang");
             }
         } catch (Exception e) {
             
+        }
+        
+        if (nominal_pelunasan == sisa_hutang) {
+            try {
+                sql = "UPDATE peminjaman_hutang SET status = 'Lunas' WHERE id_peminjaman = " + id_peminjaman;
+                stm = conn.createStatement();
+                stm.executeUpdate(sql);
+            } catch (Exception ex) {
+                
+            }
         }
         
         // insert pelunasan

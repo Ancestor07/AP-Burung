@@ -447,26 +447,6 @@ public class Main extends javax.swing.JFrame {
             }
         }
         
-//        private void untung(){
-//            sql = "SELECT SUM(tj.total_harga) AS jual FROM transaksi_penjualan tj "
-//                    + "JOIN barang b ON  tj.id_barang = b.id_barang";
-//            
-//            try {
-//                pst = conn.prepareStatement(sql);
-//                rs = pst.executeQuery();
-//                    while (rs.next()) {
-//                        int totaljual = rs.getInt("jual");
-////                        int totalbeli = rs.getInt("beli");
-//                        int keuntungan = totaljual;
-//                        jltotal = Integer.toString(keuntungan);
-//                        
-//                        trKeuntungan.setText("Rp.   " + jltotal);
-//                    }
-//                } catch (Exception e) {
-//                    JOptionPane.showMessageDialog(null, e);
-//            }
-//        }
-        
         private void trjual(){
             sql = "SELECT SUM(pemasukan) AS total_harga FROM laporan";
             sql2 = "SELECT SUM(pengeluaran) AS total_harga FROM laporan";
@@ -478,7 +458,7 @@ public class Main extends javax.swing.JFrame {
                         totaljual = rs.getInt("total_harga");
                         jltotal = Integer.toString(totaljual);
                         
-                        trPenjualan.setText("Rp.   " + jltotal);
+                        trPenjualan.setText("Rp.   " + jltotal); 
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);

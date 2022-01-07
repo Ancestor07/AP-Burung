@@ -201,7 +201,7 @@ public class Register extends javax.swing.JFrame {
         if(!"".equals(username) & !"".equals(password) & !"".equals(namatoko)){
         try {
             stm.executeUpdate("INSERT INTO user VALUES('"+username+"', '"+password+"', '"+namatoko+"')");
-            JOptionPane.showMessageDialog(null, "Data Berhasil Diinput");
+            JOptionPane.showMessageDialog(null, "Registrasi berhasil!");
             clearregister();
             
         }

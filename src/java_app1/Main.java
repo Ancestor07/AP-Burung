@@ -3021,7 +3021,7 @@ public class Main extends javax.swing.JFrame {
             
             return;
         }
-
+        
         // ambil id hutang dulu
         String nama = cbNamaPenghutang.getSelectedItem().toString();
         String nominal_pelunasan_string = tfNominalPelunasan.getText();
@@ -3041,6 +3041,13 @@ public class Main extends javax.swing.JFrame {
             
         }
         
+        // ga boleh bayar hutang lebih dari hutang
+        if (nominal_pelunasan > sisa_hutang) {
+            JOptionPane.showMessageDialog(this, "Maaf, bayarnya kebanyakan", "Success", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        //set status lunas
         if (nominal_pelunasan == sisa_hutang) {
             try {
                 sql = "UPDATE peminjaman_hutang SET status = 'Lunas' WHERE id_peminjaman = " + id_peminjaman;

@@ -468,8 +468,8 @@ public class Main extends javax.swing.JFrame {
 //        }
         
         private void trjual(){
-            sql = "SELECT SUM(total_harga) AS total_harga FROM transaksi_penjualan";
-            sql2 = "SELECT SUM(total_harga) AS total_harga FROM transaksi_pembelian";
+            sql = "SELECT SUM(pemasukan) AS total_harga FROM laporan";
+            sql2 = "SELECT SUM(pengeluaran) AS total_harga FROM laporan";
             
             try {
                 pst = conn.prepareStatement(sql);
@@ -810,10 +810,6 @@ public class Main extends javax.swing.JFrame {
         jPanel20 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
-        jLabel46 = new javax.swing.JLabel();
-        jLabel47 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
         jLabel62 = new javax.swing.JLabel();
         jLabel63 = new javax.swing.JLabel();
@@ -1039,7 +1035,7 @@ public class Main extends javax.swing.JFrame {
         });
         sidebar.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 680, 160, 30));
 
-        jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 190, -1));
+        jPanel1.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, -1));
 
         Change.setLayout(new java.awt.CardLayout());
 
@@ -1126,7 +1122,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1017, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(13, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1138,7 +1134,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(69, Short.MAX_VALUE)))
+                    .addContainerGap(67, Short.MAX_VALUE)))
         );
 
         panelOverview.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 1040, 410));
@@ -1543,31 +1539,32 @@ public class Main extends javax.swing.JFrame {
             .addGroup(tblTransaksiPengeluaranLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPengeluaranLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel70)
-                            .addComponent(jLabel28)
-                            .addComponent(jLabel64))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtHrgBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(tblTransaksiPengeluaranLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnJual2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(subpembelian)
-                            .addComponent(txtJmlBeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPengeluaranLayout.createSequentialGroup()
+                                .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel70)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jLabel64))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtHrgBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtJmlBeli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(subpembelian)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPengeluaranLayout.createSequentialGroup()
+                                .addComponent(btnJual2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         tblTransaksiPengeluaranLayout.setVerticalGroup(
             tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPengeluaranLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
                     .addComponent(txtJmlBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1579,11 +1576,11 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel70)
                     .addComponent(subpembelian))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(tblTransaksiPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnJual2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73))
+                    .addComponent(jButton12)
+                    .addComponent(btnJual2))
+                .addGap(78, 78, 78))
         );
 
         jPanel2.add(tblTransaksiPengeluaran, "tblTransaksiPengeluaran");
@@ -1647,7 +1644,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(tblTransaksiPenjualanLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblTransaksiPenjualanLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(tblTransaksiPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1951,25 +1948,6 @@ public class Main extends javax.swing.JFrame {
 
         panelLihatHutang.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 218, 1134, 60));
 
-        jPanel21.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel46.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
-        jLabel46.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel46.setText("Hutang Saya");
-        jPanel21.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 36, -1, -1));
-
-        jLabel47.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
-        jLabel47.setForeground(new java.awt.Color(0, 204, 51));
-        jPanel21.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 98, 140, 39));
-
-        jLabel22.setFont(new java.awt.Font("Montserrat Medium", 0, 18)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(46, 231, 120));
-        jLabel22.setText("Rp0");
-        jPanel21.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 64, -1, -1));
-
-        panelLihatHutang.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 72, 560, 130));
-
         jPanel28.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel62.setFont(new java.awt.Font("Montserrat Medium", 1, 12)); // NOI18N
@@ -1990,27 +1968,29 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel28Layout.createSequentialGroup()
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(228, 228, 228)
-                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel62)
-                            .addComponent(lblTotalHutangPelanggan)))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(212, 212, 212))
+                        .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(504, 504, 504)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel28Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(lblTotalHutangPelanggan))
+                            .addComponent(jLabel62))))
+                .addContainerGap())
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel28Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel62)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblTotalHutangPelanggan)
-                .addGap(11, 11, 11)
+                .addGap(5, 5, 5)
                 .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        panelLihatHutang.add(jPanel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 72, 560, 130));
+        panelLihatHutang.add(jPanel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 1130, 130));
 
         Hutang.add(panelLihatHutang, "panelLihatHutang");
 
@@ -3610,7 +3590,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -3629,8 +3608,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
@@ -3667,7 +3644,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
